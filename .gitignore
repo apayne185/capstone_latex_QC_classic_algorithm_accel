@@ -1,0 +1,18 @@
+# LaTeX temporary files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.bbl
+*.bcf
+*.run.xml
+*.out
+*.toc
+
+# Build directories
+%OUTDIR%/
+output/
+
+# Large generated files
+*.pdf
