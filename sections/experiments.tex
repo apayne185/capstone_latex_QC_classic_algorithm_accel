@@ -1,4 +1,77 @@
 \pagestyle{fancy} 
 \section{Experiments}
+This section provides the experimental procedures used in the evaluation of each layer of the hybrid software stack. All experiments used a fixed random seed ($\texttt{seed}=42$) in the SPSA optimizer in order to ensure reproducibility. Results are reported as the \emph{best physical energy}, which is the lowest energy observed during the optimization, remaining at or above the FCI ground truth. This addresses the HWE ansatz's tendency of exploring unphysical Hilbert space sectors (discussed in Section~\ref{sec:hwe_limitation}).
 
-This is your experimental design text ...
+\subsection{Experiment 1: Distributed Statevector VQE (Simulator)}
+\subsubsection{Objective}
+To validate the distributed statevector evaluation path to produce physically correct ground-state energy estimates, then to compare the accuracy against the serial baseline's.
+
+\subsubsection{Procedure}
+Each molecule from Table \ref{table:molecules} was optimized using the following configuration:
+\begin{itemize}
+    \item \textbf{Backend}: Statevector simulator (exact, noiseless)       
+    \item \textbf{MPI ranks}: $P = 2$                     
+    \item \textbf{Ansatz}: HWE-adaptive (EfficientSU2, full entanglement, auto selected reps)
+    \item \textbf{Optimizer}: SPSA with dimension scaled step size ($a = 0.628 / \sqrt{n_{\text{params}} / 8}$)
+    \item \textbf{Max iterations}: $\max(200,\; n_{\text{params}} \times 8)$, scaling with problem dimension
+    \item \textbf{Convergence}: Energy spread over the last 10 iterations $< 1.6 \times 10^{-3}$ Ha        
+    \item \textbf{Initialization}: Parameters drawn from $\mathcal{U}(-0.1, 0.1)$, keeping the initial state near the Hartree-Fock reference $|0\ldots0\rangle$
+\end{itemize}   
+
+Pauli terms of the molecular Hamiltonian were partitioned evenly across MPI ranks, where each rank independently established $2^n$-dimensional statevector and then evaluated its local subset of $\langle\psi(\theta)|O_i|\psi(\theta)\rangle$ terms. A global \texttt{MPI\_Allreduce(SUM)} aggregated the partial energies and the masking metric $M = T_{\text{accel}} / T_{\text{comm}}$ was recorded one time per iteration.
+
+\subsubsection{Serial Baseline}
+An identical VQE was executed within a single Python process without using MPI, however maintaining the same ansatz, SPSA parameters, seed, and convergence criteria. This then provides the $T_{\text{serial}}$ value for speedup calculations.
+
+
+\subsection{Experiment 2: Strong Scaling Analysis}
+\subsubsection{Objective}
+Measures how the wall clock time decreases while the number of MPI ranks increases in a fixed problem size, and determines the communication-to- computation ratio.     
+
+\subsubsection{Procedure}
+$LiH$ (12 qubits, 631 Pauli terms) was selected as the scaling benchmark, where the VQE was run 10 iterations for each rank count $P \in \{1,2,4,8\}$, all within one Docker container on a single host. Parallel efficiency was then computed as:
+\begin{equation}
+    E(P) = \frac{T_1}{P \times T_P}
+\end{equation}         
+where $T_1$ is the determined wall clock time at $P=1$.    
+
+
+\subsection{Experiment 3: IBM Quantum QPU Validation}   
+\subsubsection{Objective}            
+Done to demonstrate the end-to-end middleware functionality when using a real quantum processor (QPU). This experiment validates the Python EstimatorV2 integration, transpilation pipeline, and the MPI coordination with cloud-based QPU results.
+
+\subsubsection{Procedure}   
+$H_{2}$ was selected for the QPU experiment due to it requiring minimal qubits (4 qubits). This VQE was configured with:  
+\begin{itemize}
+    \item \textbf{Backend}: IBM \texttt{ibm\_marrakesh} (156 physical qubits)
+    \item \textbf{MPI ranks}: $P = 2$ (rank 0 manages QPU submission)
+    \item \textbf{Shots}: 4096 per circuit   
+    \item \textbf{Error mitigation}: T-REx (resilience level 1)
+    \item \textbf{Max iterations}: 10
+    \item \textbf{Job batching}: Both $E(\theta^+)$ and $E(\theta^-)$ were submitted as 2 Primitive Unified Blocs (PUBs) within a single EstimatorV2 job, reducing the queue wait by 50\%
+\end{itemize}
+
+Here, the ansatz was transpiled once against the backend's coupling map by using Qiskit's preset pass manager (optimization level 1). The observable was then remapped to the physical qubit layout. A persistent Session maintained the QPU allocation across iterations.    
+
+*** ADD IN THE IBM RESULTS INCUDING PER ITERATION ENERGY, WALL TIME, QPU TIME P ITERATION, TOTAL QUP SECONDS
+
+
+\subsection{Experiment 4: GPU-Accelerated Statevector}
+
+*** ADD IN THE CUQUANTUM INTEGRATION RESULTS, MEASUED SPEEDUP FROM GPU STATEVECTOR CONSTRUCTION 
+
+
+\subsection{Experiment 5: Checkpoint Resilience}
+\subsubsection{Objective}
+Validate the checkpoint restart mechanism, which verifes optimization can resume from the saved $\theta$ state without a loss of convergence progress.
+
+\subsubsection{Procedure}
+A 6 layer diagnostic test (\texttt{test\_layers\_run.py}) within the stack executes this automatically: 
+
+\begin{enumerate}
+    \item Run $H_{2}$ VQE for 5 iterations, then save checkpoint.
+    \item Verify the checkpoint file exists and contains the correct parameter vector shape.
+    \item Restart VQE from the checkpoint, running 5 additional iterations (6-10). 
+    \item Verify the optimizer resumes from correct SPSA schedule position ($k=6$) and that the restarted energy continues on from the checkpointed trajectory.
+\end{enumerate}  
+
