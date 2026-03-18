@@ -4,11 +4,11 @@
 The proposed triple-heterogeneous software stack follows a high performance middleware design pattern, which specifically targets the orchestration of distributed classical resources alongside remote, cloud-based quantum backends. This is to address the "Communication Wall" \cite{weder2021quantum} by developing an asynchronous, parallelized pipeline to execute the hybrid quantum-classical software. 
 
 \subsection{Distributed System Architecture}
-This stack follows a modular architecture is designed to decouple the classical high-performance subroutines from the quantum circuit execution. There are three distinct layers within the architecture: the orchestration layer, the acceleration layer, and the quantum interface layer. This system is designed specifically to handle the varying timescales of GPU accelerated classical math (microseconds), MPI internode communication (milliseconds), and cloud-based QPU Round-Trip Time (RTT)(seconds). This moves beyond the single-host, synchronous execution model found in previous examples of hybrid middleware (like XACC) \cite{mccaskey2018xacc}. 
+This stack follows a modular architecture designed to decouple the classical high-performance subroutines from the quantum circuit execution. There are three distinct layers within the architecture: the orchestration layer, the acceleration layer, and the quantum interface layer. This system is designed specifically to handle the varying timescales of GPU accelerated classical math (microseconds), MPI interode communication (milliseconds), and cloud-based QPU Round-Trip Time (RTT)(seconds). This moves beyond the single-host, synchronous execution model found in previous examples of hybrid middleware (like XACC) \cite{mccaskey2018xacc}. 
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{SST Captsone Template/graphics/system_arch_diagram.png} 
+    \includegraphics[width=0.8\textwidth]{SST Capstone Template/graphics/system_arch_diagram.png} 
     \caption{Triple-Heterogeneous System Architecture.}
     \label{fig:system_architecture}
 \end{figure}
@@ -28,15 +28,15 @@ By utilizing MPI\_Isend and MPI\_Irecv for non-blocking communication, the stack
 
 
 \subsubsection{Acceleration Layer: Intra-Node CUDA-Kernel Execution}
-This layer follows the findings of Bayraktar et al. \cite{bayraktar2023cuquantum} by using the cuQuantum SDK to offload the $2^n$ state vector math to each MPI layers attached NVIDIA GPU. To manage the VQE workflow, the stack implements customized CUDA kernels that calculate the gradients of the expectation value ($∇⟨H⟩$) with respect to the parameters $θ$, treating the VQE gradient estimation as a Single Instruction, Multiple Data workload (SIMD). Through utilizing the techniques of Pinned Memory (memory allocated on the host system that cannot be swapped to disk, making it constantly available for data transfers) and Zero-Copy Memory (allows MPI buffers to directly access GPU High Bandwidth Memory without redundant data copies done by the CPU), the system improves its transfer speeds and maximizes memory bandwidth utilization. Here, the latency between the CPU-based MPI buffers and the GPU-based numerical accelerators is minimized. 
+This layer follows the findings of Bayraktar et al. \cite{bayraktar2023cuquantum} by using the cuQuantum SDK to offload the $2^n$ state vector math to each MPI layer's attached NVIDIA GPU. To manage the VQE workflow, the stack implements customized CUDA kernels that calculate the gradients of the expectation value ($∇⟨H⟩$) with respect to the parameters $θ$, treating the VQE gradient estimation as a Single Instruction, Multiple Data workload (SIMD). Through utilizing the techniques of Pinned Memory (memory allocated on the host system that cannot be swapped to disk, making it constantly available for data transfers) and Zero-Copy Memory (allows MPI buffers to directly access GPU High Bandwidth Memory without redundant data copies done by the CPU), the system improves its transfer speeds and maximizes memory bandwidth utilization. Here, the latency between the CPU-based MPI buffers and the GPU-based numerical accelerators is minimized. 
 
-This layer adopts a Mixed Precision strategy using FP32/FP64 (32-64 bit floating-point) as a performance optimization technique, balancing the quantum systems need for high numerical accuracy in representing complex quantum amplitudes with the need for high computational speed and a reduction in memory bandwidth usage. FP64 (Double Precision) maintains the numerical stability and accuracy in simulating quantum amplitudes, which can suffer from issues such as accumulated rounding errors. FP32 (Single Precision) provides up to 2x faster performance on CPUs and high throughput. The strategy is by utilizing both, FP32 handles the bulk of matrix-vector multiplications (applying quantum gates) while FP64 is reserved for the global reduction and optimizer update phases in order to prevent precision loss during parameter updates. Mixed-Precision enhances speed, but requires careful management of numerical stability otherwise there it will result in precision loss. 
+This layer adopts a Mixed Precision strategy using FP32/FP64 (32-64 bit floating-point) as a performance optimization technique, balancing the quantum systems need for high numerical accuracy in representing complex quantum amplitudes with the need for high computational speed and a reduction in memory bandwidth usage. FP64 (Double Precision) maintains the numerical stability and accuracy in simulating quantum amplitudes, which can suffer from issues such as accumulated rounding errors. FP32 (Single Precision) provides up to 2x faster performance on CPUs and high throughput. The strategy is by utilizing both, FP32 handles the bulk of matrix-vector multiplications (applying quantum gates) while FP64 is reserved for the global reduction and optimizer update phases in order to prevent precision loss during parameter updates. Mixed-precision enhances speed, but requires careful management of numerical stability otherwise there it will result in precision loss. 
 
 
 \subsubsection{Quantum Interface Layer - Asynchronous Dispatcher}
 This layer abstracts the hardware-specific compilers (Frontend) and the drivers (Backend), in order to handle the job submission with a multi-thread execution queue. Here, the dispatcher handles the serialization by converting the classical parameter arrays into high-density OpenQASM 3.0 instructions. In order to reduce the network Round-Trip Time (RTT) penalty, the dispatcher will implement Parameter Batching, where multiple variational points are bundled into a single job payload to reduce the frequency of the "handshake" with the cloud-based backend that is required each optimization step. 
 
-The dispatcher implements a non-blocking mechanism, where after job submission MPI ranks continue onto the execution of LES kernels, with the manager rank queries the Qiskit Runtime API using a low-priority thread to check the job\_status. Once the status updates to COMPLETED, a global synchronization is triggered. This process is similar to XACC's AcceleratorBuffer, as this layers dispatcher will maintain a local registry of qubit measurement results and the metadata (gate errors, execution time) for real-time performance analysis. 
+The dispatcher implements a non-blocking mechanism, where after job submission MPI ranks continue onto the execution of LES kernels, with the manager rank queries the Qiskit Runtime API using a low-priority thread to check the job\_status. Once the status updates to COMPLETED, a global synchronization is triggered. This process is similar to XACC's AcceleratorBuffer, as this layer's dispatcher will maintain a local registry of qubit measurement results and the metadata (gate errors, execution time) for real-time performance analysis. 
 
 
 \subsection{Algorithmic Workflow: Parallelized VQE}
@@ -47,7 +47,7 @@ The Variational Quantum Eigensolver algorithm is reformulated in order to exploi
 
         \item Parallel Expectation Value Estimation: Each node ($p∈P$) will compute a subset of the Pauli string expectation values: $$⟨ψ(θ)∣Oi​∣ψ(θ)⟩$$ This is the stacks primary point of parallelization in which $O_i$ terms are distributed across the HPC cluster.
 
-        \item Asynchronous Handshake: Circuits will queue in the remote QPU, while classical components (nodes) continuing to utilize CUDA to run LES kernels to approximate the effect of noise based on the calibration data retrieved from the backend.
+        \item Asynchronous Handshake: Circuits will queue in the remote QPU, while classical components (nodes) continue to utilize CUDA to run LES kernels to approximate the effect of noise based on the calibration data retrieved from the backend.
 
         \item Reduction and Updating: The expectation values get aggregated using MPI\_Allreduce, then the classical components compute the next $θ$ for the following iteration.
     \end{enumerate}
@@ -57,14 +57,38 @@ The Variational Quantum Eigensolver algorithm is reformulated in order to exploi
 This stack will be validated through a Strong Scaling analysis, which measures the performance when a total problem size is kept fixed while the number of cores is varied \cite{cuboulderScaling}. 
 
 \subsubsection{Experimental Configuration}  
-Within the hardware, the experiments will utilize a cluster of $N$ nodes, each containing $G$ NVIDIA A100 GPUs, all linked by InfiniBand HDR. The quantum backend will be accessed through the cloud-based IBM Quantum Premium Plan, targeting the 127-qubit Eagle Architecture.  
+All simulator experiments of this stack were conducted inside of a Docker container (CUDA ~12.2, OpenMPI, Python ~3.11), done to ensure reproducibility across computing devices. In order to measure strong scaling under the shared memory conditions, the MPI ranks  $P \in {1,2,4,8\}$ were evaluated on a single host and all results represent a lower bound of the speedup achievable within dedicated multi-node hardware that is connected through Infiniband. 
+
+
+All quantum backend experiments utilize IBM Quantum’s open access plan, which provides the 156 qubit \texttt{ibm\_marrakesh} processor. The Qiskit IBM Runtime EstimatorV2 primitive is configured with 4096 shots per circuit and a resilience level 1 (T-REx measurement error mitigation).  ***NEED TO INCLUDE THE GPU HARDWARE INFORMATION ONCE OBTAINED 
+.  
 
 \subsubsection{Application Scenarios}
-To demonstrate the versatility of this middleware, there are two cross domain applications that represent the high throughput and iterative nature of hybrid computing: 
+To demonstrate the effectiveness of this middleware with a scientifically meaningful workload, this project focuses on quantum chemistry in order to compute the molecular electronic ground-state energies with the Variational Quantum Eigensolver. Chemistry was selected as the application for this middleware due three main reasons, firstly the molecular Hamiltonian maps naturally to a qubit operator through the Jordan-Wigner transformation, which produces a clearly defined set of Pauli terms to then be distributed across MPI ranks. It was also chosen due to the problem scaling predictably with the number of electrons and basis functions to allow for controlled experiments ranging from 4-14 qubits. Lastly, it was selected due to the Full Configuration Interaction (FCI) energies providing verified ground-truth references for each molecule. 
+
+From the STO-3G minimal basis set, four molecules of increasing complexity were identified to be benchmark targets for this middleware. These molecules progressively provide a sufficiently complex Hilbert space to test the efficiency of the MPI/CUDA distribution while still not exceeding the coherency limitations of modern day QPUs. 
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Molecule} & \textbf{Electrons} & \textbf{Qubits} & \textbf{Pauli Terms} & \textbf{FCI Energy ($E_h$)} \\ \hline
+H\textsubscript{2}   & 2  & 4  & 15   & $-1.1373$ \\ \hline
+LiH  & 4  & 12 & 631  & $-7.8825$ \\ \hline
+BeH\textsubscript{2}  & 6  & 14 & 666  & $-15.5951$ \\ \hline
+H\textsubscript{2}O   & 8  & 14 & 1086 & $-75.0124$ \\ \hline
+\end{tabular}
+\caption{Benchmark molecules with STO-3G basis.  FCI energies computed with PySCF Full Configuration Interaction solver.}
+\label{table:molecules}
+\end{table}
+
+The progression that occurs from the molecule $H_2$ (4 qubits, 15 Pauli terms: fits within the memory of a  single MPI rank) to $H_{2}O$ (14 qubits, 1086 Pauli terms) stresses each layer of the middleware. This includes parameter broadcasting, Pauli term partitioning, statevector construction, and MPI reduction. 
+
+
 \begin{itemize}
     \item  Quantum Chemistry: This test case calculated will be the electronic ground state of $LiH$ (Lithium Hydride) and $BeH_2$ (Beryllium Hydride). These molecules progressively provide a sufficiently complex Hilbert space to test the efficiency of the MPI/CUDA distribution while still not exceeding the coherency limitations of modern day QPUs. $LiH$ contains 4 electrons, which would require 10-12 qubits. As discovered by Avramidis et al. in their research, the ground state of LiH is $−7.8825   E_h$ (Hartrees) \cite{adebesin2024groundstatelih}. $BeH_2$ contains contains 6 electrons, requiring 14 qubits to measure its ground state $−15.5952 E_h$, as discovered by Belaloui et al. \cite{belaloui2024groundstatebeh2}.   
-    \item Financial Portfolio Optimization: This case maps a Mean-Variance portfolio optimization problem into a Quadratic Unconstrained Binary Optimization (QUBO) problem, then to be converted to an Ising Hamiltonian. The objective of this problem is to select the best combination of assets in order to reduce risk for a given return, where the ground state of the Hamiltonian will represent the most efficient portfolio. This allows for a stress test of the  SPSA optimizer and Mixed Precision Logic to handle non-physical and highly degenerate energy landscapes in which many different portfolios could have near-dentical energy values. 
-\end{itemize}
+   
 
 
 \subsubsection{Scaling Strategy}
@@ -80,6 +104,7 @@ Efficiency allows us to judge the appropriate number of cores for a particular c
 
 In addition to Strong Scaling, Weak Scaling is evaluated, where the Hamiltonian's complexity is increased proportionality with the number of MPI nodes ($P$). This ensures the middleware is maintaining a stable compute-to-communication ratio ($T_{accel}: T_{comm}$) as the problem scales up towards the "Communication Wall". 
 
+
 \subsubsection{Stress Test Design}
 To ensure a robust asynchronous dispatcher and manager-worker topology, the system will undergo three evaluations using "Failure Mode" simulations: 
 \begin{enumerate}
@@ -93,13 +118,12 @@ To ensure a robust asynchronous dispatcher and manager-worker topology, the syst
 \subsubsection{Baseline Implementations}
 In order to verify the optimized performance of the triple-heterogeneous stack, the system is measured against two distinct baselines: 
      \begin{itemize}
-         \item Standard Serial Baseline: Execution using Qiskit Aer on a single-core CPU,        representing the non-optimized and industry standard starting point to compare against.
+         \item Standard Serial Baseline: Execution using Qiskit Statevector VQE on a single-core CPU, using identical SPSA hyperparameters, the HWE-adaptive ansatz, and the same convergence criteria as the distributed stack. This isolates the outcome of the MPI distribution from any algorithmic differences, providing a fair wall-clock comparison that represents the non-optimized and industry standard starting point.
      \end{itemize}
      \begin{itemize}
-         \item Single-Node Accelerated Baseline: Execution using cuStateVec on a single GPU without MPI distribution, done to isolate the speedup that comes from GPUs vs multi-node MPI orchestration.
+         \item Single-Node GPU Baseline: Execution using cuStateVec on a single GPU without MPI distribution, done to isolate the speedup that comes from GPUs vs multi-node MPI orchestration. ***NEED TO INCLUDE THE GPU INFORMATION ONCE OBTAINED
      \end{itemize}
-
-Both baselines will also use a Hardware Efficient Ansatz for $LiH$  and $BeH_2$ molecules to establish consistency when comparing the convergence rates and wall-clock time.  
+ 
 
 \subsubsection{Quantitative Metrics}
 The primary metric for determining success is the observed End-to-End Wall-Clock Time ($T_{total}$). 
