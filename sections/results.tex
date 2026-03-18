@@ -1,5 +1,110 @@
 \pagestyle{fancy} 
 \section{Results}
+\subsection{Simulator VQE Accuracy}
 
-This is your results section text
+Table \ref{table:vqe_results} presents VQE ground state energy estimates within each benchmark molecule, compared against both the FCI reference and the serial baseline.
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\textbf{Molecule} & \textbf{Qubits} & \textbf{Params} & \textbf{VQE Energy ($E_h$)} & \textbf{Error ($E_h$)} & \textbf{Iters} & \textbf{Time (s)} \\ \hline
+H\textsubscript{2} & 4  & 24  & $-1.1349$ & $0.0024$ & 200 & 2.25 \\ \hline
+LiH & 12 & 96  & $-7.5463$ & $0.3362$ & 768 & 66.54 \\ \hline
+BeH\textsubscript{2} & 14 & 112 & $-15.5557$ & $0.0394$ & 896 & 155.89 \\ \hline
+H\textsubscript{2}O & 14 & 112 & $-74.7921$ & $0.2203$ & 896 & 193.01 \\ \hline
+\end{tabular}
+\caption{Distributed statevector VQE results ($P=2$, seed=42). Energy represents best physical result (lowest energy at/above FCI). Every run used HWE adaptive ansatz with a near zero initialization.}
+\label{table:vqe_results}
+\end{table} 
+
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Molecule} & \textbf{Serial Error ($E_h$)} & \textbf{Stack Error ($E_h$)} & \textbf{Accuracy Gain} & \textbf{Serial Time (s)} \\ \hline
+H\textsubscript{2} & 0.5132 & \textbf{0.0024} & $214\times$ & 1.57 \\ \hline
+LiH & 0.8057 & \textbf{0.3362} & $2.4\times$ & 33.27 \\ \hline
+BeH\textsubscript{2}  & 2.0691 & \textbf{0.0394} & $52\times$  & 94.51 \\ \hline
+\end{tabular}
+\caption{Accuracy comparison of serial baseline vs. distributed stack, where serial baseline uses random $[0, 2\pi]$ initialization and distributed stack uses near zero initialization, in order to maintain the physical particle number sector.}
+\label{table:baseline_comparison}
+\end{table}
+
+$H_{2}$ achieved an absolute error of 2.4 mHa, which is approaching the chemical accuracy threshold of 1.6 mHa (1 kcal/mol). The molecule $BeH_{2}$ reached 39.4 mHa within this deterministic run, although in a separate stochastic trial (using a different seed) achieved 0.8 mHa (within chemical accuracy). This demonstrate that the stack is capable of reaching the target when the SPSA trajectory is favorable.  
+Here, the serial baseline produced a significantly worse set of results on every inputted molecule, which is due to it initializing parameters uniformly across $[0, 2\pi]$. This action immediately places the HWE ansatz in unphysical Hilbert space sectors. The distributed stack's near zero initialization instead keeps the initial state closer to Hartree-Fock reference, which dramatically improves the convergence behavior.
+
+
+\subsection{Masking Metric}
+The masking metric $M = T_{\text{accel}} / T_{\text{comm}}$  was measured once each iteration for all molecules. The values are shown in Table~\ref{table:masking}.
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Molecule} & \textbf{Median $M$} & \textbf{Range} & \textbf{$M \geq 1$?} \\ \hline
+H\textsubscript{2} & $\sim 50$    & 2--1700    & Yes \\ \hline
+LiH & $\sim 1800$  & 30--4500   & Yes \\ \hline
+BeH\textsubscript{2} & $\sim 160$   & 12--5200   & Yes \\ \hline
+H\textsubscript{2}O & $\sim 90$    & 12--5100   & Yes \\ \hline
+\end{tabular}
+\caption{Masking metric ($M = T_{\text{accel}} / T_{\text{comm}}$) across the molecules at $P=2$. $M \gg 1$ indicates that classical computation dominates MPI communication overhead.}
+\label{table:masking}
+\end{table}
+
+All tested molecules achieved $M \gg 1$, confirming both the statevector construction and Pauli term evaluation (the acceleration workload) completely mask the MPI communication overhead. This result validates this projects core architectural claim of distributing a classical subroutine across MPI ranks will not introduce a communication bottleneck, so the 'Communication Wall' (that was identified by Weder et al.~\cite{weder2021quantum}) is not the limiting factor when compute dominates.
+
+
+\subsection{Strong Scaling}
+\label{sec:results_scaling}
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Ranks ($P$)} & \textbf{$T_{\text{total}}$ (s)} & \textbf{Speedup ($S$)} & \textbf{Efficiency ($E$)} \\ \hline
+1 & 0.962 & 1.00$\times$ & 100\% \\ \hline      
+2 & 0.682 & 1.41$\times$ & 71\% \\ \hline   
+4 & 0.644 & 1.49$\times$ & 37\% \\ \hline
+8 & 1.755 & 0.55$\times$ & 7\% \\ \hline     
+\end{tabular}     
+\caption{Strong scaling results for $LiH$ (12 qubits, 631 Pauli terms, 10 iterations).  All ranks were executed in a Docker container on a single host.}
+\label{table:scaling}
+\end{table}
+
+$P = 2$ achieved a $1.41\times$ speedup at $71\%$ efficiency, which demonstrates a proven benefit from MPI distribution being utilized within this stack. Here, the diminishing returns at $P= 4$ and the regression at $P= 8$ are due to two factors:
+\begin{enumerate}
+    \item \textbf{Statevector redundancy}: Each rank will independently construct a full $2^{12}$- dimensional statevector (the $O(2^n)$ cost), which is not parallelized. In this stack, only Pauli term evaluation is distributed.
+    \item \textbf{Shared-memory contention}: All ranks execute on a single physical host, therefore sharing the CPU cache, memory bandwidth, and the OS scheduling. The use of a multi-node cluster with a InfiniBand interconnect would reduce this bottleneck.
+\end{enumerate}
+
+The scaling behavior is expected for significant imrpovements when handling larger molecules that have more Pauli terms to be distributed ($H_{2}O$ = 1086 terms vs. $LiH$ =631 terms), and when utilizing GPU accelerated statevector construction with cuQuantum. This would transfer the computational bottleneck from the per rank statevector builds to a parallelizable Pauli term evaluation.
+
+
+\subsection{IBM Quantum QPU Results}
+*** ADD IBM RESULTS ONCE OBTANIED
+% \begin{table}[htbp]
+% \centering
+% \begin{tabular}{|c|c|c|c|}
+% \hline
+% \textbf{Iteration} & \textbf{Energy ($E_h$)} & \textbf{QPU Time (s)} & \textbf{Queue Wait (s)} \\ \hline
+% 1 & ??? & ??? & ??? \\ \hline
+% ... & ... & ... & ... \\ \hline
+% \end{tabular}
+% \caption{H\textsubscript{2} VQE on IBM \texttt{ibm\_marrakesh} (4096 shots, T-REx mitigation).}
+% \end{table}
+
+
+\subsection{GPU-Accelerated Results}
+*** ADD GPU RESULTS ONCE OBTANIED
+
+
+
+\subsection{Checkpoint Resilience}
+The 6 layer diagnostic test has verified the checkpoint resilience across all runs. After 5 iterations run on $H_{2}$, the optimizer state ($\theta \in \mathbb{R}^{24}$) was then saved to \texttt{checkpoint\_iter\_0005.npy}. Upon the stack's restart, the VQE correctly resumed from iteration 6, using the saved $\theta$ and the energy trajectory continued on without discontinuity. This stack's checkpoint system rotates the saved files to keep only the 5 most recent saves (preventing unbounded disk usage during any long optimization runs).
 
