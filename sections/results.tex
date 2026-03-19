@@ -35,7 +35,7 @@ H\textsubscript{2}O  & $-74.7892$ & $-75.0124$ & $0.2232$ & 896 & $227.23$ \\ \h
 \end{tabular}
 \end{table}
 
-$H_{2}$ achieved an absolute error of 2.4 mHa, which is approaching the chemical accuracy threshold of 1.6 mHa (1 kcal/mol). The molecule $BeH_{2}$ reached 39.4 mHa within this deterministic run, although in a separate stochastic trial (using a different seed) achieved 0.8 mHa (within chemical accuracy). This demonstrate that the stack is capable of reaching the target when the SPSA trajectory is favorable.
+In the stack, $H_{2}$ achieved an absolute error of 2.4 mHa, which is approaching the chemical accuracy threshold of 1.6 mHa (1 kcal/mol). A noteable remakr is that the serial baseline achieved a lower error on $LiH$ (2.2 mHa compared to 336.2 mHa) and with the error of $BeH_2$. This indicates the MPI distribution does not necessarily improve accuracy, as both versions of the stack use idential near zero initialization and the same SPSA hyperparameters, so the accuracy differences stem from the stochastic divergence in SPSA tragectories in difference execution tasks (the distributed \texttt{Allreduce}  vs serial summation) instead of from an algorithmic advantage. The molecule $BeH_{2}$ reached 39.4 mHa within this deterministic run, although in a separate stochastic trial (using a different seed) achieved 0.8 mHa (within chemical accuracy). This demonstrate that the stack is capable of reaching the target when the SPSA trajectory is favorable.
 Here, the serial baseline produced a significantly worse set of results on every inputted molecule, which is due to it initializing parameters uniformly across $[0, 2\pi]$. This action immediately places the HWE ansatz in unphysical Hilbert space sectors. The distributed stack's near zero initialization instead keeps the initial state closer to Hartree-Fock reference, which dramatically improves the convergence behavior.
 
 
@@ -108,7 +108,7 @@ H\textsubscript{2}O & $210.42$ & $170.66$ & $305.87$ & $1038.50$ \\ \hline
 \end{tabular}
 \end{table}
 
-Here, $P = 2$ achieved a $1.41\time$ speedup with $71\%$ efficiency. This demonstrates a proven benefit from utilizing the MPI distribution in this hyrbid stack. Here, the diminishing returns at $P=4$ and the regression at $P= 8$ are due to two main factors:   
+Here, $P = 2$ achieved a $1.23\times$ speedup with $61.7\%$ efficiency. This demonstrates a proven benefit from utilizing the MPI distribution in this hyrbid stack. Here, the diminishing returns at $P=4$ and the regression at $P= 8$ are due to two main factors:   
 \begin{enumerate}
     \item \textbf{Statevector redundancy}: Each rank independently constructs full $2^{12}$ dimensional statevector (which is the $O(2^n)$ cost), that is not parallelized. In this stack, only Pauli term evaluations are distributed.
     \item \textbf{Shared memory contention}: All MPI ranks execute on a single physical host that shares CPU cache, memory bandwidth, and the OS scheduling. The usage of a multi-node cluster with a InfiniBand interconnect would reduce this detected bottleneck.         
