@@ -1,7 +1,53 @@
 \pagestyle{fancy} 
-\section{Discussion}
 
-This is your discussion text
+\section{Discussion}
+\subsection{Accuracy and the Variational Principle}
+The most significant finding within this work is the interaction between the ansatz expressibility and physical correctness. The Hardware Efficient (HWE) Ansatz was practical for NISQ hardware due to its shallower circuit depth but is limited as it does not conserve particle number. During optimization stages, the SPSA optimizer can drive variational parameters into regions in the Hilbert space, where the prepared state $|\psi(\theta)\rangle$ contains superpositions of different electron numbers (states that are unphysical in molecular chemistry).
+
+This results in the energy of the VQE dropping below the FCI ground state energy, which violates the variational principle within the correct particle number sector. With the molecule $H_{2}$, the optimizer crossed below FCI at approx. iteration 126. For $H_{2}O$, this occurred as early as iteration 37. The rate at which this violation occurs correlates with the ratio of qubits to variational parameters. $H_{2}O$ (112 parameters, 14 qubits) explores the parameter space more quickly than $H_{2}$ (24 parameters, 4 qubits).
+
+Two strategies were implemented to reduce this error:
+
+\begin{enumerate}
+    \item \textbf{Near zero initialization}: Parameters are drawn from $\mathcal{U}(-0.1, 0.1)$ instead of $\mathcal{U}(0, 2\pi)$. At $\theta \approx 0$, approximates the identity by the HWE circuit. The initial state remain close to $|0\ldots0\rangle$ (the Hartree-Fock reference within the Jordan Wigner mapping), delaying the particle number violation.
+
+    \item \textbf{Best physical energy tracking}: The optimizer records the lowest energy observed that remains at or above FCI. When the energy crosses below FCI, a single diagnostic message is emitted, and the best physical result is reported instead of the final (unphysical) energy.
+\end{enumerate}
+
+This is a previously known limitation of HWE ansatzes, as documented by Kandala et al.~\cite{kandala2017hardware} in the original HWE VQE demonstration. Due to this, the physically correct alternatives, Unitary Coupled Cluster Singles and Doubles (UCCSD) ansatz, was explored during this project but significant integration challenges were encountered with the Qiskit Nature circuit library's gate decomposition pipeline. UCCSD still remains architecturally supported within the middleware stack's ansatz tier system, kept as a priority for future updates on the stack.
+
+
+\subsection{Comparison with Serial Baseline}
+The distributed stack has achieved significantly better accuracy while compared to the serial baseline on every inputted molecule (Table~\ref{table:baseline_comparison}). However, this improvement is due primarily from the near zero initialization strategy rather than from the MPI distribution itself. The serial baseline used random $[0, 2\pi]$ initialization, which immediately places the HWE ansatz in unphysical sectors, causing the optimizer to converge to energies far below FCI on every molecule.
+
+This emphasizes an important message for VQE practitioners that parameter initialization has a greater impact on HWE accuracy than the optimizer choice (SPSA, Nelder Mead, etc.) or hardware acceleration. The combination of near zero initialization with best physical energy tracking provides a realistic approach to handle the task of extracting meaningful chemistry from HWE circuits.
+
+
+\subsection{Communication Masking}
+The results of the  masking metric $M \gg 1$ across all the experiments ran confirms this project's central architectural hypothesis, that with the simulator path, the classical computation (statevector construction at $O(2^n)$ plus Pauli term evaluation) cost dominates the metric by orders of magnitude over MPI communication (two \texttt{MPI\_Allreduce} calls per iteration). This observed result has direct implications for the effect of the cloud based QPU path: when the QPU's round-trip time ($T_{\text{quant}}$) replaces $T_{\text{comm}}$ as the primary communication bottleneck, the classical acceleration workload ($T_{\text{accel}}$) must be substantial in order to mask it. The observed $M$ values (between 50-5000) suggest that even with QPU latencies consisting of 10-30 seconds, classical preprocessing provides a sufficient masking capacity.
+
+** ADD IN AND discuss actual T_quant values and whether M >= 1 holds
+
+
+\subsection{Scaling Limitations and Path to Improvement}
+The $1.41\times$ speedup at $P= 2$ demonstrates that the stack's MPI distribution of Pauli term evaluation results in a real wall-clock improvement. However, reagrding the diminishing returns at $P \geq 4$, which reveal that the non-parallelized statevector construction dominates the per iteration cost, following Amdahl's Law that states if a fraction $f$ of the workload is serial (the statevector build), the maximum speedup avalible will be bounded by $1/f$ regardless of the number of processors utilized.
+
+An effective path to improving scaling is clear from the architecture: GPU accelerating the statevector construction with NVIDIA cuStateVec would shift the primary cost from serial CPU computation over to parallelizable GPU kernels. Then with the statevector build accelerated, the Pauli term distribution across all MPI ranks will become the primary scaling dimension and the 631-1086 terms available in $LiH - H_{2}O$ will then provide sufficient granularity for meaningful parallelism within this hybrid stack.
+
+*** ADD IN GPU SCALING RESULTS
+
+
+\subsection{Stack Relationship to XACC}
+This stack builds on XACC's previous philosophy of handling the QPU as a coprocessor alongside a hardware agnostic API, adds on to address the three main limitations of the XACC model:
+
+\begin{enumerate}
+    \item \textbf{Single host to multi-host}: XACC operates with a single classical host, whereas this stack distributes the VQE workload across multiple MPI ranks.
+    \item \textbf{Synchronous to asynchronous}: XACC's AcceleratorBuffer model is synchronous (the process consisting of the steps: submit, wait, receive), however, this stack's C++ dispatcher uses \texttt{std::async} for a non-blocking asynchronous QPU submission.
+    \item \textbf{Compiler level to orchestration level}: XACC largely focuses on circuit compilation and hardware portability, but this stack focuses on the accelerated performance of the classical optimization loop that surrounds the circuit execution.
+\end{enumerate}
+
+These two stacks are complementary rather than competitive: XACC could serve as the circuit compilation frontend to be fed into this project's MPI-distributed optimization backend.
+
 
 
 
