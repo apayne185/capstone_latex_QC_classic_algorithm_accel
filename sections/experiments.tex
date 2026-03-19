@@ -29,11 +29,11 @@ An identical VQE was executed within a single Python process without using MPI, 
 Measures how the wall clock time decreases while the number of MPI ranks increases in a fixed problem size, and determines the communication-to- computation ratio.     
 
 \subsubsection{Procedure}
-$LiH$ (12 qubits, 631 Pauli terms) was selected as the scaling benchmark, where the VQE was run 10 iterations for each rank count $P \in \{1,2,4,8\}$, all within one Docker container on a single host. Parallel efficiency was then computed as:
+All four benchmark molecules (Table~\ref{table:molecules}) were run at full iteration counts for each rank count $P \in \{1,2,4,8\}$, all within one Docker container on a single host. $H_{2}O$ (14 qubits, 1086 Pauli terms, 896 iterations) was selected as the primary efficiency benchmark due to having the largest number of distributable Pauli terms. Parallel efficiency was then computed as:
 \begin{equation}
     E(P) = \frac{T_1}{P \times T_P}
 \end{equation}         
-where $T_1$ is the determined wall clock time at $P=1$.    
+where $T_1$ is the determined wall clock time at $P=1$.     
 
 
 \subsection{Experiment 3: IBM Quantum QPU Validation}   
@@ -53,8 +53,7 @@ $H_{2}$ was selected for the QPU experiment due to it requiring minimal qubits (
 
 Here, the ansatz was transpiled once against the backend's coupling map by using Qiskit's preset pass manager (optimization level 1). The observable was then remapped to the physical qubit layout. A persistent Session maintained the QPU allocation across iterations.    
 
-*** ADD IN THE IBM RESULTS INCUDING PER ITERATION ENERGY, WALL TIME, QPU TIME P ITERATION, TOTAL QUP SECONDS
-
+Results for this are presented in Tables~\ref{table:ibm_results} and~\ref{table:ibm_iterations}.
 
 \subsection{Experiment 4: GPU-Accelerated Statevector}
 
