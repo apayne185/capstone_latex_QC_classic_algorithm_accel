@@ -18,7 +18,7 @@ This is a previously known limitation of HWE ansatzes, as documented by Kandala 
 
 
 \subsection{Comparison with Serial Baseline}
-The distributed stack has achieved significantly better accuracy while compared to the serial baseline on every inputted molecule (Table~\ref{table:baseline_comparison}). However, this improvement is due primarily from the near zero initialization strategy rather than from the MPI distribution itself. The serial baseline used random $[0, 2\pi]$ initialization, which immediately places the HWE ansatz in unphysical sectors, causing the optimizer to converge to energies far below FCI on every molecule.
+The distributed stack has achieved significantly better accuracy while compared to the serial baseline on every inputted molecule (Table~\ref{table:serial_baseline}, Table~\ref{table:speedup}). However, this improvement is due primarily from the near zero initialization strategy rather than from the MPI distribution itself. The serial baseline used random $[0, 2\pi]$ initialization, which immediately places the HWE ansatz in unphysical sectors, causing the optimizer to converge to energies far below FCI on every molecule.
 
 This emphasizes an important message for VQE practitioners that parameter initialization has a greater impact on HWE accuracy than the optimizer choice (SPSA, Nelder Mead, etc.) or hardware acceleration. The combination of near zero initialization with best physical energy tracking provides a realistic approach to handle the task of extracting meaningful chemistry from HWE circuits.
 
