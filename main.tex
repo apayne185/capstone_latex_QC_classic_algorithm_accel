@@ -16,11 +16,15 @@
 
 \usepackage[style=numeric, backend=biber, sortcites=true, sorting=nyt]{biblatex}
 \addbibresource{references.bib}
+\usepackage[font=small, labelfont=bf, margin=0.5cm]{caption}
+\usepackage{enumitem}
+\setlist{itemsep=2pt, parsep=0pt, topsep=4pt}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\fancyhead[L]{Fancy Head} 
-\fancyhead[R]{\thepage} 
+\setlength{\headheight}{15pt}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
 \fancyfoot{} % Clear all footer settings
 \renewcommand{\headrulewidth}{0pt}
 
@@ -36,8 +40,6 @@
 \include{sections/discussion}
 \include{sections/future_work}
 \include{sections/conclusions}
-\include{sections/appendix}
-
 \printbibliography
 
 \end{document}

@@ -1,4 +1,20 @@
-\pagestyle{fancy} 
 \section{Future Work}
+\label{sec:future}
 
-This is your future work text
+The current implementation of this stack validates the core middleware architecture: MPI distributed Pauli term evaluation, IBM QPU integration, checkpoint resilience, and stress testing, all on a CPU based statevector simulation. However, there are several extensions taht would strengthen this stack and broaden its applicability and accuracy:
+
+\subsection{Particle-Number-Conserving Ansatzes}
+The Hardware Efficient Ansatz (HWE) used in this work does not conserve particle number (as a Unitary Coupled Cluster ansatz would), which led to unphysical energy estimates below FCI even after sufficient SPSA iterations. Therefore, this stack has begun the introduction of the Unitary Coupled Cluster Singles and Doubles (UCCSD) ansatz, which preserves particle number by construction. This ansatz is already architecturally supported in the stack's ansatz tier system, with integration attempted during the time of this project, however, the stack encountered compatibility challenges. Specifically, Qiskit Nature's gate decomposition pipeline. Resolving this (or instead implementing a custom particle number conserving ansatz using Givens rotations) would eliminate the need for the stacks current approach of tracking the best-physical-energy and could produce results that satisfy the variational principle throughout optimization.
+
+\subsection{Advanced Quantum Error Mitigation}
+The IBM QPU experiments used only T-REx (resilience level 1), which only mitigates measurement readout errors but does not handle potential gate errors or expected qubit decoherence. Integration with Zero Noise Extrapolation (ZNE) or Probabilistic Error Cancellation (PEC) through Qiskit's provided option of resilience level 2+ would be predicted to significantly improve QPU accuracy without needing hardware changes. The stack's current EstimatorV2 integration already supports these with the \texttt{options.resilience\_level} parameter.
+
+% \subsection{Multi Node Scaling with InfiniBand}
+% All current scaling experiments were conducted on a single Docker host, where all MPI ranks share the CPU cores and memory bandwidth. Deploying on a dedicated multi-node cluster with InfiniBand interconnect would eliminate the shared memory contention that was observed at $P \geq 4$ and provide a more representative measurement of the stack's scaling characteristics.
+
+\subsection{Application Extensibility}
+The stack currently includes a \texttt{FinanceProblem} class that maps portfolio optimization to a QUBO/ Ising Hamiltonian, demonstrating that this middleware is not designed to be restricted solely to quantum chemistry. Future work could validate this path, extending the current problem registry to include combinatorial optimization (MaxCut, TSP) and materials science (periodic Hamiltonians). This would all be done through leveraging the same MPI distribution and QPU dispatch infrastructure. This application agnosticism will further set apart this stack from others such as XACC, which focuses solely on the mapping of quantum chemistry.
+
+\subsection{Hardware Portability}
+Following XACC's approach of ensuring hardware agnostic QPU access (allowing a hardware plug-in option for several QPUs), this stack will be extended in the future to support additional quantum backends (such as Amazon Braket, Azure Quantum, IonQ) through the integration of additional dispatcher plugins. The current dual path architecture (the C++ dispatcher for stack MPI coordination, Python primitives for QPU access) already provides a natural extension point to do so.
+

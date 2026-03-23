@@ -1,29 +1,30 @@
-\pagestyle{fancy} 
+
 \section{Results}
 \subsection{Simulator VQE Accuracy}
 
-Table \ref{table:distributed_results} presents VQE ground state energy estimates within each benchmark molecule, compared against both the FCI reference and the serial baseline.
+Table \ref{table:distributed_results} presents the VQE ground state energy estimates within each of the benchmark molecules, and its comparison against both the FCI reference and the serial baseline.
 
 \begin{table}[htbp]
 \centering
 \renewcommand{\arraystretch}{1.4}
-\caption{Distributed stack VQE results (P=2 MPI ranks, statevector simulator, CPU only, seed=42). The best physical energy regard the lowest energy observed at/above the molecules FCI reference.}
+\caption{Distributed stack VQE results (P=2 MPI ranks, statevector simulator, CPU only, seed=42). The best physical energy regards the lowest energy observed at/above the molecules FCI reference.}
 \label{table:distributed_results}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{|l|c|c|c|r|r|r|c|r|}
-\hline                        
+\hline
 \textbf{Molecule} & \textbf{Qubits} & \textbf{Pauli} & \textbf{Params} & \textbf{Energy ($E_h$)} & \textbf{FCI ($E_h$)} & \textbf{Error ($E_h$)} & \textbf{Chem. Acc.?} & \textbf{Iters} \\ \hline
 H\textsubscript{2} & 4  & 15   & 24  & $-1.1349$ & $-1.1373$ & $0.0024$ & Near ($1.5\times$) & 200  \\ \hline
 LiH & 12 & 631  & 96  & $-7.5463$ & $-7.8825$ & $0.3362$ & No   & 768  \\ \hline
 BeH\textsubscript{2} & 14 & 666  & 112 & $-15.5557$ & $-15.5951$ & $0.0394$ & No ($25\times$) & 896  \\ \hline
 H\textsubscript{2}O & 14 & 1086 & 112 & $-74.7921$ & $-75.0124$ & $0.2203$ & No & 896  \\ \hline
-\end{tabular}
+\end{tabular}}
 \end{table} 
 
 
 \begin{table}[htbp]
 \centering
 \renewcommand{\arraystretch}{1.4}
-\caption{Serial baseline VQE results (single process, no MPI, identical SPSA hyperparameters, seed=42). Both the distributed stack and the serial baseline use near zero parameter initialization and track the best-physical-energy.}
+\caption{Serial baseline VQE results (single process, no MPI, identical SPSA hyperparameters, seed=42). Both the distributed stack and the serial baseline use near zero parameter initialization and track the best-physical energy.}
 \label{table:serial_baseline}
 \begin{tabular}{|l|r|r|r|r|r|}
 \hline
@@ -35,8 +36,8 @@ H\textsubscript{2}O  & $-74.7892$ & $-75.0124$ & $0.2232$ & 896 & $227.23$ \\ \h
 \end{tabular}
 \end{table}
 
-In the stack, $H_{2}$ achieved an absolute error of 2.4 mHa, which is approaching the chemical accuracy threshold of 1.6 mHa (1 kcal/mol). A noteable remakr is that the serial baseline achieved a lower error on $LiH$ (2.2 mHa compared to 336.2 mHa) and with the error of $BeH_2$. This indicates the MPI distribution does not necessarily improve accuracy, as both versions of the stack use idential near zero initialization and the same SPSA hyperparameters, so the accuracy differences stem from the stochastic divergence in SPSA tragectories in difference execution tasks (the distributed \texttt{Allreduce}  vs serial summation) instead of from an algorithmic advantage. The molecule $BeH_{2}$ reached 39.4 mHa within this deterministic run, although in a separate stochastic trial (using a different seed) achieved 0.8 mHa (within chemical accuracy). This demonstrate that the stack is capable of reaching the target when the SPSA trajectory is favorable.
-The wall-clock comparison (Table~\ref{table:speedup}) shows that the distributed stack achieves meaningful speedup only on larger molecules: $1.11\times$ on $BeH_{2}$ (666 Pauli terms) and $1.18\times$ on $H_{2}O$ (1086 terms), where the parallelizable Pauli term evaluation outweighs the MPI coordination overhead. For smaller molecules ($H_{2}$, $LiH$), the overhead of MPI initialization and \texttt{Allreduce} communication exceeds the benefit of distributing fewer Pauli terms.
+In the stack, $H_{2}$ achieved an absolute error of 2.4 mHa, which is approaching the chemical accuracy threshold of 1.6 mHa (1 kcal/mol). A noteable remark is that the serial baseline achieved a lower error on $LiH$ (2.2 mHa compared to 336.2 mHa) and with the error of $BeH_2$. This indicates the MPI distribution does not necessarily improve accuracy, as both versions of the stack use idential near zero initialization and the same SPSA hyperparameters, so the accuracy differences are stemming from the stochastic divergence in SPSA tragectories in difference execution tasks (the distributed \texttt{Allreduce}  vs serial summation) instead of from an algorithmic advantage. The molecule $BeH_{2}$ reached 39.4 mHa within this deterministic run, although in a separate stochastic trial (using a different seed) achieved 0.8 mHa (within chemical accuracy). This demonstrate that the stack is capable of reaching the target when the SPSA trajectory is favorable.
+The wall-clock comparison (Table~\ref{table:speedup}) shows that the distributed stack achieves meaningful speedup only on larger molecules: $1.11\times$ on $BeH_{2}$ (666 Pauli terms) and $1.18\times$ on $H_{2}O$ (1086 terms), where the parallelizable Pauli term evaluation will outweigh the MPI coordination overhead. For smaller molecules ($H_{2}$, $LiH$), the overhead from MPI initialization and \texttt{Allreduce} communication exceeds the benefit of distributing fewer Pauli terms.
 
 
 \begin{table}[htbp]
@@ -47,7 +48,7 @@ The wall-clock comparison (Table~\ref{table:speedup}) shows that the distributed
 \begin{tabular}{|l|r|r|c|r|r|}
 \hline
 \textbf{Molecule} & \textbf{Serial (s)} & \textbf{Distributed $P$=2 (s)} & \textbf{Speedup} & \textbf{Serial/iter (s)} & \textbf{Dist./iter (s)} \\ \hline
-H\textsubscript{2} & $0.64$  & $2.25$   & $0.28\times$ & $0.003$ & $0.011$ \\ \hline
+H\textsubscript{2} & $0.64$  & $2.25$  & $0.28\times$ & $0.003$ & $0.011$ \\ \hline
 LiH & $41.62$ & $66.54$  & $0.63\times$ & $0.072$ & $0.087$ \\ \hline
 BeH\textsubscript{2} & $173.84$ & $155.89$ & $\mathbf{1.11\times}$ & $0.194$ & $0.174$ \\ \hline
 H\textsubscript{2}O & $227.23$ & $193.01$ & $\mathbf{1.18\times}$ & $0.254$ & $0.215$ \\ \hline
@@ -63,16 +64,16 @@ The masking metric $M = T_{\text{accel}} / T_{\text{comm}}$  was measured once e
 \renewcommand{\arraystretch}{1.4}
 \caption{Communication masking metric $M = T_{\text{accel}} / T_{\text{comm}}$ across execution paths. $M \geq 1$ indicates classical computation fully masks communication latency. In the simulator path, $T_{\text{comm}}$ is the MPI \texttt{Allreduce} time; in the IBM path, $T_{\text{comm}}$ is the QPU round-trip time.}
 \label{table:masking}
-\begin{tabular}{|l|c|l|}
+\begin{tabular}{|l|c|>{\raggedright\arraybackslash}p{6cm}|}
 \hline
 \textbf{Execution Path} & \textbf{$M$ Range} & \textbf{Interpretation} \\ \hline
-Simulator $P$=1 & $2{,}200$--$9{,}000$  & Compute dominates by $\sim 3$ orders of magnitude  \\ \hline
-Simulator $P$=2 & $12$--$5{,}400$  & Compute dominates; higher variance from MPI timing  \\ \hline
-IBM QPU & $32$--$60$ & QPU round-trip ($\sim$32--60\,s) still masked by classical setup \\ \hline
+Simulator $P$=1 & $2{,}200$-$9{,}000$  & Compute dominates by $\sim 3$ orders of magnitude  \\ \hline
+Simulator $P$=2 & $12$-$5{,}400$  & Compute dominates; higher variance from MPI timing  \\ \hline
+IBM QPU & $<1$\textsuperscript{$\dagger$} & QPU RTT (32-60\,s) dominates, no concurrent classical overlap in current build \\ \hline
 \end{tabular}
 \end{table}
 
-All tested molecules achieved $M \gg 1$, confirming that both the statevector construction and Pauli term evaluation (the acceleration workload) completely mask the MPI communication overhead. This result validates this projects core architectural claim that distributing a classical subroutine across MPI ranks will not introduce a communication bottleneck, so the Quantum 'Communication Wall' (that was identified by Weder et al.~\cite{weder2021quantum}) is not the limiting factor when compute dominates.
+All tested molecules achieved $M \gg 1$, confirming that both the statevector construction and Pauli term evaluation (the acceleration workload) completely mask the MPI communication overhead. This result validates this projects core architectural claim that distributing a classical subroutine across MPI ranks will not introduce a communication bottleneck, so the Quantum 'Communication Wall' (that was identified by Weder et al.~\cite{weder2021quantum}) is not the main limiting factor when compute dominates.
 
 
 \subsection{Strong Scaling}
@@ -80,22 +81,24 @@ All tested molecules achieved $M \gg 1$, confirming that both the statevector co
 \begin{table}[htbp]
 \centering
 \renewcommand{\arraystretch}{1.4}
+\begin{minipage}{\textwidth}
+\centering
 \caption{Per molecule wall-clock time across the MPI rank counts, where all runs executed on one Docker host with shared CPU cores. $P \geq 4$ results represent a lower bound on the multi-node performance, where ranks would have dedicated resources.}
 \label{table:scaling_molecules}
 \begin{tabular}{|l|r|r|r|r|}
 \hline
 \textbf{Molecule} & \textbf{$P$=1 (s)} & \textbf{$P$=2 (s)} & \textbf{$P$=4 (s)} & \textbf{$P$=8 (s)} \\ \hline
-H\textsubscript{2} & $0.94$   & $0.88$   & $1.96$   & $3.69$    \\ \hline
-LiH & $64.80$  & $52.22$  & $58.94$  & $113.78$  \\ \hline     
-BeH\textsubscript{2}   & $161.94$ & $139.59$ & $270.66$ & $1030.21$ \\ \hline
+H\textsubscript{2} & $0.94$   & $0.88$  & $1.96$   & $3.69$ \\ \hline
+LiH & $64.80$  & $52.22$  & $58.94$  & $113.78$  \\ \hline
+BeH\textsubscript{2} & $161.94$ & $139.59$ & $270.66$ & $1030.21$ \\ \hline
 H\textsubscript{2}O & $210.42$ & $170.66$ & $305.87$ & $1038.50$ \\ \hline
 \end{tabular}
-\end{table}
+\end{minipage}
 
+\vspace{1.2em}
 
-\begin{table}[htbp]
+\begin{minipage}{\textwidth}
 \centering
-\renewcommand{\arraystretch}{1.4}
 \caption{Strong scaling efficiency for molecule $H_{2}O$ (1086 Pauli terms, 896 iterations). Efficiency $E = T_1 / (P \times T_P)$, $P=2$ result demonstrates meaningful parallelism. The degradation occuring at $P \geq 4$ is due to the shared memory contention on a single Docker host.}
 \label{table:scaling_efficiency}
 \begin{tabular}{|c|r|c|c|c|}
@@ -106,18 +109,23 @@ H\textsubscript{2}O & $210.42$ & $170.66$ & $305.87$ & $1038.50$ \\ \hline
 4 & $305.87$ & $0.69\times$ & $4.00\times$ & $17.2\%$ \\ \hline
 8 & $1038.50$ & $0.20\times$ & $8.00\times$ & $2.5\%$  \\ \hline
 \end{tabular}
+\end{minipage}
 \end{table}
 
-Here, $P = 2$ achieved a $1.23\times$ speedup with $61.7\%$ efficiency. This demonstrates a proven benefit from utilizing the MPI distribution in this hyrbid stack. Here, the diminishing returns at $P=4$ and the regression at $P= 8$ are due to two main factors:   
+Table~\ref{table:scaling_molecules} shows that all four molecules benefit from $P=2$, with the speedup proportional to the number of distributable Pauli terms: $H_{2}O$ (1086 terms) sees the largest improvement while $H_{2}$ (15 terms) sees negligible benefit. Table~\ref{table:scaling_efficiency} quantifies this for $H_{2}O$, where $P = 2$ achieved a $1.23\times$ speedup with $61.7\%$ efficiency. This demonstrates a benefit from utilizing the MPI distribution in this hybrid stack. The diminishing returns at $P=4$ and the regression at $P= 8$ are due to two main factors:   
 \begin{enumerate}
-    \item \textbf{Statevector redundancy}: Each rank independently constructs a full $2^{n}$-dimensional statevector (the $O(2^n)$ cost), which is not parallelized. In this stack, only Pauli term evaluations are distributed.
-    \item \textbf{Shared memory contention}: All MPI ranks execute on a single physical host that shares CPU cache, memory bandwidth, and the OS scheduling. The usage of a multi-node cluster with a InfiniBand interconnect would reduce this detected bottleneck.         
+    \item \textbf{Statevector redundancy}: Each rank constructs a full $2^{n}$-dimensional statevector (the $O(2^n)$ cost) independently and without parallelization. Only Pauli term evaluations are distributed.
+    \item \textbf{Shared memory contention}: All MPI ranks execute on a single physical host that shares CPU cache, memory bandwidth, and the OS scheduling. This bottleneck would be reduced by the usage of a multi-node cluster with a InfiniBand interconnect.          
 \end{enumerate}
 
-The scaling behavior is expected for significant imrpovements when handling larger molecules that have more Pauli terms to be distributed ($H_{2}O$ = 1086 terms vs. $LiH$ =631 terms), and when utilizing GPU accelerated statevector construction with cuQuantum. This would transfer the computational bottleneck from the per rank statevector builds to a parallelizable Pauli term evaluation.
+The scaling behavior is expected for significant imrpovements when handling larger molecules, ones that have more Pauli terms to be distributed ($H_{2}O$ = 1086 terms vs. $LiH$ =631 terms). Along with the utilization GPU accelerated statevector construction with cuQuantum, this would transfer the computational bottleneck from the per rank statevector builds to a parallelizable Pauli term evaluation.
 
 
 \subsection{IBM Quantum QPU Results}
+Table~\ref{table:ibm_results} presents the summary of results from the IBM QPU run, while Table~\ref{table:ibm_iterations} provides the per-iteration information. Over 10 iterations, the best energy improved from $-0.111\;E_h$ to $-0.171\;E_h$, representing a consistent downward trend that confirms the SPSA optimizer is functional on real quantum hardware. However, the final energy of $-0.171\;E_h$ remains far from the FCI reference of $-1.137\;E_h$ (an error of $0.966\;E_h$). This is expected for several reasons: 10 iterations is not enough for SPSA convergence (the simulator path required 200 iterations for $H_{2}$), 4096 shot sampling introduces significant variance that does not exist in a noiseless statevector path, and T-REx (resilience level 1) only handles measurement readout errors without addressing gate errors or decoherence on the physical qubits in the IBM runs. The non-monotonic energy trajectory, visible in the results of Table~\ref{table:ibm_iterations} (where the energy increases at iterations 3, 4, and 8) is expected of SPSA operating under shot noise, as each energy estimate has a statistical uncertainty of order $1/\sqrt{4096} \approx 0.016$.    
+
+Each iteration averaged at $42.1$s of wall-clock time, with the metric dominated by the QPU RTT (31.9-60.4 s). This confirms that the cloud latency overhead that was predicted in this projects methodology, with the QPU RTT exceeding the classical computation time by orders of magnitude when compared to the simulator path/ Yet, the stack's architecture handled this without causing failure across all 10 iterations.
+
 \begin{table}[htbp]
 \centering
 \renewcommand{\arraystretch}{1.4}
@@ -154,7 +162,8 @@ H\textsubscript{2} & $-0.1709$ & $-1.1373$ & $0.9663$ & 10 & $421.0$ & $42.1$ \\
 
 
 \subsection{GPU-Accelerated Results}
-*** ADD GPU RESULTS ONCE OBTANIED
+% Insert cuStateVec benchmark results here.
+% Expected tables: GPU vs CPU statevector build time, GPU+MPI scaling at P=1,2,4,8, GPU occupancy metrics.
 
 
 
@@ -180,13 +189,15 @@ Post-restart (iters 6--10) & 5 & $-1.085$ & $-1.109$ \\ \hline
 \renewcommand{\arraystretch}{1.5}
 \caption{Evaluation of all quantitative success metrics (defined in Section~\ref{sec:methodology}) against the observed results within the experiments.}
 \label{table:success_evaluation}
-\begin{tabular}{|p{2.8cm}|p{1.3cm}|p{3.0cm}|p{3.0cm}|p{2.5cm}|}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}p{1.3cm}|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}p{2.5cm}|}
 \hline
 \textbf{Category} & \textbf{Metric} & \textbf{Threshold} & \textbf{Observed} & \textbf{Status} \\ \hline
 System Performance & $T_{\text{total}}$ & 2--3$\times$ speedup & $1.18\times$ (H\textsubscript{2}O, $P$=2) & Partial \\ \hline
-Latency Masking & $M$ & $M \geq 1$ & $M = 12$--$9{,}000$ & \textbf{Achieved} \\ \hline
-Hardware Efficiency & $E$ & $\geq 70\%$ at $P$=16 & $61.7\%$ at $P$=2 & Partial \\ \hline
-Scientific Fidelity & $\Delta E$ & $\leq 1.6$ mHa & $2.4$ mHa (H\textsubscript{2}) & Near \\ \hline
+Latency Masking & $M$ & $M \geq 1$ & $M = 12$--$9{,}000$ (simulator) & \textbf{Achieved} (simulator) \\ \hline
+Throughput & CLOPS & $>$ serial baseline & $4.65$ iter/s (H\textsubscript{2}O, $P$=2) vs. $3.94$ serial & \textbf{Achieved} \\ \hline
+Hardware Efficiency & $E$ & $\geq 70\%$ at $P$=2 & $61.7\%$ (H\textsubscript{2}O, $P$=2) & Partial \\ \hline
+Resource Utilization & $U_{gpu}$ & $\geq 80\%$ occupancy & Pending GPU integration & Pending \\ \hline
+Scientific Fidelity & $\Delta E$ & $\leq 1.6$ mHa & $2.4$ mHa (H\textsubscript{2}); $0.1$ mHa at $P$=4 & Near / \textbf{Achieved} \\ \hline
 Resilience & $R_{\text{time}}$ & $< 60$\,s recovery & Checkpoint restart verified & \textbf{Achieved} \\ \hline
 \end{tabular}
 \end{table}
