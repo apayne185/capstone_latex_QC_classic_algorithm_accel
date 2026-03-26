@@ -67,11 +67,11 @@ The Variational Quantum Eigensolver algorithm is reformulated in this stack in o
 
 
 \subsection{Performance Evaluation and Experimental Design}
-This section describes the full evaluation of this middlware stack, validated through a Strong Scaling analysis, which measures the stack's performance when total problem size is kept fixed while the number of cores is varied \cite{cuboulderScaling}. Strong scaling only measures the parallelization efficiency in a fixed environment, therefore Weak Scaling analysis is also implemented in order to test the middleware's communication overhead to determine if it grows sub-linearly as the system scales. 
+This section describes the full evaluation of this middlware stack, validated through a Strong Scaling analysis, which measures the stack's performance when total problem size is kept fixed while the number of cores is varied \cite{cuboulderScaling}. Strong scaling measures the parallelization efficiency in a fixed environment, therefore Weak Scaling analysis is also implemented to test the middleware's communication overhead to determine if it grows sublinearly as the system scales. 
 
 
 \subsubsection{Experimental Configuration}  
-All simulator experiments of this stack were conducted inside of a Docker container (CUDA toolkit 12.2, Qiskit 2.1+, qiskit-ibm-runtimme 0.45.1, Python 3.11, PySCF 2.4+, OpenMPI from Ubuntu 22.04 system package) on a single host machine Intel Core i7-1065G7 (Ice Lake, with 4 physical cores and 8 logical threads) clocked at 1.30 GHz base, 3.90 GHz turbo with 32 GB RAM, running on Linux Mint. This is done to ensure reproducibility across computing devices. In order to measure strong scaling under the shared memory conditions, the MPI ranks  $P \in \{1,2,4,8\}$ were evaluated on a single host and all results represent a lower bound of the speedup achievable within dedicated multi-node hardware that is connected through Infiniband. 
+All simulator experiments of this stack were conducted inside of a Docker container (CUDA toolkit 12.2, Qiskit 2.1+, qiskit-ibm-runtimme 0.45.1, Python 3.11, PySCF 2.4+, OpenMPI from Ubuntu 22.04 system package) on a single host machine Intel Core i7-1065G7 (Ice Lake, with 4 physical cores and 8 logical threads) clocked at 1.30 GHz base, 3.90 GHz turbo with 32 GB RAM, running on Linux Mint. This configuration is done to ensure reproducibility across computing devices. In order to measure strong scaling under the shared memory conditions, the MPI ranks  $P \in \{1,2,4,8\}$ were evaluated on a single host and all results represent a lower bound of the speedup achievable within dedicated multi-node hardware that is connected through Infiniband. 
 
 The SPSA optimizer of the VQE is configured with a fixed pertubation size $c = 0.1$ that can appropriately handle varational angles within $[0,2\pi]$ with a step size of $a=0.628 / \sqrt{p/8}$, which scales inversely with the square root of the number of variational parameters. $A = 0.1 \times \text{max\_iterations}$, the stability constant, delays any aggressively early updates while the decay exponents of $\alpha= 0.602$ and $\gamma = 0.101$ follow the standard schedule of SPSA. The per-iteration update rule is:
 \begin{equation}
@@ -97,8 +97,8 @@ From the STO-3G minimal basis set, four molecules of increasing complexity were 
 H\textsubscript{2} & 2  & 4  & 15   & $-1.1373$ \\ \hline
 LiH & 4  & 12 & 631  & $-7.8825$ \\ \hline
 BeH\textsubscript{2}  & 6  & 14 & 666  & $-15.5951$ \\ \hline
-H\textsubscript{2}O  & 8  & 14 & 1086 & $-75.0124$ \\ \hline
-\end{tabular}
+H\textsubscript{2}O & 8  & 14 & 1086 & $-75.0124$ \\ \hline
+\end{tabular}   
 \caption{Benchmark molecules with STO-3G basis.  FCI energies computed with the PySCF Full Configuration Interaction solver.}
 \label{table:molecules}
 \end{table}   
@@ -150,24 +150,19 @@ The primary metric for determining the success of this stack is the observed End
 Where: 
 \begin{itemize}
     \item $T_{accel}$ = time spent on GPU accelerated optimization (classical acceleration).
+    \item $T_{comm}$ = overhead from network RTT and MPI synchronization (communication latency).
+    \item $T_{quant}$ = QPU execution time (sampling and measurement).
 \end{itemize}
- \begin{itemize}
-     \item $T_{comm}$ = overhead from network RTT and MPI synchronization (communication latency).
- \end{itemize}
- \begin{itemize}
-     \item $T_{quant}$ = QPU execution time (sampling and measurement).
- \end{itemize}
 
- 
-If the quantity of metric $T_{comm}$ is successfully "masked" by the value of the asynchronous $T_{accel}$ execution time, there will be evidence of this stack's progress towards the "quantum advantage" and achievement of the targeted 1.5-3x speedup over standard single node Qiskit workflows.   
+\noindent If the quantity of metric $T_{comm}$ is successfully "masked" by the value of the asynchronous $T_{accel}$ execution time, there will be evidence of this stack's progress towards the "quantum advantage" and achievement of the targeted 1.5-3x speedup over standard single node Qiskit workflows.   
 
-Masking Efficiency ($M$) will be used as a metric for how well the RTT is hidden (masked). 
+\noindent Masking Efficiency ($M$) will be used as a metric for how well the RTT is hidden (masked). 
 \begin{equation}
     M= \frac{T_{\text{accel}}}{T_{\text{comm}}}
 \end{equation}
 If $M \ge 1$, then the classical components completely cover (mask) the communication wait time. 
 
-To measure the system's ability to handle high volume iterative workloads, Throughput (Circuits per Second) is established as:
+\noindent To measure the system's ability to handle high volume iterative workloads, Throughput (Circuits per Second) is established as:
 \begin{equation}
         \text{Throughput} = \frac{N_{\text{circuits}}}{T_{\text{total}}}
 \end{equation}
@@ -178,12 +173,12 @@ To measure the system's ability to handle high volume iterative workloads, Throu
 \begin{tabular}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}
 \hline
 \textbf{Category} & \textbf{Metric} & \textbf{Definition} & \textbf{Success Threshold} \\ \hline
-\textbf{System Performance} & $T_{total}$ & End-to-End Wall-Clock Time & 2--3x speedup vs. Serial Baseline \\ \hline
-\textbf{Latency Masking} & $M$ & Ratio of $T_{accel} / T_{comm}$ & $M \geq 1$ (Full overlap) \\ \hline
-\textbf{Throughput} & CLOPS & Circuit Layer Operations Per Second & $>$ Qiskit serial baseline \\ \hline
+\textbf{System Performance} & $T_{total}$ & End-to-End Wall-Clock Time  & 2--3x speedup vs. Serial Baseline \\ \hline
+\textbf{Latency Masking} &   $M$ & Ratio of $T_{accel} / T_{comm}$ & $M \geq 1$ (Full overlap) \\ \hline
+\textbf{Throughput} & CLOPS & Circuit Layer Operations Per Second &  $>$ Qiskit serial baseline \\ \hline
 \textbf{Hardware Efficiency} & $E$ & Parallel Efficiency ($S/P$) & $\geq 70\%$ at $P=2$ \\ \hline
 \textbf{Resource Utilization} & $U_{gpu}$ & Average GPU Occupancy & $\geq 80\%$ during $T_{accel}$ \\ \hline
-\textbf{Scientific Fidelity} & $\Delta E$ & Absolute Energy Error (Chemistry) & $\leq 1.6$ mHa (Chemical Accuracy) \\ \hline
+\textbf{Scientific Fidelity} & $\Delta E$  & Absolute Energy Error (Chemistry) & $\leq 1.6$ mHa (Chemical Accuracy) \\ \hline
 \textbf{Resilience} & $R_{time}$ & Recovery Time after Node Failure & $<$ 60 s (Auto checkpoint) \\ \hline
 \end{tabular}
 \caption{Quantitative Success Metrics for Middleware Evaluation.}
