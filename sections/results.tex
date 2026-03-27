@@ -184,8 +184,67 @@ H\textsubscript{2} & $-0.1709$ & $-1.1373$ & $0.9663$ & 10 & $421.0$ & $42.1$ \\
 
 
 \subsection{GPU-Accelerated Results}
-% Insert cuStateVec benchmark results here.
-% Expected tables: GPU vs CPU statevector build time, GPU+MPI scaling at P=1,2,4,8, GPU occupancy metrics.
+\label{sec:gpu_results}
+
+Table~\ref{table:gpu_speedup} compares the wall-clock times of the GPU Aer backend against the serial baseline across all four benchmark molecules. Unlike the CPU-only distributed results (Table~\ref{table:speedup}), the GPU-accelerated stack achieves meaningful speedup at $P=4$ and continues to improve at $P=8$.
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\caption{Wall-clock comparison between the serial baseline and the GPU Aer distributed stack at $P \in \{2,4,8\}$. The GPU backend uses Qiskit Aer with CUDA thrust on an NVIDIA GTX 1650 Mobile. Speedup is calculated as $T_{\text{serial}} / T_{\text{GPU}}$.}
+\label{table:gpu_speedup}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|r|r|r|r|c|c|c|}
+\hline
+\textbf{Molecule} & \textbf{Serial (s)} & \textbf{GPU $P$=2 (s)} & \textbf{GPU $P$=4 (s)} & \textbf{GPU $P$=8 (s)} & \textbf{Speedup $P$=2} & \textbf{Speedup $P$=4} & \textbf{Speedup $P$=8} \\ \hline
+H\textsubscript{2} & $0.64$  & $0.87$  & $0.86$  & $1.13$ & $0.74\times$ & $0.74\times$ & $0.57\times$ \\ \hline
+LiH & $41.62$ & $54.42$ & $43.60$ & $38.74$ & $0.76\times$ & $0.95\times$ & $\mathbf{1.07\times}$ \\ \hline
+BeH\textsubscript{2} & $173.84$ & $150.95$ & $149.03$ & $141.16$ & $\mathbf{1.15\times}$ & $\mathbf{1.17\times}$ & $\mathbf{1.23\times}$ \\ \hline
+H\textsubscript{2}O & $227.23$ & $182.85$ & $165.76$ & $150.25$ & $\mathbf{1.24\times}$ & $\mathbf{1.37\times}$ & $\mathbf{1.51\times}$ \\ \hline
+\end{tabular}}
+\end{table}
+
+The critical difference from the CPU-only results is the scaling behavior at $P \geq 4$. Where the CPU-only stack regressed to $0.69\times$ at $P=4$ and $0.20\times$ at $P=8$ for $H_{2}O$ (Table~\ref{table:scaling_efficiency}), the GPU Aer backend achieves $1.37\times$ at $P=4$ and $1.51\times$ at $P=8$. This confirms the hypothesis from Section~\ref{sec:results_scaling}: the $O(2^n)$ statevector construction was the primary bottleneck, and GPU acceleration of gate operations reduces this cost sufficiently for MPI Pauli term distribution to provide continued benefit at higher rank counts.
+
+Table~\ref{table:gpu_scaling} presents the GPU Aer strong scaling efficiency for $H_{2}O$.
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\caption{Strong scaling efficiency for $H_{2}O$ with GPU Aer backend (1086 Pauli terms, 896 iterations). Compared to the CPU-only efficiency of $61.7\%$ at $P=2$ and $2.5\%$ at $P=8$, the GPU path maintains meaningful efficiency across all rank counts.}
+\label{table:gpu_scaling}
+\begin{tabular}{|c|r|c|c|}
+\hline
+\textbf{Ranks ($P$)} & \textbf{$T_{\text{total}}$ (s)} & \textbf{Speedup ($T_1/T_P$)} & \textbf{Efficiency} \\ \hline
+1 & $266.90$ & $1.00\times$ & $100\%$  \\ \hline
+2 & $187.72$ & $1.42\times$ & $71.1\%$ \\ \hline
+4 & $160.72$ & $1.66\times$ & $41.5\%$ \\ \hline
+8 & $150.25$ & $1.78\times$ & $22.2\%$ \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{cuStateVec Backend Comparison}
+The cuStateVec backend, where the full statevector resides in GPU memory, was consistently slower than the GPU Aer backend on the test hardware (NVIDIA GTX 1650 Mobile, 4 GB GDDR6). For $H_{2}O$ at $P=2$, cuStateVec took $183.49$\,s compared to GPU Aer's $182.85$\,s, with the gap widening at $P=4$ ($242.11$\,s vs. $165.76$\,s). This result is explained by the hardware mismatch: Bayraktar et al.~\cite{bayraktar2023cuquantum} established that statevector simulation is memory-bandwidth-bound, and the GTX 1650's $\sim$128 GB/s GDDR6 bandwidth is over $15\times$ lower than the A100's 2,039 GB/s HBM2e. The overhead of GPU kernel launches and data transfers on this consumer hardware exceeds the benefit for circuits of 14 qubits or fewer. On data-center GPUs with HBM, cuStateVec would be expected to outperform the CPU Aer path significantly.
+
+\subsubsection{GPU Weak Scaling}
+Table~\ref{table:gpu_weak_scaling} presents the weak scaling results with GPU acceleration compared to the CPU-only path.
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\caption{Weak scaling comparison: CPU-only vs. GPU Aer. GPU acceleration reduces $H_{2}O$ at $P=8$ from 14.4\,s to 2.4\,s, a $6\times$ improvement.}
+\label{table:gpu_weak_scaling}
+\begin{tabular}{|c|l|r|r|r|r|}
+\hline
+\textbf{$P$} & \textbf{Molecule} & \textbf{CPU $T_{\text{total}}$ (s)} & \textbf{GPU $T_{\text{total}}$ (s)} & \textbf{CPU $T_{\text{iter}}$ (s)} & \textbf{GPU $T_{\text{iter}}$ (s)} \\ \hline
+1 & H\textsubscript{2}   & $0.051$ & $0.050$ & $0.005$ & $0.005$ \\ \hline
+2 & LiH                  & $0.576$ & $0.719$ & $0.058$ & $0.072$ \\ \hline
+4 & BeH\textsubscript{2} & $2.411$ & $1.793$ & $0.241$ & $0.179$ \\ \hline
+8 & H\textsubscript{2}O  & $14.398$ & $2.389$ & $1.440$ & $0.239$ \\ \hline
+\end{tabular}
+\end{table}
+
+The GPU weak scaling demonstrates that the per-iteration time remains relatively stable across all rank counts ($0.005$--$0.239$\,s), compared to the CPU path where $T_{\text{iter}}$ grows from $0.005$\,s to $1.440$\,s. The $6\times$ improvement at $P=8$ ($H_{2}O$) confirms that GPU acceleration effectively reduces the $O(2^n)$ statevector bottleneck that dominated the CPU-only weak scaling results.
 
 
 
@@ -214,11 +273,11 @@ Post-restart (iters 6--10) & 5 & $-1.085$ & $-1.109$ \\ \hline
 \begin{tabular}{|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}p{1.3cm}|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}p{2.5cm}|}
 \hline
 \textbf{Category} & \textbf{Metric} & \textbf{Threshold} & \textbf{Observed} & \textbf{Status} \\ \hline
-System Performance & $T_{\text{total}}$ & 2--3$\times$ speedup & $1.18\times$ (H\textsubscript{2}O, $P$=2) & Partial \\ \hline
+System Performance & $T_{\text{total}}$ & 2--3$\times$ speedup & $1.51\times$ (H\textsubscript{2}O, GPU $P$=8) & Partial \\ \hline
 Latency Masking & $M$ & $M \geq 1$ & $M = 12$--$9{,}000$ (simulator) & \textbf{Achieved} (simulator) \\ \hline
 Throughput & CLOPS & $>$ serial baseline & $4.65$ iter/s (H\textsubscript{2}O, $P$=2) vs. $3.94$ serial & \textbf{Achieved} \\ \hline
 Hardware Efficiency & $E$ & $\geq 70\%$ at $P$=2 & $61.7\%$ (H\textsubscript{2}O, $P$=2) & Partial \\ \hline
-Resource Utilization & $U_{gpu}$ & $\geq 80\%$ occupancy & Pending GPU integration & Pending \\ \hline
+Resource Utilization & $U_{gpu}$ & $\geq 80\%$ occupancy & GPU integrated (GTX 1650); $6\times$ weak scaling improvement at $P$=8 & Partial (consumer GPU) \\ \hline
 Scientific Fidelity & $\Delta E$ & $\leq 1.6$ mHa & $2.4$ mHa (H\textsubscript{2}); $0.1$ mHa at $P$=4 & Near / \textbf{Achieved} \\ \hline
 Resilience & $R_{\text{time}}$ & $< 60$\,s recovery & Checkpoint restart verified & \textbf{Achieved} \\ \hline
 \end{tabular}

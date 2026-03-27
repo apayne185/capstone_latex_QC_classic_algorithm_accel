@@ -59,11 +59,19 @@ Here, the ansatz was translated once against the coupling map of the backend by 
 The QPU experiment was executed on \textbf{[DATE]} against the backend calibration data valid at the time of job submission. Results for this are presented in Tables~\ref{table:ibm_results} and~\ref{table:ibm_iterations}.
 
 \subsection{Experiment 4: GPU-Accelerated Statevector}
+This experiment evaluates the effect of GPU acceleration on the distributed VQE pipeline, comparing two GPU backends against the CPU-only results from Experiments 1 and 2.
 
-% TODO-GPU: Add experimental procedure for cuQuantum integration benchmarks.
-% Procedure: Run make run NP=2 with USE_GPU=yes on a node with NVIDIA A100/V100.
-% Compare: GPU statevector build time vs CPU, per-iteration wall time, scaling at P=1,2,4,8.
-% Record: GPU occupancy via nvprof/nsight, memory bandwidth utilization.
+\subsubsection{Procedure}
+All four benchmark molecules were run at $P \in \{1,2,4,8\}$ MPI ranks with GPU acceleration enabled, using the same ansatz, SPSA hyperparameters, seed, and convergence criteria as Experiment 1. Two GPU backends were evaluated:
+
+\begin{itemize}
+    \item \textbf{GPU Aer}: Qiskit Aer statevector simulator built with CUDA thrust backend. The statevector is constructed on the CPU but gate operations are GPU-accelerated.
+    \item \textbf{GPU cuStateVec}: NVIDIA cuStateVec backend where the full statevector resides in GPU memory and all gate operations execute on the GPU.
+\end{itemize}
+
+The GPU hardware used was an NVIDIA GeForce GTX 1650 Mobile (Turing architecture, 4 GB GDDR6, 128-bit memory bus) running CUDA 12.6. This is a consumer-grade laptop GPU with significantly lower memory bandwidth ($\sim$128 GB/s) compared to the data-center A100 GPUs (2,039 GB/s HBM2e) benchmarked by Bayraktar et al.~\cite{bayraktar2023cuquantum}. Results therefore represent a lower bound on GPU-accelerated performance; HPC-grade hardware would yield substantially greater speedups.
+
+For each configuration, total wall-clock time, per-iteration time, and speedup relative to the serial baseline were recorded. Strong scaling and weak scaling analyses were repeated with GPU acceleration to compare against the CPU-only scaling behavior from Experiment 2.
 
 
 \subsection{Experiment 5: Checkpoint Resilience}

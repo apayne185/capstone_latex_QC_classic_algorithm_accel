@@ -240,7 +240,7 @@ Before the introduction of the cuQuantum SDK, quantum circuit simulation backend
 linear and tensor alegbra libraries, lacking the hardware abstraction and potential to scale/accelerate simulations that this SDK offers. Within their research, they identified the source of the pre-cuQuantum bottleneck to be the 
 classical simulation and expectation value estimation, as the state vector scales exponentially ($2^n$) with the number 
 of required qubits ($n$) and the corresponding complexity of the variational ansatz utilized. A state vector is a mathmatical object (a unit vector), 
-as defined by Nielsen & Chuang, that completely describes a quantum system in a complex vector space of $2^n$ dimension with an inner product (Hilbert space) for a system with $n$ qubits. Consider the Equation~\ref{eq:superposition} defined above in Section 2.1, 
+as defined by Nielsen \& Chuang, that completely describes a quantum system in a complex vector space of $2^n$ dimension with an inner product (Hilbert space) for a system with $n$ qubits. Consider the Equation~\ref{eq:superposition} defined above in Section 2.1, 
 where the property of superposition is defined by a statevector. Classical statevector simulation computes 
 the full vector and applies all necessary gate operations to it, providing an noiseless, exact result of expectation values. However, it comes with a significant memory cost that doubles each time a qubit is added. This is a bottleneck that a serial 
 CPU architecture alone cannot manage, as once the size of the state vector exceeds the processing capacity of a single CPU 
@@ -303,18 +303,26 @@ to handle more complex applications that result in deeper circuits and more iter
 
 \subsubsection{Scaling Beyond the Memory Wall}
 As Bayrakter et al. \cite{bayraktar2023cuquantum} established, the state vector simulation is one of the most efficient 
-classical paths for a VQE-type circuit, however, it is limited by the VRAM of a single accelerator. This creates a "memory wall" 
-where the simulation of molecules larger than $LiH$ (4 electrons, 631 Pauli terms, requiring 12 qubits)\cite{kandala2017hardware} is unobtainable on a single workstation. 
-This stack follows their findings and we adopt a multi-node distributed memory model using MPI to orchestrate the GPU-equipped A100 nodes. Distributing the Pauli string expectation value 
-estimations across a GPU cluster allows the stack to aggregate the VRAM of the entire cluster to allow for larger chemical systems to be simulated 
-and/or optimized (such as $BeH_2$ (6 electrons, 666 Pauli terms, requiring 14 qubits))\cite{kandala2017hardware} without exceeding the capacity of a single NVIDIA A100 GPU. 
+classical paths for a VQE-type circuit, however, it is limited by the VRAM of a single accelerator. The molecules they used within their
+benchmark ranged the statevector dimensions from $2^{4}=16$ complex entries for $H_2$, up to $2^{14}=16384$ for $H_{2}O$, which still fits within the memory of a single GPU. However, if 
+we attempted to use their system for more revelevant, complex molecules that would require 20--30 qubits, we would face dimensions up to $2^{30}$ and approximately $10^9$ entries, creating  a "memory wall" 
+where the simulation of molecules larger than $LiH$ (4 electrons, 631 Pauli terms, requiring 12 qubits)\cite{kandala2017hardware} is unobtainable on a single A100 workstation of 80GB, instead needing multi-node resources. 
+Since state vector simulation is bound by memeory bandwidth \cite{bayraktar2023cuquantum}, this stack follows Bayraktar et al.'s findings and we adopt a multi-node distributed memory model using MPI to orchestrate the GPU-equipped A100 nodes. 
+Instead of distributing the statevector as a whole across the GPU nodes, as previous findings have proven we would be limited by the interconnect bandwidth, each MPI rank will independently construct the state vector to evaluate  
+the distributed subsection of the Pauli string expectation value estimations. This allows the stack to aggregate the VRAM of the entire cluster for larger chemical systems such as $BeH_{2}$ (666 Pauli terms) and $H_{2})$ (1086 Pauli terms) to be simulated 
+and optimized\cite{kandala2017hardware} without exceeding the capacity of a single NVIDIA A100 GPU.
 
 \subsubsection{Optimization for SIMD Throughput}
 Current examples of middleware frameworks, such as XACC \cite{mccaskey2018xacc} mainly focus on hardware portability (essentially, hardware-agnositicism) 
-while overlooking the potential computation speedup offered by parallelism of parameters (the portability of workloads). VQE is a SIMD problem, 
-where the same circuit is executed with thousands of parameter variations in order to find the wavefunction ground state. 
-By considering the SIMD-centric findings of Bayraktar et al. \cite{bayraktar2023cuquantum}, this stack incorporates Parameter Batching on the 
-dispatcher level. Instead of a synchronous serial loop of submitting, waiting, and receiving, the middleware bundles variational points 
-into a single job payload. This reduces the overhead from the quantum control stack and exploits the GPU ability to handle 
-the high-throughput numerical gradients in parallel. 
+while overlooking the potential computation speedup offered by parallelism of parameters (the portability of workloads). As established within Section 2.3, the setup of XACC's system is a synchronous execution on a single host, with a single tasks being processed at a time. 
+The classical components sends a circuit to the one of potential QPU hardware (as the allow hardware plugin options from a variety of companies), then it sit and waits for the QPU response. When considering that the VQE algorithm is a SIMD problem, 
+where the same circuit is executed repeatedly with thousands of parameter variations in order to find the wavefunction ground state, this becomes a considerable computational bottleneck with a long runtime. If we chose to combine VQE with the SPSA optimizer for the goal of evaluting the molecules of $H_2, LiH, BeH_{2}, H_{2}O$ in this stack's benchmark, 
+SPSA would require a sizeable number of iterations, doubled by the optimizers property of two circuit evaluations for gradient estimations. Within a serial execution setup, without distributed resources, this would further worsen the bottleneck.
+By considering the SIMD-centric findings of Bayraktar et al.'s research \cite{bayraktar2023cuquantum}, this stack incorporates parameter batching on the 
+dispatcher level. On the simulator path, each MPI rank eveluates its own subset of Pauli terms on its local construction of the statevector, but on the IBM QPU path, the 2 measurements (variational points) from SPSA will be bundled as into a single job, reducing the number of QPU round-trips by 50\%. 
+Instead of using a synchronous, serial loop of submitting jobs, waiting, and receiving QPU results, this middleware combined the variational points 
+into a single, asynchronous job payload, reducing the QPU overhead and further exploits the GPU's ability to handle the parallelized high-throughput numerical gradients. In essense, this will theoretically bypass the Communication Wall identified by 
+Weder et al. \cite{weder2021quantum}
+
+
 
