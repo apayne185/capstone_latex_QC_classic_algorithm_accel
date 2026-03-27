@@ -309,7 +309,7 @@ we attempted to use their system for more revelevant, complex molecules that wou
 where the simulation of molecules larger than $LiH$ (4 electrons, 631 Pauli terms, requiring 12 qubits)\cite{kandala2017hardware} is unobtainable on a single A100 workstation of 80GB, instead needing multi-node resources. 
 Since state vector simulation is bound by memeory bandwidth \cite{bayraktar2023cuquantum}, this stack follows Bayraktar et al.'s findings and we adopt a multi-node distributed memory model using MPI to orchestrate the GPU-equipped A100 nodes. 
 Instead of distributing the statevector as a whole across the GPU nodes, as previous findings have proven we would be limited by the interconnect bandwidth, each MPI rank will independently construct the state vector to evaluate  
-the distributed subsection of the Pauli string expectation value estimations. This allows the stack to aggregate the VRAM of the entire cluster for larger chemical systems such as $BeH_{2}$ (666 Pauli terms) and $H_{2})$ (1086 Pauli terms) to be simulated 
+the distributed subsection of the Pauli string expectation value estimations. This allows the stack to aggregate the VRAM of the entire cluster for larger chemical systems such as $BeH_{2}$ (666 Pauli terms) and $H_{2}O)$ (1086 Pauli terms) to be simulated 
 and optimized\cite{kandala2017hardware} without exceeding the capacity of a single NVIDIA A100 GPU.
 
 \subsubsection{Optimization for SIMD Throughput}

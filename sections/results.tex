@@ -31,7 +31,7 @@ H\textsubscript{2}O & 14 & 1086 & 112 & $-74.7921$ & $-75.0124$ & $0.2203$ & No 
 \textbf{Molecule} & \textbf{Energy ($E_h$)} & \textbf{FCI ($E_h$)} & \textbf{Error ($E_h$)} & \textbf{Iters} & \textbf{Wall Time (s)} \\ \hline
 H\textsubscript{2} & $-1.1258$ & $-1.1373$ & $0.0115$ & 200 & $0.64$  \\ \hline
 LiH & $-7.8803$ & $-7.8825$ & $0.0022$ & 576 & $41.62$ \\ \hline
-BeH\textsubscript{2} & $-15.5557$ & $-15.5952$ & $0.0395$ & 896 & $173.84$ \\ \hline
+BeH\textsubscript{2} & $-15.5557$ & $-15.5951$ & $0.0394$ & 896 & $173.84$ \\ \hline
 H\textsubscript{2}O  & $-74.7892$ & $-75.0124$ & $0.2232$ & 896 & $227.23$ \\ \hline
 \end{tabular}
 \end{table}
@@ -275,7 +275,7 @@ Post-restart (iters 6--10) & 5 & $-1.085$ & $-1.109$ \\ \hline
 \textbf{Category} & \textbf{Metric} & \textbf{Threshold} & \textbf{Observed} & \textbf{Status} \\ \hline
 System Performance & $T_{\text{total}}$ & 2--3$\times$ speedup & $1.51\times$ (H\textsubscript{2}O, GPU $P$=8) & Partial \\ \hline
 Latency Masking & $M$ & $M \geq 1$ & $M = 12$--$9{,}000$ (simulator) & \textbf{Achieved} (simulator) \\ \hline
-Throughput & CLOPS & $>$ serial baseline & $4.65$ iter/s (H\textsubscript{2}O, $P$=2) vs. $3.94$ serial & \textbf{Achieved} \\ \hline
+Throughput & iter/s & $>$ serial baseline & $4.65$ iter/s (H\textsubscript{2}O, $P$=2) vs. $3.94$ serial & \textbf{Achieved} \\ \hline
 Hardware Efficiency & $E$ & $\geq 70\%$ at $P$=2 & $61.7\%$ (H\textsubscript{2}O, $P$=2) & Partial \\ \hline
 Resource Utilization & $U_{gpu}$ & $\geq 80\%$ occupancy & GPU integrated (GTX 1650); $6\times$ weak scaling improvement at $P$=8 & Partial (consumer GPU) \\ \hline
 Scientific Fidelity & $\Delta E$ & $\leq 1.6$ mHa & $2.4$ mHa (H\textsubscript{2}); $0.1$ mHa at $P$=4 & Near / \textbf{Achieved} \\ \hline
