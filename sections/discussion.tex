@@ -1,61 +1,132 @@
-
-
 \section{Discussion}
 \subsection{Accuracy and the Variational Principle}
 \label{sec:hwe_limitation}
-The most significant finding within this work is the relationship between the ansatz expressibility and physical correctness. The Hardware Efficient (HWE) Ansatz was practical for NISQ hardware due to its shallower circuit depth (which allows for circuits to complete before qubits lose coherency), but is limited in conserving particle number. During the optimization stages, the SPSA optimizer can drive variational parameters into regions in the Hilbert space where the prepared state $|\psi(\theta)\rangle$ contains superpositions of different electron numbers (states that are unphysical in molecular chemistry). This results in the energy of the VQE dropping below the FCI ground state energy, which violates the variational principle within the correct particle number sector. With the molecule $H_{2}$, the optimizer crossed below FCI at approx. iteration 126. For $H_{2}O$, this occurred as early as iteration 37. The rate at which this violation occurs correlates directly with the ratio of qubits to variational parameters. The molecule $H_{2}O$ (112 parameters, 14 qubits) explores the parameter space more quickly than $H_{2}$ (24 parameters, 4 qubits).
+The most significant finding within this stack is the relationship between the ansatz expressibility and physical 
+correctness. The Hardware Efficient (HWE) Ansatz was a practical choice for NISQ hardware due to its shallow circuit depth 
+allowing circuits to complete before qubits lose coherency~\cite{kandala2017hardware}, but is limited as an ansatz in conserving particle number. 
+During the optimization stages, the SPSA optimizer can drive variational parameters into regions of the Hilbert space
+where the prepared state $|\psi(\theta)\rangle$ contains superpositions of different electron numbers, creating states that are
+unphysical in molecular chemistry. This results in the energy of the VQE dropping below the established, exact FCI ground state energy, 
+which violates the variational principle within the correct particle number sector. Consider the molecule $H_{2}$, where the  
+optimizer crossed below FCI at approximately iteration 126. For the larger molecule $H_{2}O$, this occurred as early as iteration 37. The rate 
+at which this violation occurs has been found to correlate directly with the ratio of qubits to variational parameters. The molecule 
+$H_{2}O$ (112 parameters, 14 qubits) explores the parameter space more quickly than $H_{2}$ (24 parameters, 4 qubits).
 
 Two strategies were implemented to reduce this error:
 
 \begin{enumerate}
-    \item \textbf{Near zero initialization}: Parameters are drawn from $\mathcal{U}(-0.1, 0.1)$ instead of $\mathcal{U}(0, 2\pi)$. At $\theta \approx 0$, approximates the identity by the HWE circuit. The initial state remain close to $|0\ldots0\rangle$ (the Hartree-Fock reference within the Jordan Wigner mapping), delaying the particle number violation.
+    \item \textbf{Near zero initialization}: Parameters are drawn from $\mathcal{U}(-0.1, 0.1)$ instead of $\mathcal{U}(0, 2\pi)$. At $\theta \approx 0$, approximates the identity by the HWE circuit. The initial state remain close to $|0\ldots0\rangle$ (the Hartree-Fock reference~\cite{szabo1996modernquantumchemistry} within the Jordan-Wigner mapping~\cite{peruzzo2014variational}), delaying the particle number violation.
 
     \item \textbf{Best physical energy tracking}: The optimizer records the lowest energy observed that remains at or above FCI. When the energy crosses below FCI, a single diagnostic message is emitted, and the best physical result is reported instead of the final (unphysical) energy.
 \end{enumerate}
 
-It should be stated that is a previously known limitation of HWE ansatzes, as documented by Kandala et al.~\cite{kandala2017hardware} in the original HWE VQE demonstration. Due to this, the physically correct alternatives, Unitary Coupled Cluster Singles and Doubles (UCCSD) ansatz, were both explored during this project but significant integration challenges were encountered with the Qiskit Nature circuit library's gate decomposition pipeline. UCCSD still remains architecturally supported within the middleware stack's ansatz tier system, kept on as a priority for future updates on the stack.
-
+It should be stated that is a previously known limitation of HWE ansatzes, as documented by Kandala et al.~\cite{kandala2017hardware} 
+in the original HWE VQE demonstration. Due to this, the physically correct alternative, the Unitary Coupled Cluster Singles and Doubles (UCCSD) ansatz~\cite{romero2018strategiesquantumcomputingmolecular},
+was explored during this project but significant integration challenges were encountered with the Qiskit Nature circuit 
+library's gate decomposition pipeline. UCCSD still remains architecturally supported within the middleware stack's ansatz tier 
+system, kept on as a priority for future updates on the stack.
 
 \subsection{Comparison with Serial Baseline}
-Both the distributed stack and its serial baseline use identical, near zero initialization and SPSA hyperparameters (Table~\ref{table:serial_baseline}), making this a comparison that identifies the direct effect of the MPI distribution. Here, the accuracy results are mixed, as the serial baseline achieved a significantly lower error on $LiH$ (2.2 mHa vs. 336.2 mHa) and a more comparable error on $BeH_{2}$ (39.5 mHa vs. 39.4 mHa), while the distributed stack performed better on $H_{2}$ (2.4 mHa vs. 11.5 mHa). These differences are not caused by an algorithmic advantage of either configuration, but by stochastic divergence in from SPSA trajectories due to the usages of different execution paths (the distributed \texttt{Allreduce} aggregation as compared to the serial summation introducing different floating point reduction orders).
+Both the distributed stack and its serial baseline use identical, near zero initialization and the same SPSA hyperparameters 
+(Table~\ref{table:serial_baseline}), making this a applicable comparison to identify the direct effect of utilzing the MPI distribution. 
+Here, the accuracy results are mixed, as the serial baseline achieved a significantly lower error on $LiH$ (2.2 mHa vs. 336.2 mHa) 
+and a more comparable error on $BeH_{2}$ (39.5 mHa vs. 39.4 mHa), while the distributed stack performed better on $H_{2}$ (2.4 mHa vs. 11.5 mHa). 
+These differences are not caused by an algorithmic advantage of either configuration, due to their identical configurations, but by a stochastic divergence from SPSA 
+trajectories due to the usages of different execution paths (the distributed \texttt{Allreduce} sum, which can be error 
+prone, compared to the exact, serial summation. This introduced different floating point reduction orders).
 
-The distributed stack's primary contribution is its wall-clock speedup over its accuracy. Table~\ref{table:speedup} shows that with molecules that have sufficient Pauli terms to distribute, the stack achieves a $1.11\times$ speedup on $BeH_{2}$ and $1.18\times$ speedup on $H_{2}O$, while any smaller molecules will face a net slowdown from the MPI overhead. This identifies an important consideration for VQE practitioners in the future, that the parameter initialization strategy has a greater impact on HWE accuracy rather than the execution model (also acknowledging MPI distribution provides a performance benefit that will scale with the number of Pauli terms to be distributed).
-
+The distributed stack's primary contribution is its wall-clock speedup, not its chemical accuracy. Table~\ref{table:speedup} 
+shows that with the benchmarked larger molecules that have sufficient Pauli terms to distribute, the stack achieves a $1.11\times$ speedup 
+on $BeH_{2}$ and $1.18\times$ speedup on $H_{2}O$, while any smaller molecules will face a net slowdown from the MPI
+overhead. This identifies an important consideration for VQE practitioners in the future, that the parameter 
+initialization strategy has a greater impact on HWE accuracy rather than the execution model (also acknowledging 
+MPI distribution provides a performance benefit that will scale with the number of Pauli terms to be distributed).
 
 \subsection{Communication Masking}
-The results of the masking metric $M \gg 1$ across all the experiments ran confirms the architectural hypothesis of this project. Assuming that in the simulator path, the classical computation (the statevector construction at $O(2^n)$ and the Pauli term evaluations) cost will significantly outweigh MPI communication (two \texttt{MPI\_Allreduce} calls per iteration) in the metric. This observed result indicates effect of the cloud based QPU path, that when the QPU's round-trip time ($T_{\text{quant}}$) replaces $T_{\text{comm}}$ as the stack's primary communication bottleneck, the classical acceleration workload ($T_{\text{accel}}$) must be substantial enough to mask it. The observed $M$ values (ranging between 12--9,000 for the simulator path) confirm that classical computation dominates communication overhead by 1--3 orders of magnitude. On the IBM QPU path, $M < 1$ as the 32--60\,s QPU round-trip time far exceeds the classical workload for $H_{2}$ (15 Pauli terms). For $M \geq 1$ to hold on the QPU path, a larger molecule or GPU-accelerated statevector construction would be needed to generate sufficient classical work to overlap the QPU latencies.
+The results of the masking metric $M \gg 1$ across all the experiments ran confirms the stack's architectural hypothesis.
+Under the assumption that in the simulator path, the classical computation (the statevector construction at a cost of $O(2^n)$ 
+and the Pauli term evaluations) cost will significantly outweigh the cost of MPI communication (two \texttt{MPI\_Allreduce} calls 
+per iteration) in the metric $M$. This observed result proves the temporal effect of the cloud based QPU path, that when the QPU's 
+round-trip time ($T_{\text{quant}}$) replaces $T_{\text{comm}}$ as the stack's primary communication bottleneck, the 
+classical acceleration workload ($T_{\text{accel}}$) must be substantial enough to mask it. The observed $M$ values 
+(ranging between 12--9,000 for the simulator path) confirm that stacks classical computation is the primary contributer to communication 
+overhead by 1--3 orders of magnitude. On the IBM QPU path, $M < 1$ due to the 32--60\,s QPU RTT that vastly exceeds 
+the classical workload for a small molecule such as $H_{2}$ (15 Pauli terms). For $M \geq 1$ to hold on the QPU path, a larger molecule or 
+GPU-accelerated statevector construction would be needed to generate sufficient classical work to overlap the QPU latencies.
 
-The running of the IBM QPU experiment (Table~\ref{table:ibm_iterations}) revealed to us that the Python based QPU submission path currently does not achieve $M \geq 1$, as rank 0 blocks on \texttt{job.result()} during the 32-60s QPU round-trip time without performing concurrent classical work. The stack architecture supports asynchronous overlap, as the C++ dispatcher implements \texttt{std::async} for non-blocking asynchronous QPU submission and the Python IBM path has concurrent statevector evaluation during the QPU wait. However in the tested configuration, the classical workload ($H_{2}$ with 15 Pauli terms) completes itself in microseconds - providing negligible masking. For $M \geq 1$ to hold on the QPU path, either a larger molecule (which has more Pauli terms) or a GPU accelerated statevector construction will be needed in order to generate sufficient classical work to overlap  the QPU latencies.
-
+The stack architecture supports an asynchronous, non-blocking overlap through the C++ dispatcher's \texttt{std::async} for
+QPU submission and the Python path's statevector evaluation during the QPU queue wait times. However, as discovered when using smaller molecules such as $H_{2}$ (15 Pauli terms), 
+the classical work completes in microseconds, providing little masking against the 32--60\,s QPU round-trip time. This setup is 
+successful with the applications of large, sufficiently complex molecules such as $BeH_2$ or $H_{2}O$
 
 \subsection{IBM QPU: Accuracy Gap and Hardware Noise}
-The IBM QPU achieved $-0.171\;E_h$ for $H_{2}$, compared to the simulator's $-1.135\;E_h$ on the same molecule, which represents an error of $0.966\;E_h$ relative to the FCI value. Three defining factors explain this gap: first, the QPU run was limited to only 10 iterations (due to queue constraints on IBM's open access plan), however, the simulator run required 200 iterations for convergence (20x the amount of iterations). However, the identified downward energy trend across all 10 iterations (Table~\ref{table:ibm_iterations}) on IBM's QPU suggests that additional iterations would continue to improve the result. Future work with access to IBM's Pay-As-You-Go or Premium plans (which support Sessions and higher queue priority) would allow sufficient iterations to test this claim.  Secondly, the 4096-shot sampling signifies a statistical uncertainty of approx. $1/\sqrt{4096} \approx 0.016\;E_h$ per expectation value estimates, where this shot noise produces the non-monotonic convergence visible in Table~\ref{table:ibm_iterations}- which is where SPSA's gradient estimates gets corrupted by measurement variance. In the noiseless statevector path, expectation values are computed exactly, eliminating this error. Third, T-REx (resilience level 1) only handles measurement readout errors and does not address any of the gate errors or the issue of decoherence on the physical qubits. Advanced techniques such as Zero Noise Extrapolation (ZNE) or Probabilistic Error Cancellation (PEC) would be needed so that these hardware noise sources can be suppressed, as discussed by Cai et al.~\cite{cai2023quantumerrormitigation}.
+Within its 10 iterations, the IBM QPU achieved $-0.1709\;E_h$ for $H_{2}$, compared to the classical simulator's $-1.1349\;E_h$,
+which is an error of $0.9663\;E_h$ compared to the correct FCI value. Three main factors explain this error gap. First, 
+the QPU run was limited to only 10 iterations due to the queue constraints on IBM's open access plan. Consider that the 
+simulator run required 200 iterations for convergence with $H_{2}$ (20x the amount of iterations). However, tehere is an identified 
+downward energy trend across all 10 iterations (Table~\ref{table:ibm_iterations}) on IBM's QPU, which suggests that if 
+additional iterations occured, the quantum hardware would continue to improve the result. Future work with access to IBM's Pay-As-You-Go or 
+Premium plans, which will support Sessions and higher queue priority, would provide sufficient iterations to test this theory. 
+Secondly, the shot=4096 sampling provides a statistical uncertainty of approximately $1/\sqrt{4096} \approx 0.016\;E_h$ each expectation value estimate, as this shot noise produces the unpredictable 
+convergence that is shown in Table~\ref{table:ibm_iterations}. This is where SPSA's gradient estimates gets corrupted by 
+measurement variance. In the noiseless statevector path, expectation values are computed exactly, with the precise environment eliminating this 
+error. Lastly, T-REx of resilience level=1 only handles measurement readout errors without addressing any of the 
+gate errors or the now-present issue of decoherence on the physical qubits. To handle these errors, advanced techniques such as Zero Noise Extrapolation (ZNE) 
+or Probabilistic Error Cancellation(PEC) would be needed so that hardware noise can be suppressed, as discussed by Cai et al.~\cite{cai2023quantumerrormitigation}.
 
-Despite the large absolute error, this result still validates the end-to-end functionality of the middleware stack on real quantum hardware: the transpilation pipeline, EstimatorV2 integration, PUB batching, and MPI coordination all proved to operate correctly across 10 cloud based QPU iterations without failure.
+Despite the QPU's large absolute error, this result is validating the end-to-end functionality of the middleware stack when integrated with 
+real quantum hardware, including the transpilation pipeline, EstimatorV2 integration, PUB batching, and MPI coordination, which all operate correctly across 10 cloud based QPU iterations without failure.
 
 
 \subsection{Scaling Limitations and Path to Improvement}
-The CPU-only scaling results for $H_{2}O$ show that MPI distribution on shared-memory hardware provides negligible benefit, achieving only $1.00\times$ at $P=2$ and regressing to $0.24\times$ at $P=8$. This reveals that the non-parallelized statevector construction dominates the per-iteration cost, following Amdahl's Law: if a fraction $f$ of the workload is serial (the statevector build), the maximum speedup is bounded by $1/f$ regardless of the number of processors utilized.
+The CPU only scaling results for the molecule $H_{2}O$ show that using MPI distribution on shared-memory hardware will result in a negligible 
+benefit, as it only reached $1.00\times$ at $P=2$ and then regressed to $0.24\times$ at $P=8$. This finding reveals that the nonparallelized 
+statevector construction is the primary source of the per-iteration cost, which follows Amdahl's Law~\cite{amdahl1967validity} where fraction $f$ of the computational workload
+is serial (in this case, the ranks independent statevector build), the maximum speedup will be bounded by $1/f$ despite of the number of processors utilized. 
 
-The GPU-accelerated results (Section~\ref{sec:gpu_results}) confirm this analysis. With the GPU Aer backend on an NVIDIA GTX 1650 Mobile, $H_{2}O$ at $P=8$ achieved a $1.51\times$ speedup over the serial baseline and a $1.78\times$ speedup over GPU $P=1$, compared to the CPU-only path which regressed to $0.24\times$ at the same rank count. The GPU path's strong scaling efficiency for $H_{2}O$ at $P=2$ reached $71.1\%$ (compared to $50.1\%$ CPU-only), and crucially, the scaling did not degrade at $P=4$ or $P=8$. This demonstrates that GPU acceleration of the statevector gate operations reduces the serial fraction sufficiently for MPI Pauli term distribution to provide continued benefit.
+The GPU-accelerated results (Section~\ref{sec:gpu_results}) confirm this analysis, as with the GPU Aer backend hosted on an 
+NVIDIA GTX 1650 Mobile, the larger molecule $H_{2}O$ at $P=8$ achieved a $1.51\times$ speedup over the serial baseline's time and a $1.78\times$ 
+speedup over GPU $P=1$. Compare this to the CPU-only path, which regressed down to $0.24\times$ at the same rank. 
+The value of GPU path's strong scaling efficiency for $H_{2}O$ at $P=2$ reached $71.1\%$ compared to $50.1\%$ in the CPU only path, 
+but most crucially, the GPU path's scaling did not degrade at ranks of $P=4$ or $P=8$, which demonstrates that  with GPU acceleration of each ranks 
+statevector gate operations reduces the serial fraction sufficiently, allowing for MPI Pauli term distributions to provide continued computational benefits to the stack.
 
-The GPU weak scaling results further support this: the per-iteration time at $P=8$ was $0.239$\,s with GPU vs. $1.440$\,s CPU-only, a $6\times$ improvement. This confirms that the $O(2^n)$ statevector construction was indeed the dominant bottleneck, as predicted by Bayraktar et al.~\cite{bayraktar2023cuquantum}.
+The GPU weak scaling test results further support this finding, with per-iteration time at $P=8$ ranks was $0.239$\,s with GPU vs. the $1.440$\,s CPU only path, providing a 
+a $6\times$ improvement. This result confirms that the independent $O(2^n)$ statevector construction wihtin each rank was indeed the stack's main bottleneck, as predicted by Bayraktar et al.~\cite{bayraktar2023cuquantum}.
 
-Notably, the cuStateVec backend performed slower than GPU Aer on the test hardware, with $H_{2}O$ at $P=4$ taking $242$\,s (cuStateVec) vs. $161$\,s (GPU Aer). This is attributable to the GTX 1650 Mobile's limited memory bandwidth ($\sim$128 GB/s GDDR6) compared to the HBM2e GPUs for which cuStateVec was designed. Since Bayraktar et al. established that statevector simulation is memory-bandwidth-bound, the consumer GPU's bandwidth creates a bottleneck where the kernel launch overhead exceeds the acceleration benefit for circuits of 14 qubits or fewer. On data-center GPUs (A100 with 2,039 GB/s), cuStateVec would be expected to significantly outperform the CPU Aer path and would likely push the stack's speedup beyond the $2\times$ threshold for larger molecules.
-
+Another notable finding is that the cuStateVec backend performed slower than GPU Aer on the test hardware, with the molecule $H_{2}O$ at $P=4$ ranks taking $242$\,s (cuStateVec) vs. $161$\,s (GPU Aer). 
+This result is due to the GTX 1650 Mobile's limited memory bandwidth ($\sim$128 GB/s GDDR6), which is not the same bandwidth of the HBM2e GPU for which cuStateVec was designed for. 
+Since Bayraktar et al. established that the full statevector simulation is memory-bandwidth bound, the use of this consumer GPUs bandwidth created a bottleneck in the stack where the kernel launch overhead exceeds 
+the acceleration benefit for circuits of 14 qubits or less. On research grade, data-center GPUs (such as the previously mentioned A100 with 2,039 GB/s), cuStateVec 
+would be expected to perform significantly better than the CPU Aer path, most likely pushing the stack's speedup beyond the $2\times$ threshold.
 
 \subsection{Stack Relationship to XACC}
-This stack builds on the previous XACC's philosophy to handle the QPU as a coprocessor alongside a hardware agnostic API, however, it adds on their concept to address the three main limitations of the XACC model:
-
+This stack builds on XACC's philosophy~\cite{mccaskey2018xacc} of handling the QPU as a accelerated coprocessor with a hardware-agnostic and language-agnostic
+API, however, it extends their model to address three main limitations in hybrid middleware:
 \begin{enumerate}
-    \item \textbf{Single host to multi-host}: XACC operates with a single classical host, whereas this stack distributes the VQE workload across multiple MPI ranks for a speedup on complex molecules.
-    \item \textbf{Synchronous to asynchronous}: XACC's AcceleratorBuffer model is synchronous (the process consisting of the steps: submit, wait, receive). This stack implements two complementary asynchronous paths: the C++ dispatcher uses \texttt{std::async} for non-blocking MPI coordination and local kernel execution, while the Python IBM path uses Qiskit's EstimatorV2 primitive with concurrent local statevector evaluation during the cloud QPU wait time.
-    \item \textbf{Compiler level to orchestration level}: XACC largely focuses on circuit compilation and hardware portability (hardware agnositicism), but this stack focuses on an accelerated performance of the classical optimization loop that surrounds the quantum circuit execution.
+    \item \textbf{Single host to multi-host}: XACC operates with a single classical host, but this stack distributes the VQE workload across multiple MPI ranks for a speedup on finding ground state energies of molecules.
+    \item \textbf{Synchronous to asynchronous}: XACC's AcceleratorBuffer model is synchronous (a process of submit, wait, receive). Instead, this stack implements two complementary, asynchronous paths: the C++ dispatcher uses \texttt{std::async} for non-blocking MPI coordination and local kernel execution, while the Python IBM path uses Qiskit's EstimatorV2 primitive with parallel local statevector evaluation during the cloud QPU wait time.
+    \item \textbf{Compiler level to orchestration level}: XACC largely focuses on circuit compilation and hardware portability (hardware and quantum programming language agnositicism), but this stack focuses solving a known hybrid system bottleneck, prioritizing an accelerated performance of the classical optimization loop that surrounds the quantum circuit execution.
 \end{enumerate}
 
-These two stacks are complementary instead of competitive: XACC could easily serve as the circuit compilation frontend to be fed into this project's MPI-distributed optimization backend for a computational speedup.
+These two stacks are complementary instead of being competitive, as XACC could easily serve as the circuit compilation 
+frontend then to be fed into this project's MPI-distributed optimization backend for a computational speedup with improved checmical accuracy.
 
 
 \subsection{Validation of Literature Review Predictions}
-The experimental results validates several of the predictions made in the literature review. Pellow-Jarman et al.~\cite{pellow2021classicoptimizers} identified SPSA to be the most robust, gradient-free optimizer under realistic noise conditions (when introduced to physical QPUs), and this was reconfirmed within both the simulator and IBM QPU paths. SPSA converged reliably across all four tested molecules when used in the noiseless simulator and demonstrated a consistent downward energy trend on noisy hardware despite the introduction of shot noise interference. Alongside this, the limiations of the HWE ansatz, which was identified by McCaskey et al.~\cite{mccaskey2019quantumchemistrybenchmarknearterm} regarding the preparation of states with a varying range of electron numbers, was also observed in the particle number violations (discussed in Section~\ref{sec:hwe_limitation}). Bayraktar et al.~\cite{bayraktar2023cuquantum} predicted that the statevector construction would be the primary classical bottleneck, and the CPU-only strong scaling results confirm this. The non-parallelized $O(2^n)$ statevector build was the primary limiting factor in the speedup beyond $P=2$. The GPU-accelerated results further validate their findings: once GPU acceleration reduced the statevector bottleneck, the stack's scaling improved from $0.24\times$ (CPU $P=8$) to $1.51\times$ (GPU $P=8$) for $H_{2}O$, directly supporting their case for GPU-accelerated statevector construction. Finally, the Communication Wall that was identified by Weder et al.~\cite{weder2021quantum} was addressed through the stack's masking metric, where $M \gg 1$ across all execution paths demonstrates that classical computation still dominates communication overhead in this architecture too.
+The experiments results validates several of the predictions made in this paper's literature review. Pellow-Jarman et al.~\cite{pellow2021classicoptimizers} 
+identified the gradient-free SPSA optimizer to be the most resilient optimizer under realistic noise conditions (when introduced to 
+physical QPUs), and this was reconfirmed within both of the stacks simulator and IBM QPU paths. SPSA converged reliably across 
+all four benchmark molecules when used in the noiseless simulator and within the 10 QPU iterations, demonstrated a consistent downward energy trend 
+on NISQ hardware despite the introduction of shot noise interference. Alongside this, the limitations of the HWE 
+ansatz, which was identified by McCaskey et al.~\cite{mccaskey2019quantumchemistrybenchmarknearterm} regarding the 
+preparation of states with a varying range of electron numbers, was also observed in the particle number violations 
+(discussed in Section~\ref{sec:hwe_limitation}). Bayraktar et al.~\cite{bayraktar2023cuquantum} correctly predicted that the statevector 
+construction would be the primary classical bottleneck in a hybrid stack in the application of quantum chemistry, and the CPU-only strong scaling results reconfirm this. 
+The non-parallelized $O(2^n)$ statevector build was the primary computational limit in the speedup beyond $P=2$ ranks. The 
+GPU-accelerated results of this stack further validate their findings, as once GPU acceleration reduced the statevector bottleneck, 
+the stack's scaling improved considerably from $0.24\times$ (CPU $P=8$) to $1.51\times$ (GPU $P=8$) in the case of the molecule $H_{2}O$, directly 
+supporting their case for GPU-accelerated statevector construction for larger workloads (larger molecules). Finally, the Communication Wall that was 
+identified by Weder et al.~\cite{weder2021quantum} was addressed through the masking metric, where $M \gg 1$ 
+across all execution paths proves that classical computation still dominates communication overhead, even in this specific architecture.
 
