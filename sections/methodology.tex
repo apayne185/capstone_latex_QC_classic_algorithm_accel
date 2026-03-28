@@ -1,4 +1,3 @@
-
 \section{Methodology}
 \label{sec:methodology}
 
@@ -23,7 +22,6 @@ examples of hybrid middleware like XACC \cite{mccaskey2018xacc} and the HWE-SPSA
     \label{fig:system_architecture}
 \end{figure}
 
-
 \subsubsection{Orchestration Layer: Distributed Memory and MPI Manager-Worker Topology}
 This top-level layer implements a manager-worker topology that utilizes Message Passing Interface (MPI) in order 
 to manage a cluster of compute nodes (workers). Throughout this process, the manager node (rank 0) handles the global 
@@ -45,7 +43,6 @@ execute a \texttt{MPI\_allreduce} operation to aggregate the results of each ran
     \caption{Distributed SPSA Topology}
     \label{fig:spsa_topology}
 \end{figure}
-
 
 \subsubsection{Acceleration Layer: Intra-Node CUDA-Kernel Execution}
 This layer follows the findings of Bayraktar et al. \cite{bayraktar2023cuquantum} and is designed in order to 
@@ -69,7 +66,6 @@ FP64 are 8 bytes, using FP32 wihtin per-term evaluations will cut the memory ban
 also assist in maintaining chemical accuracy within our threshold of $\tau = 1.6$mHa, as it provides 7 decimal digits of precision within our distributed task of trig operations in a Pauli term evaluation. FP64 is brought in to address the
 precision risks within accumulation (consider summing 1086 small values for the molecule $H_{2}O$). This ensures we maintain chemical accuracy and still maximize the throughput. 
 
-
 \subsubsection{Quantum Interface Layer - Asynchronous Dispatcher}
 This layer is the bottom of the stack, conducting the abstraction of how quantum hardware-specific drivers (or simulators) perform computations, allowing the previous layers to function regardless if they are using a local simulator (CPU), local GPU, or a cloud GPU. This extends the core ideas of XACC's accelerator model \cite{mccaskey2018xacc}.   
 This layer handles job submission to all options of local simulators and cloud based QPU backends, routing to either a GPU kernel or a CPU fallback based on the detected hardware. Two dispatch paths occur:
@@ -83,7 +79,6 @@ This layer handles job submission to all options of local simulators and cloud b
 This dual path design allows the stack to determine and then utilize the most appropriate interface for each backend, 
 chosing either the high level Python path for cloud QPU access (with its built-in error mitigation strategy), or the 
 low level C++ dispatcher to better handle high-throughput local computation with GPU acceleration.
-
 
 \subsection{Algorithmic Workflow: Parallelized VQE}
 The Variational Quantum Eigensolver algorithm is reformulated in this stack from Peruzzo et al.'s single host VQE\cite{peruzzo2014variational}, in order to exploit its distributed nature, 
@@ -99,7 +94,6 @@ following an iterative cycle of:
         \item Reduction and Updating: Partial expectation values from all ranks get aggregated using \texttt{MPI\_Allreduce} into a single energy sum, which the classical gradient-free optimizer SPSA \cite{pellow2021classicoptimizers} uses (alongside the pertubed $E(\theta^+)$ and $E(\theta^-)$) to computes the next $\theta$ for the following iteration.
     \end{enumerate}
 
-
 \subsection{Performance Evaluation and Experimental Design}
 This section describes the full evaluation of this middlware stack, which will be validated through a Strong Scaling analysis where the  
 stack's performance when total problem size ($W$ = size of workload) is kept fixed while the number of cores is increased ($P$ = number of processors) \cite{cuboulderScaling} is measured to determine points of speedup. This method of 
@@ -109,7 +103,6 @@ While strong scaling measures the parallelization efficiency in a fixed environm
 to test the middleware's communication overhead to determine if it grows sublinearly as the system scales. Weak scaling excels in determining if increasing both $W$ and $P$ will allow developers to solve larger problems within a consisent 
 time-to-solution despite the growing problem size. In the work of Gustafson \cite{gustafson1988reevaluating}, he reasserts that massively parallel systems can still operate in a highly efficient manner to tackle 
 a problem size that scales to the size of the massive system. Both analysises will be conducted to test the ability of this middleware to scale both in its parallelization efficiency and within the task of handling larger molecular systems. 
-
 
 \subsubsection{Experimental Configuration}  
 All simulator experiments of this stack were conducted inside a Docker container (CUDA toolkit 12.6.3, Qiskit 2.1+, qiskit-ibm-runtime 0.45.1, Python 3.11, PySCF 2.4+, OpenMPI from Ubuntu 22.04 system package) 
@@ -147,7 +140,6 @@ in the range of performance-accelerator GPUs, whereas the less user accessible A
 would provide us with substantially improved speedups due to their higher memory bandwidth. However, this project largely relies on obtainable, cost-friendly resources, selecting the remote IBM Quantum open access plan and Lambda's NVIDIA GeForce GTX 1650 Mobile GPUs in order to develop and test this middleware. In future work, this project
 will extend to computationally superior resources. 
 
-
 \subsubsection{Application Scenarios}
 To demonstrate the effectiveness of this middleware when tasked a scientifically meaningful workload, this project focuses on testing various real-world applications
 quantum chemistry and computing the molecular electronic ground-state energies of four increasingly complex molecules over the iterations of the VQE. Chemistry was selected to be the  
@@ -180,9 +172,6 @@ H\textsubscript{2}O & 8  & 14 & 1086 & $-75.0124$ \\ \hline
 The progression that occurs from the simplest molecule $H_2$ (4 qubits, 15 Pauli terms, fits within the memory of a single MPI 
 rank) to $H_{2}O$ (14 qubits, 1086 Pauli terms) \cite{kandala2017hardware} stresses each layer of the middleware. This includes stressing the tasks of parameter broadcasting, 
 Pauli term partitioning, statevector construction, and MPI reduction. 
-
-   
-
 
 \subsubsection{Scaling Strategies}
 The objective of Strong Scaling is to reduce the execution time within a fixed total problem size by increasing the 
@@ -219,7 +208,6 @@ the system will undergo evaluations using a simulated "Failure Mode" that replic
         \item Network Drop-Out Recovery: During active job submission (simulating a crash mid-run), we test the system by deleting the most recent saved checkpoint to test if the Orchestration Layer can perform a "checkpoint restart", in where the last know global $\theta$ state (the previously saved checkpoint before the deleted one) that is stored in the manager rank is used to resume optimization without a full system crash or requiring a system reboot. Each 5 iterations, the system automatically saves a checkpoint within checkpoints/ to provide the restart points. 
     \end{itemize}
 
-
 \subsection{Benchmarking and Measurement Plan}
 \subsubsection{Baseline Implementations}
 These are the control experiments of this stack, developed in order to verify that triple heterogeneous stack has an 
@@ -229,7 +217,6 @@ optimized performance, measured against two baselines:
          \item Single Node GPU Baseline: Execution using Qiskit Aer with a CUDA thrust backend on a single NVIDIA GTX 1650 Mobile GPU ($P=1$) without the MPI distribution. This baseline is done to isolate the speedup contribution from GPU acceleration vs from the MPI orchestration, informing us from where in our stack that computational speedups are coming from and if the integration of GPUs/MPI is strictly necessary to see improvements in the stacks runtime.
      \end{itemize}
  
-
 \subsubsection{Quantitative Metrics}
 In the development of this stack, there are several metrics established that determine the success of this stack and the thresholds of how we determine
 a pass/fail for different sections of the stack. The primary metric for determining success is the observed End-to-End Wall-Clock Time ($T_{total}$). 
@@ -273,7 +260,6 @@ If $M \ge 1$, then there is enough meaningful work within the classical componen
 \caption{Quantitative Success Metrics for Middleware Stack Evaluation}
 \label{table:success_metrics}
 \end{table}
-
 
 \subsubsection{Correctness and Convergence}
 For the purpose of ensuring the methods of optimization (such as Mixed Precision (FP32/FP64) and SPSA) do not compromise the chemical accuracy of 
