@@ -5,7 +5,7 @@ This proposed triple-heterogeneous software stack follows a high performance mid
 focusing is structure on the orchestration of distributed classical resources alongside remote, cloud based quantum backends, we can 
 address the preestablished "Communication Wall" \cite{weder2021quantum} through the development of an asynchronous and 
 parallelized pipeline that executes the hybrid quantum-classical VQE software to find the ground states energies of benchmark molecules $H_2, LiH, BeH_{2}, H_{2}O$  \cite{kandala2017hardware}
-with a speedup of 2-3x as compared to a classical counterpart. 
+with a measurable speedup when compared to the serial, nondistributed Qiskit baseline. 
 
 \subsection{Distributed System Architecture}
 This stack follows a modular architecture that is designed to decouple the classical, high performance subroutines of SPSA optimization, Pauli term evaluation, local statevector
@@ -24,7 +24,7 @@ examples of hybrid middleware like XACC \cite{mccaskey2018xacc} and the HWE-SPSA
 
 \subsubsection{Orchestration Layer: Distributed Memory and MPI Manager-Worker Topology}
 This top-level layer implements a manager-worker topology that utilizes Message Passing Interface (MPI) in order 
-to manage a cluster of compute nodes (workers). Throughout this process, the manager node (rank 0) handles the global 
+to manage MPI ranks (workers). Throughout this process, the manager rank (rank 0) handles the global 
 state of the classical optimizer SPSA, holding the current $\theta$ parameters, determining the values of $\theta^+$ and $\theta^-$, and distributing the 
 variational parameter sets $\theta$ across the ranks of available classical workers to enable concurrent gradient 
 estimation. SPSA is a derivative-free optimizer, found well suited to handle the quantum measurement noise found on 
@@ -33,8 +33,8 @@ this, SPSA is recommended choice for VQE (and for our NISQ hardware) due to its 
 objective functions. 
     
 By utilizing \texttt{MPI\_Isend} and \texttt{MPI\_Irecv} for non-blocking asynchronous communication between the 
-classical-quantum components, the stack allows nodes to remain active and begin the local computations of the state vector expectation values while still
-waiting for the circuit results from the cloud-based QPU, addressing the identified Communication Wall \cite{weder2021quantum}. Once worker nodes receive the expectation values, they 
+classical-quantum components, the stack allows ranks to remain active and begin the local computations of the state vector expectation values while still
+waiting for the circuit results from the cloud-based QPU, addressing the identified Communication Wall \cite{weder2021quantum}. Once worker ranks receive the expectation values, they 
 execute a \texttt{MPI\_allreduce} operation to aggregate the results of each ranks partial energy and then to update the global objective function. 
 
 \begin{figure}[htbp]
@@ -44,7 +44,7 @@ execute a \texttt{MPI\_allreduce} operation to aggregate the results of each ran
     \label{fig:spsa_topology}
 \end{figure}
 
-\subsubsection{Acceleration Layer: Intra-Node CUDA-Kernel Execution}
+\subsubsection{Acceleration Layer: Intra-Process CUDA-Kernel Execution}
 This layer follows the findings of Bayraktar et al. \cite{bayraktar2023cuquantum} and is designed in order to 
 offload the computationally heavy $2^n$ state-vector math to each MPI rank's NVIDIA GPU. The stack implements a three
 tiered acceleration strategy, picking the best option between two accelerated classical processing and the automatic local fallback in place:
@@ -85,9 +85,9 @@ The Variational Quantum Eigensolver algorithm is reformulated in this stack from
 following an iterative cycle of: 
 
     \begin{enumerate}
-        \item Global Parameter Broadcast: The optimizer rank broadcasts a vector of parameters ($\theta$) to $P$ parallel nodes.
+        \item Global Parameter Broadcast: The optimizer rank broadcasts a vector of parameters ($\theta$) to $P$ parallel ranks.
 
-        \item Parallel Expectation Value Estimation: Each node ($p \in P$) compute the subset of the Pauli string expectation values: $$\langle\psi(\theta)|\hat{O}_i|\psi(\theta)\rangle$$. This is the stacks primary point of SIMD parallelization \cite{bayraktar2023cuquantum}, $O_i$ terms are distributed across the HPC cluster.
+        \item Parallel Expectation Value Estimation: Each rank ($p \in P$) compute the subset of the Pauli string expectation values: $$\langle\psi(\theta)|\hat{O}_i|\psi(\theta)\rangle$$. This is the stacks primary point of SIMD parallelization \cite{bayraktar2023cuquantum}, $O_i$ terms are distributed across MPI ranks.
 
         \item Asynchronous Handshake: When using the cloud QPU backend, circuits queue on the remote processor while the classical MPI ranks will independently compute the exact statevector expectation values locally. This overlap provides both noise-free reference estimate and classical work that masks the QPU round-trip latencies\cite{weder2021quantum}.
 
@@ -110,7 +110,7 @@ on a single host machine (a standard laptop setup, reflecting modern day hybrid 
 running on an Linux Mint OS. This configuration is set to ensure reproducibility across computing devices, along with proving the viability and portability of efficient hybrid computation on a commodity hardware device. 
 
 This middleware utilizes a Variational Quantum Eigensolver (VQE) algorithm, configured with a HWE ansatz to ensure rapid computations on hardware adaptive, shallow circuits, along with the classical optimizer SPSA, 
-effective for navigating quantum noise found on our NISQ devices. This setup follows a similar one to Kandala et al.'s, but expands to integrate dispatching to a GPU accelerated nodes for an enhanced computational speedup.  
+effective for navigating quantum noise found on our NISQ devices. This setup follows a similar one to Kandala et al.'s, but expands to integrate dispatching to a GPU accelerated processes for an enhanced computational speedup.  
 SPSA has a set fixed pertubation size $c = 0.1$ that can appropriately handle varational 
 angles within $[0,2\pi]$ with a step size of $a=0.628 / \sqrt{p/8}$, which scales inversely with the square root of the 
 number of variational parameters. The stability constant, $A = 0.1 \times \text{max\_iterations}$ delays any aggressively early 
@@ -134,7 +134,7 @@ state close to the Hatree-Fock reference $|0\ldots0\rangle$ under the Jordan-Wig
 All quantum backend experiments utilize IBM Quantum’s open access plan, which provides free access the 156 qubit \texttt{ibm\_marrakesh} production-scale processor without a financial barrier for research. IBM Quantum was selected as this stack's cloud QPU provider due 
 to their Qiskit library providing the means for effective hybrid middleware integration, offering the EstimatorV2 primitive with built-in source code language conversion and error mitigation \cite{rallis2025interfacingquantumcomputingsystems}.  
 In this stack, the Qiskit IBM Runtime EstimatorV2 primitive is configured with 4096 shots per circuit and with a resilience level 1 (T-REx measurement error mitigation) in order to balance the precision $1/\sqrt{4096} \approx 0.016\;E_h$ per expectation value while operating within the time limits of the IBM open access plan. 
-The GPU-accelerated nodes are conducted on an NVIDIA GeForce GTX 1650 Mobile (Turing architecture, 4 GB GDDR6, CUDA 12.6), 
+The GPU-accelerated experiments are conducted on an NVIDIA GeForce GTX 1650 Mobile (Turing architecture, 4 GB GDDR6, CUDA 12.6), 
 using both the Qiskit Aer CUDA thrust backend and the NVIDIA cuStateVec backend to accelerate the construction of the state vector and the local GPU gate operations. This consumer-grade GPU represents an accessible, lower bound 
 in the range of performance-accelerator GPUs, whereas the less user accessible A100s (the GPU of choice benchmarked by Bayraktar et al.~\cite{bayraktar2023cuquantum}), if used 
 would provide us with substantially improved speedups due to their higher memory bandwidth. However, this project largely relies on obtainable, cost-friendly resources, selecting the remote IBM Quantum open access plan and Lambda's NVIDIA GeForce GTX 1650 Mobile GPUs in order to develop and test this middleware. In future work, this project
@@ -176,15 +176,15 @@ Pauli term partitioning, statevector construction, and MPI reduction.
 \subsubsection{Scaling Strategies}
 The objective of Strong Scaling is to reduce the execution time within a fixed total problem size by increasing the 
 number of processors, while considering the ideal time spent on $N$ cores and efficiency \cite{amdahl1967validity}. For instance, this includes 
-keeping the application scenario of $H_{2}O$, which has 1086 Pauli terms and needs 896 iterations, fixed while increasing the number of MPI nodes ($P \in \{1,2,4,8\}$). This would prove the functionality of parallelism in this stack, as if it is perfectly
+keeping the application scenario of $H_{2}O$, which has 1086 Pauli terms and needs 896 iterations, fixed while increasing the number of MPI ranks ($P \in \{1,2,4,8\}$). This would prove the functionality of parallelism in this stack, as if it is perfectly
 parallel doubling the processors would cut the execution time in two. However, in real life, Amdahl's law is proven as the tasks of statevector construction and the communication overhead from MPI Allreduce will provide us with diminishing returns as scale increases. 
-Ideal Time is the predicted time if parallelization was perfect (if Amdahl's law is proven incorrect), computed with the formula ($N$= number of nodes \cite{cuboulderScaling}): 
+Ideal Time is the predicted time if parallelization was perfect (if Amdahl's law is proven incorrect), computed with the formula ($N$= number of ranks \cite{cuboulderScaling}): 
 \begin{equation}
     \text {Ideal Time } = \frac{(\text{Measured Time at Lowest Core Count})\text{(Lowest Core Count)}}{N}
 \end{equation}
 
 Efficiency is the metric for the real-world application's appropriate number of cores for its particular problem size, informing us of how close the system comes to achieving Ideal Time. Achieving 100\% (the system's Ideal Time) is 
-rarely possible within practice, so a there is a tradeoff point established between the Efficiency of the usage of the systems nodes
+rarely possible within practice, so a there is a tradeoff point established between the Efficiency of the usage of the systems ranks
 and the time spent waiting on the calculations to completed. The formula for Efficiency is \cite{cuboulderScaling}: 
 \begin{equation}
     \text {Efficiency } = \frac{\text{Ideal Time}}{\text{Measured Time}}
@@ -192,7 +192,7 @@ and the time spent waiting on the calculations to completed. The formula for Eff
 Within the implemented Strong Scaling in this stack, total wall-clock time ($T_{\text{total}}$), Efficiency, Ideal Time, and Parallel Efficiency ($E= T_1 / (P \times T_P)$) are measured. 
 
 In addition to Strong Scaling, Weak Scaling is evaluated in this stack, where the scale of the chosen molecule (by it's Hamiltonian's Pauli term count) is 
-increased proportionally alongside the number of MPI nodes ($P \in \{1,2,4,8\}$) on a single host \cite{gustafson1988reevaluating}. At each rank, a molecule from our set is selected that scales in size alongsize the number of ranks, however, due to the molecules chosen in the benchmarking, 
+increased proportionally alongside the number of MPI ranks ($P \in \{1,2,4,8\}$) on a single host \cite{gustafson1988reevaluating}. At each rank, a molecule from our set is selected that scales in size alongsize the number of ranks, however, due to the molecules chosen in the benchmarking, 
 the term to rank scaling is not precisely constant, with $H_{2}$ is used at $P=1$ (15 terms/rank), then the terms scaling up considerably with $LiH$ at $P=2$ (316 terms/rank), $BeH_{2}$ at $P=4$ (167 terms/rank), 
 and $H_{2}O$ at $P=8$ (136 terms/rank). The $P \geq 2$ ranks maintain a more consistent per-rank workload, while $P=1$ serves as the baseline example with its minimal complexity reference of $H_2$.  
 This analysis will test whether the middleware maintains a stable compute-to-communication ratio on a single host, observing while the inputted problems scales up 
@@ -231,7 +231,7 @@ Where:
 \end{itemize}
 
 \noindent If on the simulator path, $T_{quant} = 0$, as there is no QPU use. If the quantity of metric $T_{comm}$ is successfully "masked" by the value of the asynchronous $T_{accel}$ 
-execution time, there will be evidence of this stack's contribution towards assisting the "quantum advantage"\cite{harrow2017quantumsupremacy}, ensuring wait times and classical overhead will not undo a QPU speedup, along with the achievement of the targeted 2-3x speedup over standard single node, CPU-based Qiskit workflows.   
+execution time, there will be evidence of this stack's contribution towards assisting the "quantum advantage"\cite{harrow2017quantumsupremacy}, ensuring wait times and classical overhead will not undo a QPU speedup, along with the achievement of the targeted 1.5x speedup over standard single process, CPU-based Qiskit workflows.   
 
 \noindent Masking Efficiency ($M$) will be used as a metric for how well the QPU RTT is hidden (masked) by the classical workload. 
 \begin{equation}
@@ -255,7 +255,7 @@ If $M \ge 1$, then there is enough meaningful work within the classical componen
 \textbf{Throughput} & iter/s & Iterations Per Second &  $>$ Qiskit serial baseline \\ \hline
 \textbf{Hardware Efficiency} & $E$ & Parallel Efficiency ($S/P$) & $\geq 70\%$ at $P=2$ \\ \hline
 \textbf{Scientific Fidelity} & $\Delta E$  & Absolute Energy Error (Chemistry) & $\leq 1.6$ mHa (Chemical Accuracy) \\ \hline
-\textbf{Resilience} & $R_{time}$ & Recovery Time after Node Failure & $<$ 60 s (Auto checkpoint) \\ \hline
+\textbf{Resilience} & $R_{time}$ & Recovery Time after Process Failure & $<$ 60 s (Auto checkpoint) \\ \hline
 \end{tabular}
 \caption{Quantitative Success Metrics for Middleware Stack Evaluation}
 \label{table:success_metrics}

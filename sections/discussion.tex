@@ -104,7 +104,7 @@ would be expected to perform significantly better than the CPU Aer path, most li
 This stack builds on XACC's philosophy~\cite{mccaskey2018xacc} of handling the QPU as a accelerated coprocessor with a hardware-agnostic and language-agnostic
 API, however, it extends their model to address three main limitations in hybrid middleware:
 \begin{enumerate}
-    \item \textbf{Single host to multi-host}: XACC operates with a single classical host, but this stack distributes the VQE workload across multiple MPI ranks for a speedup on finding ground state energies of molecules.
+    \item \textbf{Single process to multi-process}: XACC operates with a single sequential host, but this stack distributes the VQE workload across multiple MPI ranks on the same host for a speedup on finding ground state energies of molecules.
     \item \textbf{Synchronous to asynchronous}: XACC's AcceleratorBuffer model is synchronous (a process of submit, wait, receive). Instead, this stack implements two complementary, asynchronous paths: the C++ dispatcher uses \texttt{std::async} for non-blocking MPI coordination and local kernel execution, while the Python IBM path uses Qiskit's EstimatorV2 primitive with parallel local statevector evaluation during the cloud QPU wait time.
     \item \textbf{Compiler level to orchestration level}: XACC largely focuses on circuit compilation and hardware portability (hardware and quantum programming language agnositicism), but this stack focuses solving a known hybrid system bottleneck, prioritizing an accelerated performance of the classical optimization loop that surrounds the quantum circuit execution.
 \end{enumerate}

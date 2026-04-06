@@ -1,17 +1,17 @@
-[0] Config.pm:307> INFO - This is Biber 2.19
-[0] Config.pm:310> INFO - Logfile is 'main.blg'
-[62] biber:340> INFO - === Sat Mar 28, 2026, 04:30:23
-[73] Biber.pm:419> INFO - Reading 'main.bcf'
-[133] Biber.pm:979> INFO - Found 20 citekeys in bib section 0
-[146] Biber.pm:4419> INFO - Processing section 0
-[155] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
-[157] bibtex.pm:1713> INFO - LaTeX decoding ...
-[174] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[404] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[405] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[405] Biber.pm:4239> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
-[405] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[425] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[433] bbl.pm:763> INFO - Output to main.bbl
-[433] Biber.pm:131> WARN - legacy month field 'Dec' in entry 'cai2023quantumerrormitigation' is not an integer - this will probably not sort properly.
-[433] Biber.pm:133> INFO - WARNINGS: 1
+[1] Config.pm:307> INFO - This is Biber 2.19
+[2] Config.pm:310> INFO - Logfile is 'main.blg'
+[538] biber:340> INFO - === Mon Apr  6, 2026, 23:27:57
+[636] Biber.pm:419> INFO - Reading 'main.bcf'
+[1121] Biber.pm:979> INFO - Found 20 citekeys in bib section 0
+[1217] Biber.pm:4419> INFO - Processing section 0
+[1277] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
+[1286] bibtex.pm:1713> INFO - LaTeX decoding ...
+[1432] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[2757] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[2758] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[2759] Biber.pm:4239> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[2760] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[2924] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[2983] bbl.pm:763> INFO - Output to main.bbl
+[2984] Biber.pm:131> WARN - legacy month field 'Dec' in entry 'cai2023quantumerrormitigation' is not an integer - this will probably not sort properly.
+[2985] Biber.pm:133> INFO - WARNINGS: 1

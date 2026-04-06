@@ -15,21 +15,18 @@
     drug discovery, complex optimization, cryptographic analysis, and many others.  
 
     Currently, we are in the era of Noisy Intermediate-Scale Quantum (NISQ), where quantum hardware is limited and noisy, 
-    leaving us with difficulties harnessing the true potential of a "quantum advantage" \cite{harrow2017quantumsupremacy}. The most promising path of achieving this 
-    is by the development of coehesive hybrid quantum-classical algorithms ~\cite{rallis2025interfacingquantumcomputingsystems} that combine the computational benefits of each system. 
-    Specifically, we are referencing algorithms such as the Variational Quantum Eigensolver (VQE), which contains a feedback loop that 
-    a classical optimizer uses to iteratively refine parameters that will then be entered into the connected quantum circuit within 
-    the QPU. Sttrategically offloading the computationally heavy classical optimization loop to (heterogeneous) classical 
-    resources allows the integrated to QPUs solely focus on the execution of quantum circuits and measuring the resulting expectation values. This aloows developers  
-    to bypass the modern day limitations of coherency in QPUs which often arises during the execution of fault-tolerant algorithms such as Shor's algorithm, Grover's algorithm, or Quantum Phase Estimation (QPE).
-    Take the QPE algorithm, which requires deep gate depths and long runtimes that inevitably exceed the current temporal limits of  
-    qubit coherence, leaving us with decolorant or incorrect results. However, if long term coherency in qubits/quantum hardware was achieved, the QPE algorithm would be 
-    able to provide us with an exponential speedup (compared to similar classical methods) when tasked with determining the eigenvalues in large and complex problems ~\cite{peruzzo2014variational}. 
-    Classical HPC structures that use MPI, CUDA and multi-node CPU/GPU clusters, excel with tasks that handle dense parallelized numerical workloads and larger 
-    scale simulations. However these same classical systems will struggle with simulations where the dimension of the problem grows exponentially alongside 
-    the size of the physical system (such as electrons within molecules) being observed. This challenge occurs specifically with calculating the arrnagement and behavior of electrons in a molecule, but can be addressed 
-    through the usage of hybrid systems that leave the quantum component to map the system's wavefunction directly onto the qubits while the classical 
-    components handle the refinement of the variational parameters that will be inputted into quantum circuits \cite{rallis2025interfacingquantumcomputingsystems}.
+    unable to harness the true potential of a "quantum advantage" \cite{harrow2017quantumsupremacy}. The most promising path of achieving this 
+    is hybrid quantum-classical algorithms ~\cite{rallis2025interfacingquantumcomputingsystems} that combine the computational benefits of each system. 
+    Specifically algorithms such as Variational Quantum Eigensolver (VQE), containg a feedback loop that 
+    a classical optimizer uses to iteratively refine parameters to be entered into the connected quantum circuit. By offloading a computationally heavy optimization loop to (heterogeneous) classical 
+    resources, QPUs prioritze executing circuits and measuring the resulting expectation values, allowing developers  
+    to bypass current QPU coherency limitations which leave us with incorrect and decolorant results. However, if long term coherency is achieved, various quantum algorithms could 
+    provide us with an exponential speedup over classical methods when determining eigenvalues in large and complex problems ~\cite{peruzzo2014variational}. 
+    Classical HPC structures that use MPI, CUDA and GPUs all in dense, parallelized numerical workloads and larger 
+    scale simulations, however struggle when the problem dimension grows exponentially alongside 
+    the size of the physical system being observed. This issue is present when calculating the arrangement and behavior of electrons in a molecule, but can be addressed 
+    by hybrid systems, leaving quantum components to map the wavefunction directly onto qubits while the classical 
+    components refine the variational parameters for circuits \cite{rallis2025interfacingquantumcomputingsystems}.
     
     Despite the theoretical potential of hybrid collaboration, this field currently has a significant architectural gap, as  
     there is a lack of specialized middleware that bridges quantum and classical components. Classical HPC frameworks (ones that are optimized 
@@ -46,10 +43,10 @@
     backend of the cloud-based QPU, removing the need for quantum researchers or developers to manually handle the communication complexities in a hybrid system. This hybrid stack 
     will include automated dispatching logic, HPC connectors to the Qiskit framework, and classical kernels 
     that use MPI and CUDA to parallelize the classical optimization subroutines for an added speedup. The stack is benchmarked against VQE workflows 
-    on multi-node GPU clusters, aiming to demonstrate measurable progress towards the "quantum advantage," with a 2-3x 
-    speedup in the end-to-end wall-clock time when being compared to the baseline single-node and non-optimized classical implementations. Ultimately, 
+    on a single host Docker environment alongside MPI/GPU acceleration, aiming to demonstrate measurable progress towards the "quantum advantage," with a 1.5x 
+    speedup in the end-to-end wall-clock time when being compared to the baselines of serial, non-distributed and non-optimized classical implementations. Ultimately, 
     the purpose of this work is the design, implementation, and benchmarking an accesible, open-source HPC software framework that achieves a measurable 
-    workflow acceleration through integrating QPUs with multi-node classical resources. 
+    workflow acceleration through integrating QPUs with distributed classical resources. 
 
 
 
