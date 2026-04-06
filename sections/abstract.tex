@@ -2,9 +2,24 @@
 
 
 \begin{abstract} 
-With the evolution of quantum processing units (QPUs) as specialized accelerators, integrating quantum kernels into High Performance Computing (HPC) systems has been increasing explored within the field of computational science. Hybrid quantum-classical systems have gained researchers attention by their combination of the strength of both computational paradigms in a method to overcome current quantum hardware limitations, specifically regarding qubit coherence and error rates. An example is the Variational Quantum Eigensolver (VQE), an algorithm which offloads the computationally intensive optimization loop to its classical computing resources, while allowing the QPUs to exclusively handle the execution of quantum circuits and the measurement of resulting expectation values. In present day, there is a lack of existing unified middleware that is constructed to bridge the low latency QPU control with a multi-node HPC infrastructures, so for that reason the development of this middleware will focus on three objectives: designing an accesible API to abstract the cloud based QPU backend's complexity, the development of HPC connectors using MPI/CUDA in order to parallelize the classical subroutines, and a performance analysis of the software framework using VQE workflows. The stack's evaluation will occur on a multi-node GPU cluster with the primary objective of a 2--3x speedup in end-to-end wall-clock time as when compared to single node and nonoptimized implementations. In this work, we aim at the development of a accesible, open-source framework that will enable near-linear scalability in hybrid quantum-classical simulations for future usage in fields such as materials science or complex optimization, specifically in a user-friendly manner to ensure accesibility for non-programming or non-quantum experts. 
+With the evolution of quantum processing units (QPUs) as specialized accelerators, integrating quantum kernels into High Performance 
+Computing (HPC) systems has been increasing explored within the field of computational science. Hybrid quantum-classical systems have 
+gained researchers attention by their combination of the strength of both computational paradigms in a method to overcome current 
+quantum hardware limitations, specifically regarding qubit coherence and error rates. An example is the Variational Quantum Eigensolver 
+(VQE), an algorithm which offloads the computationally intensive optimization loop to its classical computing resources, 
+while allowing the QPUs to exclusively handle the execution of quantum circuits and the measurement of resulting expectation values. 
+In present day, there is a lack of existing unified middleware that is constructed to bridge the low latency QPU control with 
+HPC infrastructures, so for that reason the development of this middleware will focus on three objectives: designing an 
+accesible API to abstract the cloud based QPU backend's complexity, the development of HPC connectors using MPI/CUDA in order to 
+parallelize the classical subroutines, and a performance analysis of the software framework using VQE workflows. The stack's 
+evaluation will occur on a single Docker host and laptop GPU with the primary objective of a 1.5x speedup in end-to-end wall-clock time 
+as when compared to nonoptimized implementations, with the architecture supporting future gains on HPC hardware. In this work, we aim at the development of a accesible, 
+open-source framework that will provide a measureable speedup in hybrid quantum-classical simulations for future usage in fields 
+such as materials science or complex optimization, specificallymul in a user-friendly manner to ensure accesibility for non-programming or 
+non-quantum experts. 
 
 
-\noindent\textbf{Keywords:} Quantum Systems, Hybrid Systems, Variational Quantum Eigen-solver, High-Performance Computing, Algorithm Acceleration, MPI, CUDA, Software Middleware.
+\noindent\textbf{Keywords:} Quantum Systems, Hybrid Systems, Variational Quantum Eigen-solver, High-Performance Computing, 
+Algorithm Acceleration, MPI, CUDA, Software Middleware.
 \end{abstract}
 
