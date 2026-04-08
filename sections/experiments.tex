@@ -2,7 +2,7 @@
 This section provides the experimental procedures for layer of the stack. With the goal of reproducibility and comparison, all experiments used a SPSA fixed random seed ($\texttt{seed}=42$), ensuring no variance between runs. 
 Considering the variational principle, which guarantees $E_{VQE} \geq E_{FCI}$, results are reported as the "best physical energy", the lowest energy observed during 
 the optimization remaining at or above the FCI. This addresses the HWE ansatz's limitation, as it does not conserve particle number, leading SPSA to push $\theta$
-into exploring unphysical Hilbert space sectors (as discussed in Section~\ref{sec:hwe_limitation}, \cite{kandala2017hardware}).
+into exploring unphysical Hilbert space sectors (as discussed in Section~\ref{sec:hwe_limitation}, \parencite{kandala2017hardware}).
 
 \subsection{Experiment 1: Distributed Statevector VQE (Simulator)}
 This is the primary validation experiment of this stack, with the goal being to validate the distributed statevector evaluation path to return 
@@ -67,10 +67,10 @@ middleware is validated and indicates accuracy will improve with more QPU iterat
 This experiment uses an identical HWE-adaptive ansatz, SPSA hyperparameters, 
 and near zero initialization as Experiment 1. However, this specific VQE was configured with:
 \begin{itemize}
-    \item \textbf{Backend}: IBM \texttt{ibm\_marrakesh} (using 4 of 156 physical qubits, Heron processor)\cite{rallis2025interfacingquantumcomputingsystems}
+    \item \textbf{Backend}: IBM \texttt{ibm\_marrakesh} (using 4 of 156 physical qubits, Heron processor)\parencite{rallis2025interfacingquantumcomputingsystems}
     \item \textbf{MPI ranks}: $P=2$ (rank 0 manages QPU submission)
     \item \textbf{Shots}: 4096 per circuit (chosen to balance statistical precision of $1/\sqrt{4096} \approx 0.016\;E_h$ against the queue time on the IBM open access plan)
-    \item \textbf{Error mitigation}: T-REx (resilience level 1, default EstimatorV2 settings)\cite{cai2023quantumerrormitigation}
+    \item \textbf{Error mitigation}: T-REx (resilience level 1, default EstimatorV2 settings)\parencite{cai2023quantumerrormitigation}
     \item \textbf{Max iterations}: 10 (constrained by the queue limits of IBM open access plan)
     \item \textbf{PUB batching}: Both $E(\theta^+)$ and $E(\theta^-)$ were submitted to SPSA as 2 Primitive Unified Blocs (PUBs) within a single EstimatorV2 job, reducing the QPU RTT wait by 50\%. 
 \end{itemize}
@@ -86,7 +86,7 @@ job submission. Results for the IBM experiment are presented in Tables~\ref{tabl
 
 \subsection{Experiment 4: GPU-Accelerated Statevector}
 This experiment evaluates the effect of GPU acceleration on the distributed VQE pipeline, comparing the GPU 
-backend against the CPU-only results from Experiments 1 and 2. This will determine if the GPU acceleration will bypass the statevector build bottleneck as Bayraktar et al. predicted \cite{bayraktar2023cuquantum}. 
+backend against the CPU-only results from Experiments 1 and 2. This will determine if the GPU acceleration will bypass the statevector build bottleneck as Bayraktar et al. predicted \parencite{bayraktar2023cuquantum}. 
 
 \subsubsection{Procedure}
 Within two different Docker configurations, all four benchmark molecules were run at $P \in \{1,2,4,8\}$ MPI ranks with GPU acceleration enabled, using the same HWE ansatz, SPSA hyperparameters, seed=42, and convergence criteria as Experiment 1 (all Python code remains unchanged). 
@@ -94,7 +94,7 @@ The GPU statevector configuration uses Qiskit Aer's \texttt{AerSimulator(method=
 construction and gate operations. The Docker build configurations were tested for an evaluation of the effect of the cuStateVec integration on the stack's speed:
 \begin{itemize}
     \item \textbf{GPU Aer (CUDA thrust)}: Qiskit Aer built with the CUDA thrust backend for basic GPU parallelism, with GPU-accelerated gate operations and the statevector management uses the default, unoptimized Aer CUDA kernels.
-    \item \textbf{GPU Aer (cuStateVec)}: Qiskit Aer built at compile time with cuStateVec linkage from the NVIDIA cuQuantum SDK~\cite{bayraktar2023cuquantum}, keeping the full statevector in GPU memory with all gate operations and measurement handled by cuStateVec's optimized kernels.
+    \item \textbf{GPU Aer (cuStateVec)}: Qiskit Aer built at compile time with cuStateVec linkage from the NVIDIA cuQuantum SDK~\parencite{bayraktar2023cuquantum}, keeping the full statevector in GPU memory with all gate operations and measurement handled by cuStateVec's optimized kernels.
 \end{itemize}
 
 Both configurations use the same Python code path; the difference is found within the compiled Qiskit Aer backend linked at Docker build time.

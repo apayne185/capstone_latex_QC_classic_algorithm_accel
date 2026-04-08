@@ -9,7 +9,7 @@ Presently, there is a lack of existing unified middleware that can bridge the lo
 HPC infrastructures, so for that reason this stack extends existing hybrid middlewares to focus on four objectives: designing an 
 accessible API to abstract the cloud based QPU backend, MPI distributed parallelization of the Pauli term evaluation classical subroutines, GPU accelerated statevector construction, and a comprehensive performance analysis of the CPU, GPU, and QPU execution paths. The stack's 
 evaluation occurs on a single Docker host with a consumer (NVIDIA GTX 1650) GPU and IBM \texttt{ibm\_marrakesh} QPU with the stack achieving a $1.51\times$ speedup in end-to-end wall-clock time 
-as when compared to serial and nonoptimized baselines, with the architecture supporting future gains on HPC hardware. Results demonstrate GPU acceleration reduces the CPU scaling bottleneck predicted in 
+as when compared to serial and nonoptimized baselines. Results demonstrate GPU acceleration reduces the CPU scaling bottleneck predicted in 
 Amdahl's law from a $0.24\times$ regression at $P=8$ into a $1.51\times$ computational speedup.
 Readers will find a complete evaluation of CPU, GPU, and QPU paths, with scaling analysis and stress testing conducted to validate the middleware architecture. 
 

@@ -80,7 +80,7 @@ IBM QPU & $<1$\textsuperscript{$\dagger$} & QPU RTT (32-60\,s) dominates, no con
 All the tested molecules achieved $M \gg 1$ on the simulator path, confirming that both the statevector construction and Pauli term evaluation 
 (the acceleration workload) completely mask the MPI communication overhead. This result validates this project's core 
 architectural claim, that distributing a classical subroutine across several MPI ranks will not introduce a communication 
-bottleneck, so the Quantum 'Communication Wall' ~\cite{weder2021quantum} is not the main limiting factor of the stack's performance when compute dominates.
+bottleneck, so the Quantum 'Communication Wall' ~\parencite{weder2021quantum} is not the main limiting factor of the stack's performance when compute dominates.
 
 \subsection{Strong Scaling}
 \label{sec:results_scaling}
@@ -260,7 +260,7 @@ Table~\ref{table:gpu_scaling} presents the GPU Aer strong scaling efficiency for
 The cuStateVec backend, where the full statevector resides in GPU memory, was consistently slower than the 
 GPU Aer backend on the test hardware (NVIDIA GTX 1650 Mobile, 4 GB GDDR6). For $H_{2}O$ at $P=2$, cuStateVec 
 took $183.49$\,s compared to GPU Aer's $182.85$\,s, with the gap widening at $P=4$ ($242.11$\,s vs. $165.76$\,s). 
-This result is explained by the hardware mismatch: Bayraktar et al.~\cite{bayraktar2023cuquantum} established 
+This result is explained by the hardware mismatch: Bayraktar et al.~\parencite{bayraktar2023cuquantum} established 
 that statevector simulation is memory-bandwidth-bound, and the GTX 1650's $\sim$128 GB/s GDDR6 bandwidth is 
 over $15\times$ lower than the A100's 2,039 GB/s HBM2e. The overhead of GPU kernel launches and data transfers on this consumer hardware exceeds the benefit for circuits of 14 qubits or fewer. On data-center GPUs with HBM, cuStateVec would be expected to outperform the CPU Aer path significantly.
 
