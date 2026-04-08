@@ -1,18 +1,16 @@
-
-
 \section{Introduction}
     The field of High Performance Computing (HPC) has been undergoing a transformation towards heterogeneous architectures 
     that are not defined by the sole usage of CPUs. Issues such as the curse of dimensionality and the exponential scaling of Hilbert space have redirected this field's focus 
     towards the potential advantages of Quantum Processing Units (QPUs). QPUs have emerged, not to be the replacement for classical computation, but 
-    instead as specialized accelerators that will be integrated into our existing classical systems, as these processing units are capable of handing 
+    instead as specialized accelerators that will be integrated into our existing classical systems, as these processing units are capable of handling 
     specific computational tasks that are intractable for classical bits ~\cite{rallis2025interfacingquantumcomputingsystems}. 
-    Hybrid frameworks are the current industry goal to work towards in the hopes of achieving new ground within the fields of material science, 
+    Hybrid frameworks are developed in the hopes to achieve new ground within the fields of material science, 
     drug discovery, complex optimization, cryptographic analysis, and many others.  
 
     Currently, we are in the era of Noisy Intermediate-Scale Quantum (NISQ), where quantum hardware is limited and noisy, 
     unable to harness the true potential of a "quantum advantage" \cite{harrow2017quantumsupremacy}. The most promising path of achieving this 
     is hybrid quantum-classical algorithms that combine the computational benefits of each system. 
-    Specifically algorithms such as Variational Quantum Eigensolver (VQE), which continually offloads heavy computation to its classical resouces while 
+    Specifically algorithms such as Variational Quantum Eigensolver (VQE), which continually offloads heavy computation to its classical resources while 
     circuit execution is handled by QPUs ~\cite{peruzzo2014variational} ~\cite{rallis2025interfacingquantumcomputingsystems}. 
     Alone, classical HPC structures struggle if problem dimension grows exponentially alongside 
     the size of the physical system being observed, prompting the exploration of quantum hardware as accelerators. 
@@ -31,7 +29,6 @@
     speedup in the end-to-end wall-clock time when being compared to the baselines of serial, non-distributed classical implementations. 
     The purpose of this work is the design, implementation, and benchmarking of an accessible,  open-source HPC software framework for integrating QPUs with distributed classical resources. 
 
-
-
-
-
+    The outline of the following sections in this paper is as follows: Section 2 is a literature review on revelant quantum hardware, HPC middlware, and variational algorithms. Section 3
+    provides the system architecture, experimental configuration, and various evaluation methodology. Section 4 expands on the experimental procedures with their results presented within Section 5. 
+    Section 6 is the discussion of these findings and their implications, Section 7 covers future work, and Section 8 provides the thesis conclusion. 

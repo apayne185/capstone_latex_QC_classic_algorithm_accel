@@ -1,20 +1,14 @@
 \section{Future Work}
 \label{sec:future}
 
-There are several extensions taht would strengthen the current implementations of this middleware stack in the hopes of broadening its applicability, speed, and accuracy:
+There are several extensions that would strengthen the current implementations of this middleware 
+stack in the hopes of broadening its applicability, speed, and accuracy:
 
-\subsection{Particle-Number-Conserving Ansatzes}
-The HWE ansatz used in this work does not conserve particle number in the way a UCC ansatz would, which in our results led to unphysical energy estimates dropping below FCI, even after sufficient SPSA iterations. Therefore, in the ongoing development of this stack, we have begun the integration of the Unitary Coupled Cluster Singles and Doubles (UCCSD) ansatz, which will preserves particle number. UCCSD is already architecturally supported in an ansatz tier system, with integration ongoing due to the stack encountering compatibility challenges, specifically Qiskit Nature's gate decomposition pipeline. Resolving this issue would eliminate the need for the current approach of the stack of tracking best-physical-energy and could produce physically correct results that satisfy the variational principle throughout optimization.
-
-\subsection{Advanced Quantum Error Mitigation}
-The IBM QPU experiments used only T-REx (resilience level 1), which only handles measurement readout errors but not the potential quantum gate errors or expected qubit decoherence. Here, integration with Zero Noise Extrapolation (ZNE) or Probabilistic Error Cancellation (PEC) with Qiskit's provided option of resilience level 2+ is predicted to significantly improve the QPU accuracy without hardware changes. Currently, the stack's EstimatorV2 integration supports these with \texttt{options.resilience\_level} parameter.
-
-\subsection{Multi Node Scaling with InfiniBand}
-All current scaling experiments for this stack were conducted on a single Docker host with MPI ranks sharing the CPU cores and memory bandwidth. Deploying on a multi-node cluster with efficient InfiniBand interconnect would eliminate shared memory contention that was observed at $P \geq 4$ and will provide a improved measurement of the stack's scaling abilities.
-
-\subsection{Application Extensibility}
-The stack currently includes a \texttt{FinanceProblem} class which maps portfolio optimization to a QUBO/Ising Hamiltonian, demonstrating that in the future this middleware will notbe limited solely to quantum chemistry. Future work will extending the current stack appplications to include combinatorial optimization (MaxCut, TSP) and materials science (periodic Hamiltonians), done through leveraging the same MPI distribution/QPU dispatch infrastructure. This application agnosticism will further set apart this stack from others such as XACC, which focuses solely on the mapping of quantum chemistry.
-
-\subsection{Hardware Portability}
-Following the previous XACC approach of ensuring hardware agnostic QPU access (allowing a hardware plug-in option for several QPUs of different companies), this stack will be extended in the future to support additional quantum backends (such as Amazon Braket, Azure Quantum, IonQ) by additional dispatcher plugins. The current dual path architecture (the C++ dispatcher for stack MPI coordination, Python primitives for QPU access) already provides a natural extension point for this task.
+\begin{itemize}
+    \item \textbf{UCCSD Ansatz Integration}: The integration of the UCCSD ansatz, which preserves particle number and is already architecturally supported in the stack's ansatz tier system, is ongoing due to the stack encountering compatibility challenges with Qiskit Nature's gate decomposition pipeline. Resolving this issue would eliminate the need for tracking best-physical-energy. 
+    \item \textbf{Advanced Quantum Error Mitigation}: Integration with Zero Noise Extrapolation (ZNE) or Probabilistic Error Cancellation (PEC) with Qiskit's provided option of resilience level 2+ is predicted to significantly improve the QPU accuracy without hardware changes. Currently, the stack's EstimatorV2 integration supports these with \texttt{options.resilience\_level} parameter.
+    \item \textbf{Multi Node Deployment with InfiniBand}: All current scaling experiments for this stack were conducted on a single Docker host with MPI ranks sharing the CPU cores and memory bandwidth. Deploying on a multi-node cluster with efficient InfiniBand interconnect would eliminate shared memory contention that was observed at $P \geq 4$ and will provide a improved measurement of the stack's scaling abilities.
+    \item \textbf{Application Extensibility}: The stack currently includes a \texttt{FinanceProblem} class which maps portfolio optimization to a QUBO/Ising Hamiltonian, demonstrating that in the future this middleware will not be limited solely to quantum chemistry. Future work will extend the current stack applications to include combinatorial optimization (MaxCut, TSP) and materials science (periodic Hamiltonians), done through leveraging the same MPI distribution/QPU dispatch infrastructure. This application agnosticism will further set apart this stack from others such as XACC, which focuses solely on the mapping of quantum chemistry.
+    \item \textbf{Hardware Portability} The current dual path architecture (the C++ dispatcher for stack MPI coordination, Python primitives for QPU access) already provides a natural extension point for including additional quantum backends, such as Amazon Braket, Azure Quantum, etc.
+\end{itemize}
 

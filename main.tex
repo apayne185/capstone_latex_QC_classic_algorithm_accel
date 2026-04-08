@@ -8,13 +8,14 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{minted}
 \usepackage{booktabs}
-\geometry{a4paper, margin=1in}
+\geometry{letterpaper, margin=1in}
 
 \usepackage{graphicx}
 \usepackage{setspace}
 \doublespacing
 
-\usepackage[style=numeric, backend=biber, sortcites=true, sorting=nyt]{biblatex}
+\usepackage[style=apa, backend=biber, sortcites=true]{biblatex}
+\DeclareLanguageMapping{english}{english-apa}
 \addbibresource{references.bib}
 \usepackage[font=small, labelfont=bf, margin=0.5cm]{caption}
 \usepackage{enumitem}
@@ -32,6 +33,8 @@
 
 \include{sections/title_page}
 \include{sections/abstract}
+\tableofcontents
+\newpage
 \input{sections/introduction}
 \input{sections/literature_review}
 \input{sections/methodology}
