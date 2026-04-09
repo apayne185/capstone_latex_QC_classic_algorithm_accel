@@ -1,5 +1,5 @@
 \section{Experiments}
-This section provides the experimental procedures for layer of the stack. With the goal of reproducibility and comparison, all experiments used a SPSA fixed random seed ($\texttt{seed}=42$), ensuring no variance between runs. 
+This section provides the experimental procedures for each layer of the stack. With the goal of reproducibility and comparison, all experiments used a SPSA fixed random seed ($\texttt{seed}=42$), ensuring no variance between runs. 
 Considering the variational principle, which guarantees $E_{VQE} \geq E_{FCI}$, results are reported as the "best physical energy", the lowest energy observed during 
 the optimization remaining at or above the FCI. This addresses the HWE ansatz's limitation, as it does not conserve particle number, leading SPSA to push $\theta$
 into exploring unphysical Hilbert space sectors (as discussed in Section~\ref{sec:hwe_limitation}, \parencite{kandala2017hardware}).
@@ -8,7 +8,6 @@ into exploring unphysical Hilbert space sectors (as discussed in Section~\ref{se
 This is the primary validation experiment of this stack, with the goal being to validate the distributed statevector evaluation path to return 
 physically correct ground-state energy estimates and then to compare the distributed path's accuracy against the serial baseline's results.
 
-\subsubsection{Procedure}
 In this experiment, each benchmark molecule from Table \ref{table:molecules} was configured with following identical variables:
 
 \begin{itemize}
@@ -27,8 +26,7 @@ In this experiment, each benchmark molecule from Table \ref{table:molecules} was
 % After evaluation is completed, a global \texttt{MPI\_Allreduce(SUM)} combines the partial energies from each rank. Lastly, the masking metric $M = T_{\text{accel}} / T_{\text{comm}}$  
 % gets recorded one time per iteration.
 
-\subsubsection{Serial Baseline}
-A control experiment using an identical SPSA parameters with slighly differing in HWE ansatz reps calculation and convergence criteria within execution paths, leading to a difference of 72 vs. 96 parameters for $LiH$, makign the serial baseline marginally faster than LiH (therefore, the reported speedup is conservative). 
+A control experiment using an identical SPSA parameters with slightly differing in HWE ansatz reps calculation and convergence criteria within execution paths, leading to a difference of 72 vs. 96 parameters for $LiH$, making the serial baseline marginally faster than LiH (therefore, the reported speedup is conservative). 
 This VQE was executed within a single Python process without using MPI ($P=1$), done to provide the $T_{\text{serial}}$ value. 
 Note that the serial baseline may converge at a different iteration count than the distributed stack, as the convergence criterion can trigger earlier/later depending on the SPSA trajectory in each execution path, caused by the floating point errors that occur 
 in \texttt{MPI\_Allreduce} reduction. 
@@ -37,7 +35,6 @@ in \texttt{MPI\_Allreduce} reduction.
 The objective of this experiment is primarily to measure both Strong Scaling and Weak Scaling analyses across  $P \in \{1,2,4,8\}$ MPI ranks. 
 Both scaling analysis are repeated with GPU acceleration within Experiment 4.
 
-\subsubsection{Procedure}
 All four benchmark molecules (Table~\ref{table:molecules}) were run at full iteration counts for each rank 
 count $P \in \{1,2,4,8\}$ (as powers of 2 is standard for scaling studies, providing straightforward mapping to binary tree reduction), all within one Docker container on a single host. 
 Each configuration was executed once, as the deterministic statevector simulator with the fixed 
@@ -60,7 +57,6 @@ This experiment is the real hardware validation, demonstrating the end-to-end mi
 processor (QPU) instead of a simulator. This experiment validates the stack's Python EstimatorV2 integration, circuit transpilation pipeline, job submission, retrieving results, SPSA parameter updates,  
 and the MPI coordination with cloud based QPU results. This experiment's goal is not accuracy, as 10 iterations is not sufficient to converge to a ground state energy. 
 
-\subsubsection{Procedure}
 The molecule $H_{2}$ was selected for the IBM QPU experiment due to it requiring the least amount of qubits,
 facing least complications with qubit decoherency. If the stack can function as expected for $H_2$, the 
 middleware is validated and indicates accuracy will improve with more QPU iterations and error mitigation (which will be considered for future work).
@@ -86,9 +82,8 @@ job submission. Results for the IBM experiment are presented in Tables~\ref{tabl
 
 \subsection{Experiment 4: GPU-Accelerated Statevector}
 This experiment evaluates the effect of GPU acceleration on the distributed VQE pipeline, comparing the GPU 
-backend against the CPU-only results from Experiments 1 and 2. This will determine if the GPU acceleration will bypass the statevector build bottleneck as Bayraktar et al. predicted \parencite{bayraktar2023cuquantum}. 
+backend against the CPU-only results from Experiments 1 and 2. This will determine if the GPU acceleration will bypass the statevector build bottleneck as predicted by \textcite{bayraktar2023cuquantum}. 
 
-\subsubsection{Procedure}
 Within two different Docker configurations, all four benchmark molecules were run at $P \in \{1,2,4,8\}$ MPI ranks with GPU acceleration enabled, using the same HWE ansatz, SPSA hyperparameters, seed=42, and convergence criteria as Experiment 1 (all Python code remains unchanged). 
 The GPU statevector configuration uses Qiskit Aer's \texttt{AerSimulator(method='statevector', device='GPU')}, which internally assigns to NVIDIA's cuStateVec library for GPU-resident statevector 
 construction and gate operations. The Docker build configurations were tested for an evaluation of the effect of the cuStateVec integration on the stack's speed:
@@ -116,7 +111,6 @@ are saved every 5 iterations (hardcoded in the file \texttt{interface.py}), alon
 checkpoint files logged per molecule. This interval balances recovery granularity (at most 5 iterations 
 of work lost on failure) against I/O overhead when tested with less complex molecules within our benchmark. 
 
-\subsubsection{Procedure}
 The molecule $H_{2}$ was selected in this experiment due to its low complexity and fast per iteration time, making it a 
 practical choice for repeated restart testing in this stack. The 7-layer diagnostic suite (\texttt{test\_layers\_run.py}) automatically executes this experiment:
 

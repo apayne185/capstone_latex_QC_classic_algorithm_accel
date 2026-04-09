@@ -1,75 +1,51 @@
 \section{Literature Review}
 This section is meant to explore the evolution of hybrid quantum-classical computing, focusing within the subjects of quantum
 hardware limitations in the NISQ era, the development of variational algorithms, and the architecture requirements
-for developing the orchestration of HPC within this proposed stack. Within this paper, the terms of 'middleware' and 'orchestration' 
-are referring to the software layers that are tasked with managing the handshake (the communication) between the remote, cloud-based QPU 
-backend and the distributed ranks of classical resources. The term hybrid acceleration is defined as the combination of integrating quantum
-circuit execution and the parallelization of the classical optimization loop, which results in maximized throughput and reducing 
-communication latency. The following sections within this literature review aim to thoroughly explain and evaluate how these  
-frameworks support the design choices made in this stack while also identifying the performance gaps of the quantum field that this project aims to bridge
-for the sake of progress in a variety of crucial fields. 
+for developing the orchestration of HPC within this proposed stack. 
 
 \subsection{Fundamentals of Quantum Hardware} 
-Quantum computing has evolved considerably in recent decades, specifically driving for advancements in genome based diagnostics, 
-personalized medicine, climate simulations, energy grid optimization, and many other fields where complex, high dimensional systems provide critical solutions \parencite{rallis2025interfacingquantumcomputingsystems}. 
-The potential speedups offered in quantum could be polynomial and super-polynomial over sets of computationally expensive 
-classical algorithms, although the speedup offered are often problem specific and can only offer advancements in select situations \parencite{auyeung2023nphard}. 
+Quantum computing has evolved considerably in recent decades, offering potential speedups of polynomial and super-polynomial scales over sets of computationally expensive 
+classical algorithms, although the speedups offered are often problem specific and can only offer advancements in select situations \parencite{auyeung2023nphard}. 
 However, during our current NISQ era, the most effective method of utilizing quantum computers is by having it interfaced alongside a classical computing system, 
 preferably in a HPC environment \parencite{rallis2025interfacingquantumcomputingsystems}. 
-Within the work of Au-Yeung et al., they proposed the outlook on quantum computing to be seen as more of numerical toolbox that will
-provide different processing units for different parts of computation, the focus should be on the combined potential of 
-processing units over the potential of quantum hardware alone. \parencite{auyeung2023nphard}. 
+\textcite{auyeung2023nphard} proposed the outlook on quantum computing to be seen as more of a numerical toolbox that will
+provide different processing units for different parts of computation, focusing on the combined potential of
+processing units over the potential of quantum hardware alone. 
 
-Fundamentally, quantum hardware differs considerably from their classical counterparts, along with the logic used to handle data within these systems. 
-The basic unit of quantum hardware is a qubit that has the states of $|0\rangle$ and $|1\rangle$ (as opposed to a classical bit, which has the state of $0$ and $1$). 
-During computation, qubits exploits the entanglement, superposition, and quantum measurement properties of quantum mechanics. 
-Quantum entanglement is when two qubits become interdependent, linking them together over any measurable distance. Superposition allows a qubit to exist in a linear combination of states,
-simultaneously, represented in the two-dimensional state space as: 
-\begin{equation}
-    |\psi\rangle = \alpha|0\rangle + \beta|1\rangle
-    \label{eq:superposition}
-\end{equation}
-Lastly, there is quantum measurement (extremely different to classical measurement), which collapses the superposition of a 
-qubit into a single, readable fundamental state based on its quantum wave function (0 or 1) \parencite{nielsen2010quantum}. However, the benefits introduced
-through a qubit is counterbalanced by their major physical limitations, such as decoherence, scalability,
-and quantum error correction, setting both a size and a time limit on computation. Qubits are highly sensitive to physical environment, with minor disturbances 
-causing loss of quantum information and unstable quantum states (decoherence).  Quantum Error Mitigation (QEM)
-is a method in the NISQ era, where developers accept the hardware imperfections and chose to work around limitations so as to continue seeing progress, including  
+Fundamentally, quantum hardware differs considerably from their classical counterparts. 
+The basic unit of quantum hardware, a qubit,  exists in the superposition of basis states $|0\rangle$ and $|1\rangle$ (as opposed to a classical bit, which has the state of $0$ and $1$). 
+During computation, qubits exploit the entanglement, superposition, and quantum measurement properties of quantum mechanics. 
+However, the introduced benefits within qubits are counterbalanced by their major physical limitations, such as decoherence, scalability,
+and quantum error correction, setting both a size and a time limit on computation. Quantum Error Mitigation (QEM)
+is a NISQ method, accepting the hardware imperfections and choosing to work around limitations so as to continue seeing progress, including  
 post-processing noisy data outputs from circuit runs \parencite{cai2023quantumerrormitigation}. Quantum Error Correction (QEC) is another major challenge, as the fragility of qubits
 leads to complex errors, making reliability difficult to guarantee in quantum results. \parencite{oukaira2025quantum}. 
-
-The challenges of error correction, qubit coherence, and scalability are still being overcome in order to develop a quantum computer that is 
-practical, large-scale, and fault-tolerant\parencite{rallis2025interfacingquantumcomputingsystems}. 
-By applying a short-depth quantum circuits to a simple initial state and then estimating a recent observables expectation 
-values for a future output of the algorithm\parencite{peruzzo2014variational}, issues such as short coherency and noise can be 
-bypassed.  
+Short-depth quantum circuits with observable estimation allows bypassing issues such as short coherency and quantum noise \parencite{peruzzo2014variational}, promoting variational methods.  
 
 \subsection{The Emergence of Variational Quantum Algorithms}
 The foundational framework that is explored within this middleware stack is the Variational Quantum Eigensolver (VQE), which was first introduced 
-by Peruzzo et al. in 2014.~\parencite{peruzzo2014variational}. Within their paper, the researchers used a photonic quantum 
-chip to demonstrate its ability to calculating the ground state energy (the lowest possible energy state, considered its most stable configuration) of the molecule $He-H^{+}$  
+by \textcite{peruzzo2014variational}. Within their paper, the researchers used a photonic quantum 
+chip to demonstrate its ability to calculate the ground state energy (the lowest possible energy state, considered its most stable configuration) of the molecule $He-H^{+}$  
 (2 electrons, 6 Pauli terms, requiring 2 qubits) through a quantum circuit and a classical 
-optimization loop run in a physically tight setup. Their findings were critical, as it established a functioning example of a hybrid system where
+optimization loop run in a physically tight setup. Their findings established a functioning example of a hybrid system where
 the QPU role is developed from a standalone component to instead be a coprocessor. However, it should be noted that 
 the molecule in Peruzzo's research was a minimal possible VQE experiment, chosen to be a proof-of-concept
 on the hardware in 2014. This proposed stack extends their findings in  
-VQE research to handle larger, more complex molecules while also operating on a physically distant, cloud-based hybrid system. 
+VQE research to handle more complex molecules while also operating on a cloud-based hybrid system. 
 
-VQEs are one of two major Variational Quantum Algorithms (VQAs), the second being the Quantum Approximate Optimization Algorithm (QAOA), 
-used in solving the ever-existant optimization problems that have proven to be difficult to solve due to incomplete or
-uncertain data, difficulties in examining the problem at hand. These algorithms
-require an ansatz, a parameterized quantum circuit whose form determines what variational parameters are used and how to specifically train
-them to minimize a cost function, with an adaptive yet costly tuning process (requiring hybrid resources) ~\parencite{auyeung2023nphard}. McCaskey et al. \parencite{mccaskey2019quantumchemistrybenchmarknearterm}
+VQEs are one of two major Variational Quantum Algorithms (VQAs) 
+used in solving optimization problems that have been proven difficult to solve due to incomplete or
+uncertain data. VQAs require an ansatz, a parameterized quantum circuit whose form determines what variational parameters are used and how to specifically train
+them within a costly tuning process to minimize a cost function~\parencite{auyeung2023nphard}. \textcite{mccaskey2019quantumchemistrybenchmarknearterm}
 discussed the current options for ansatzes in quantum systems, such as the Unitary Coupled Cluster (UCC) and the Hardware Effective (HWE) ansatzes.  
 Within VQE, they explore how UCC ansatzes provide an indepth, electron number-conserving procedure to describe trial wavefunctions but will yield a deep circuit
 for even smaller systems, while HWE ansatzes will offer a shallower circuit depth and can support a larger parameter space. However, it is firmly established that
 HWE prepares quantum states with a varying number of electrons that often yield unphysical and inaccurate results for their tasks. For chemistry applications, 
-UCC was defined be the logical choice as it is already designed to mimic the physical interactions of electrons within molecules, describing the molecular wavefunction
-as a sum representing every possible way electrons can be rearranged across orbitals. However, the depth required 
-by the circuit created by this ansatz is deep and impractical to implement due to coherency 
+UCC was the logical choice as it is designed to mimic the physical interactions of electrons within molecules, 
+however, the depth required by the circuit created by this ansatz is deep and impractical to implement due to coherency 
 limitations. A truncated version of UCC, UCCSD, is cut at doubles while still capturing the vast majority of electron 
-correlation energy, as considering the values of triples and beyond will contribute diminishing returns compared to their circuit costs \parencite{romero2018strategiesquantumcomputingmolecular}.  
-Whereas HWE is the hardware-considerate approach, with shallower circuits that can be executed with fewer complications on noisy 
+correlation energy~\parencite{romero2018strategiesquantumcomputingmolecular}, providing a moderately shallower circuit depth.  
+Whereas HWE is the hardware-considerate approach, with shallow circuits that execute with fewer complications on noisy 
 hardware and utilizes gates that are specific for the hardware optimal performance. However, research has proven convergence 
 to be more difficult for HWE as it struggles with barren plateaus due to its random starting parameters (random, abstract mathematical 
 rotations instead of electron movements)\parencite{kandala2017hardware}.  
@@ -81,82 +57,73 @@ with the trial Hamiltonian wavefunction $|\psi(\theta)\rangle$).
      E_0 \leq \langle \psi(\theta) | \hat{H} | \psi(\theta) \rangle
     \label{eq:variational_principle}
 \end{equation}
-In quantum chemistry, methods such as Hartree-Fock (HF) approximation and Full Configuration Interaction (FCI) are used to determine the motion of electrons within the fields of other electrons. HF provides a 
-readable equation of individual electrons that provide a best approximate of a wave function's ground state. FCI, on the other hand, is considered a benchmark method as it 
-fully expands the wave function to exactly describe every potential electron interactions, coming with a 
+In quantum chemistry, methods such as Hartree-Fock (HF) approximation and Full Configuration Interaction (FCI) determine the motion of electrons within the fields of other electrons. HF provides a 
+readable equation of individual electrons for a best approximate of a wave function's ground state. FCI, on the other hand, is considered a benchmark method as it 
+fully expands the wave function to describe every potential electron interaction, resulting in a  
 heavy computational cost that renders FCI intractable for anything but the smallest molecules \parencite{szabo1996modernquantumchemistry}. 
-VQE implementations are initialized near the reference state from HF approximation but continues on to use the parameterized ansatz for iterative improvement of its
+VQE implementations are initialized near the HF approximation reference state, using the parameterized ansatz for an iterative improvement of its
 estimates to approach the exact FCI energy. Here, the variation principle is used to prove $E_{HF} \geq E_{VQE} \geq E_{FCI}$ 
 will hold for any ansatzes that conserve particle numbers \parencite{peruzzo2014variational,szabo1996modernquantumchemistry}.  
 
-Within the experiments run by Peruzzo et al., to compensate for coherency limitations, 
-they offloaded the objective function evaluation to the QPU by using a classical Nelder-Mead (NM) simplex optimizer, provided as a NISQ alternative 
-to QPE, which would require currently unfeasible coherency times. 
-In a comparison study done by Pellow-Jarman et al. \parencite{pellow2021classicoptimizers} 
+Within their experiments, \textcite{peruzzo2014variational} compensated for NISQ coherency limitations by offloading the objective function
+evaluation to the QPU using a classical Nelder-Mead (NM) simplex optimizer.
+In a comparison study done by \textcite{pellow2021classicoptimizers} 
 between sets of gradient-based and gradient-free classical optimizers for a Variational Quantum Linear Solver, a different gradient-free optimizer 
 Simultaneous Perturbation Stochastic Approximation (SPSA) outperformed all other contestants, including NM, in state vector simulation. 
-Specifically within realistic noise models, SPSA outperformed NM and other alternatives, making them a desireable, robust optimizer when interacting with physical, noisy qubits. 
+Specifically within realistic noise models, SPSA outperformed NM and other alternatives, making them a desirable, robust optimizer when interacting with physical, noisy qubits. 
 
-While the results defined in Peruzzo et al.'s paper did prove the viability of the hybrid approach, it was conducted on a small-scale, 
-integrated system where the communication overhead is negligible, with a local photonic chip directly interfaced with a classical controller, 
+While the results of \textcite{peruzzo2014variational} did prove the viability of the hybrid approach, it was conducted on a small-scale, 
+integrated system where the communication overhead is negligible, with a local photonic chip directly interfaced with a classical controller 
 for predictable low-latency in sending variational parameters to the QPU and receiving measured expectation values. 
 This physically tight setup is an unrealistic model for modern research experiment environments where hardware resources would be physically distant, avoiding the reality of 
-modern day QC serialization overhead and network latencies \parencite{peruzzo2014variational}. 
-Their results demonstrate the VQE as robust against certain hardware errors without addressing the throughput bottleneck that would occur in a cloud based implementation during every handshake, 
-resulting in a Round-Trip Time (RTT) penalty. If a hybrid stack is not optimized, the 
-potential wait for data transmission could exceed the time spent on actual computation, leading to a "Communication Wall" \parencite{weder2021quantum}. 
-Weder et al. demonstrated within cloud native environments, an observable 
-latency will be introduced through the remote hardware access and optimized task placement, arguing without a middleware layer that is
-capable of efficient resource dispatching, the "communication-to-computation" ratio will scale poorly and deny the potential 
-speedup offered within these hybrid systems. This proposed stack addresses the architectural inefficiencies identified by Weder et al. 
-through prioritizing low-latency dispatching and parallelized classical preprocessing . 
+modern day QC serialization overhead, network latencies, and Round-Trip-Time (RTT) penalties. 
+If a hybrid stack is not optimized, the potential wait for data transmission could exceed the time spent on actual computation, leading to a "Communication Wall".
+\textcite{weder2021quantum} demonstrated within cloud native environments that an observable 
+latency will be introduced through the remote hardware access and optimized task placement. This argues for a middleware layer that is
+capable of efficient resource dispatching,  as without it the "communication-to-computation" ratio will scale poorly and deny the potential 
+speedup offered within these hybrid systems. This proposed stack addresses the identified architectural inefficiencies 
+through prioritizing low-latency dispatching and parallelized classical preprocessing. 
 
-In the work of Kandala et al., they explored the specific feasibility of using HWE ansatz with a SPSA optimizer 
-in a VQE setup to determine the ground state energy for the molecules of $H_2, LiH, BeH_{2}$ (which in turn have $2,4,6$ qubits for depth=1), increasing in complexity, Hamiltonian size, and number of Pauli terms. 
-They contrast their setup with a UCCSD ansatz, which in this context would require an unnecessarily deep circuit after decomposition into the hardware specific gates. 
-For molecules such $BeH_{2}$, the gates do not finish in time before the window of qubit coherency closed. 
-They utilized IBM's 6 and 7 qubit superconducting transmon processors, adapting the HWE to only use
-single qubit rotations and entangling gates that matched the chip's coupling map, resulting in quick execution of shallow circuits but with the cost of degraded particle number conservation \parencite{kandala2017hardware}. 
-Their findings are further extended in this stack by the use of distributed HPC resources for faster computation. \parencite{kandala2017hardware} 
+\textcite{kandala2017hardware} explored the specific feasibility of using HWE ansatz with a SPSA optimizer 
+in a VQE setup to determine the ground state energy for the molecules of $H_2, LiH, BeH_{2}$ (with $2,4,6$ qubits, depth=1), increasing in complexity, Hamiltonian size, and number of Pauli terms. 
+They contrast their setup with a UCCSD ansatz, where the gates of molecules such as $BeH_{2}$ do not finish before the window of qubit coherency closed. 
+They adapted the HWE to only use single qubit rotations and entangling gates that matched the chip's coupling map, resulting in quick execution of shallow circuits but with the cost of degraded particle number conservation.  
+Their findings are further extended in this stack by the use of distributed HPC resources for faster computation. 
 
 \subsection{Classical-Quantum Middleware and Orchestration}
 High Performance Computing (HPC) systems extend the abilities of classical computation through clusters of CPUs, GPUs, and 
 other specialized accelerators, enabling for parallel computation at scale \parencite{rallis2025interfacingquantumcomputingsystems}. 
 
-The current industry standard for a hardware independent quantum integration process was developed by McCaskey et al. \parencite{mccaskey2018xacc} 
+The current industry standard for a hardware independent quantum integration process was developed by \textcite{mccaskey2018xacc} 
 within their eXtreme ACCelerator (XACC) hybrid framework. They acknowledge the current vendors, including Rigetti,
-IBM, Google, etc., all provide specific quantum programming languages for each version of quantum hardware, without any providing 
-a method of integrating quantum software with hardware or transcending the variety of computational specifications. This situation leaves users to manually develop the 
+IBM, Google, etc., all provide specific quantum programming languages for each version of quantum hardware, without 
+a method of integrating quantum software with hardware or transcending the variety of computational specifications. This leaves users to manually develop the 
 often complex communication between the hybrid components, including the development of the compiler workflow steps of instruction scheduling, routing, and error mitigation. 
 To address this issue, XACC consists of a system-level infrastructure with low-level software to manage the QPU, treating it as a specialized 
-coprocessor (similar to the approach of Peruzzo et al.\parencite{peruzzo2014variational} and Rallis et al. \parencite{rallis2025interfacingquantumcomputingsystems}) which allows researchers to offload 
-quantum kernels from the classical host to various backend accelerators by using a unified API. By abstracting the hardwares and choosing to focus on
-development of a intuitive, userfriendly Pythonic interface for interactions with the QPU, McCaskey et al. set the current standard for quantum-classical middleware.  
+coprocessor (similar to the approach of \textcite{peruzzo2014variational} and \textcite{rallis2025interfacingquantumcomputingsystems}) which allows researchers to offload 
+quantum kernels from the classical host to various backend accelerators by using a unified API. By abstracting the hardware and focusing on
+development of an intuitive, user-friendly Pythonic interface for interactions with the QPU, McCaskey et al. set the current standard for quantum-classical middleware.  
 
 While the XACC framework did successfully achieve their goal of language and hardware portability, McCaskey et al.'s implementation 
-focused largely on developing compiler level integration that translates between QPUs and quantum programming languages within a execution model of a singular CPU and QPU. 
-They concentrated solely on communication between the classical and quantum computers (the architectural connection) without addressing the bottlenecks within a high scale of 
-classical optimization subroutines, which could be managed through the use of distributed resources. The XACC model is synchronous, where the 
-classical host pushes a circuit to the QPU then waits for the returned measurement outcome, adequate for a single process model, 
-but limited if it grows to require distributed parallelism. This proposed stack builds 
+developed compiler level integration that translates between QPUs and quantum programming languages within an execution model of a singular CPU and QPU. 
+They concentrated solely on communication between the classical and quantum computers (the architectural connection) without addressing the bottlenecks of a high scale of 
+classical optimization subroutines, which could be managed through distributed resources. The XACC model is synchronous, with the  
+classical host pushing a circuit to the QPU then waiting for the measurement outcome, which is adequate for a single process model 
+but is limiting if the system grows to require distributed parallelism. This proposed stack builds 
 upon XACC and its modular, language/hardware agnostic philosophy to emphasize orchestration priority for system scaling and parallelization by 
 integrating Message Passing Interface (MPI) and CUDA for asynchronous execution, as otherwise classical resources remain idle while a single QPU processes a circuit. 
 It is designed with the intention of future multi-node deployment but is validated on a single host, done to bypass single process performance limitations. 
 
 \subsection{HPC Integration and Parallelization} 
 Early research on hybrid quantum-classical systems largely focused on exploring the feasibility of executing quantum kernels (quantum code)
-within isolated and often experimental setups that do not reflect the reality of modern quantum interactions. 
-However, Bayraktar et al.\parencite{bayraktar2023cuquantum} developed a method to handle the computational intensity of classical overhead 
-within hybrid systems utilizing the NVIDIA cuQuantum SDK, which offers an industry 
-standard library of primitives for GPU accelerated quantum circuit simulations. 
-They identified the pre-cuQuantum bottleneck to be the 
-classical simulation and expectation value estimation, as the statevector scales exponentially ($2^n$) with the number 
-of required qubits ($n$) and the corresponding complexity of the variational ansatz. A state vector is a mathematical object (a unit vector), 
-as defined by Nielsen \& Chuang, that completely describes a quantum system in a complex vector space of 
-$2^n$ dimension with an inner product (Hilbert space) for a system with $n$ qubits. Classical statevector simulation computes 
-the full vector, providing an noiseless, exact result of expectation values with a significant memory cost that doubles with every qubit. This is a bottleneck that a serial 
+within isolated, often experimental setups that do not reflect the reality of modern quantum interactions. 
+However, \textcite{bayraktar2023cuquantum} proposed a method to handle the computational intensity of classical overhead 
+within hybrid systems utilizing the NVIDIA cuQuantum SDK, an industry standard library of primitives for GPU accelerated quantum circuit simulations. 
+They identified the pre-cuQuantum bottleneck to be the classical simulation and expectation value estimation, as the statevector scales exponentially ($2^n$) with the number 
+of required qubits ($n$) and the corresponding complexity of the variational ansatz. Classical statevector simulation computes 
+the full vector, providing a noiseless, exact result of expectation values with a significant memory cost that doubles with every qubit. This is a bottleneck that a serial 
 CPU architecture alone cannot manage, as once the size of the state vector exceeds the processing capacity of a single CPU 
-it requires distributed across multiple nodes in order to reduce the exponential memory cost.  
+it requires distribution across multiple nodes in order to reduce the exponential memory cost.  
 Bayraktar et al.'s research evaluates the NVIDIA cuQuantum SDK on A100 GPUs, more specifically the 
 cuStateVec library that is designed to optimize statevector simulations on GPUs, demonstrated through high bandwidth memory (HBM) 
 and parallelized architecture of CUDA cores, where they simulated quantum circuits that were significantly faster than 
@@ -165,38 +132,40 @@ A100 GPU proved that gate applications are memory-bandwidth bound (instead of co
 as the A100 sustained 1.6-1.7 TB/s bandwidth on their tested operations, with the gate application time scaling linearly
 with the number of gates, the main limitation being how long it takes to read/write the $2^n$ statevector from A100's HBM2e memory \parencite{bayraktar2023cuquantum}. 
 
-Another focus of their work was GPU acceleration with a QAOA circuit, allowing comparisons to be drawn from their QAOA findings as
-QAOA and VQE share circuit characteristics, such as high qubit counts (circuit width) and lower gate depths, resulting in a SIMD workload suited for GPUs. 
-Bayraktar et al. focused primarily their research objectves on a model where a GPU and the simulation
-logic both reside on a single machine to compared the performances of two methods of simulation 
-State Vector (SV) and Tensor Network (TN). In their findings for a QAOA circuits, the SV method performs significantly better on a GPU. 
-Their superior SV findings (which were circuit dependant) between a single DGX A100 GPU and dual CPUs resulted in a 5.9-30x speedup. However, scaling to 8 A100s in a single DGX node, 
+Another focus of their work was a GPU acceleration QAOA circuit, where comparisons can be drawn between 
+QAOA and a VQE implementation as they share circuit characteristics, such as high qubit counts (circuit width) and lower gate depths (a SIMD workload suited for GPUs). 
+Bayraktar et al. focused their research objectives on a model where a GPU and the simulation
+logic reside on a single machine to compare the performances of 
+State Vector (SV) and Tensor Network (TN) simulation. In their QAOA findings, the SV method performs significantly better on a GPU, as results 
+between a single DGX A100 GPU and dual CPUs showed a  5.9-30x speedup. However, scaling to 8 A100s in a single DGX node, 
 there was a 70-290x speedup over CPUs, and with multi-GPU strong scaling (in one node) there was 4.6-7.0x from 1-8 GPUs.
 On GPUs, state vectors are significantly faster with results that can be 
 improved through the use of multi-node GPUs to distribute terms, as their findings for multi-GPU scaling proved its limitation 
-concerns interconnect bandwidth. \parencite{bayraktar2023cuquantum}
+results from interconnect bandwidth. \parencite{bayraktar2023cuquantum}
 
 In order to achieve the "quantum advantage" \parencite{harrow2017quantumsupremacy} in a practical setting, the single node GPU model will need to be extended to 
 distributed HPC infrastructures. This thesis builds upon the GPU-centric findings within Bayraktar et al.'s work by integrating MPI to 
 manage the distributed scaling, as while CUDA addresses the internal parallelization of a single optimization step, MPI 
-allows for the external parallelization of the entire workflow across multiple processes. This project proposed is designed for a multi-node environment but is validated on a single host with multiple MPI processes, 
+allows for the external parallelization of the entire workflow across multiple processes. This proposed project is designed for a multi-node environment but is validated on a single host with multiple MPI processes, 
 where the software stack is able to parallelize the gradient estimation of the VQE algorithm objective function. In this version, 
 instead of evaluating circuit parameters serially, the MPI-based dispatcher can distribute different parameter sets across the multiple 
 ranks in parallel. Each rank will utilize CUDA kernels for statevector construction and evaluating Pauli terms before the final handshake with a 
 cloud-based QPU. This "Triple-Heterogeneous" approach uses CPUs for orchestration, GPUs for numerical acceleration, and QPUs 
 for quantum kernels, directly handling scalability limitations that existed in the single-process middleware models established earlier. 
 
+The gaps identified above of the Communication Wall \parencite{weder2021quantum}, the statevector bandwidth bottleneck, and 
+the current lack of distributed parallelization in existing middleware all directly influence the developed architecture in the following section.
 
-\subsection{Implications for this Thesis}
-The gaps identified within previous hybrid research, including the Communication Wall between physically distant classical systems and cloud based QPUs \parencite{weder2021quantum}, 
-the memory bandwidth bottleneck of the statevector build \parencite{bayraktar2023cuquantum}, and a lack of distributed parallelization within existing models of middleware \parencite{mccaskey2018xacc}, 
-all directly influenced the design of this stack. Within the following methodology section, each of these gaps is addressed by the integration of MPI distributed Pauli term evaluations, GPU accelerated
-construction of the statevector, and asynchronous QPU dispatching in the hopes of a computational speedup, allowing researchers to make progress towards a 
-true "quantum advantage" \parencite{harrow2017quantumsupremacy}. A configuration of a HWE ansatz and the SPSA optimizer will strategically handle 
-quantum coherency limitations and noise for the prioritization of a computational speedup with results that approach chemical accuracy \parencite{kandala2017hardware, pellow2021classicoptimizers}. 
-This stack will be benchmarked against a set of more industry-relevant 
-molecules than Peruzzo et al.'s $He-H^{+}$ proof of concept and Kandala et al.'s molecule set are introduced to test this stack's ability to scale with a larger, more 
-complex workload and to efficiently distribute the workload across MPI ranks \parencite{kandala2017hardware}. 
+% \subsection{Implications for this Thesis}
+% The gaps identified within previous hybrid research, including the Communication Wall between physically distant classical systems and cloud based QPUs \parencite{weder2021quantum}, 
+% the memory bandwidth bottleneck of the statevector build \parencite{bayraktar2023cuquantum}, and a lack of distributed parallelization within existing models of middleware \parencite{mccaskey2018xacc}, 
+% all directly influenced the design of this stack. Within the following methodology section, each of these gaps is addressed by the integration of MPI distributed Pauli term evaluations, GPU accelerated
+% construction of the statevector, and asynchronous QPU dispatching in the hopes of a computational speedup, allowing researchers to make progress towards a 
+% true efficient hybrid computation. A configuration of a HWE ansatz and the SPSA optimizer will strategically handle 
+% quantum coherency limitations and noise for the prioritization of a computational speedup with results that approach chemical accuracy \parencite{kandala2017hardware, pellow2021classicoptimizers}. 
+% This stack will be benchmarked against a set of more industry-relevant 
+% molecules than Peruzzo et al.'s $He-H^{+}$ proof of concept and Kandala et al.'s molecule set are introduced to test this stack's ability to scale with a larger, more 
+% complex workload and to efficiently distribute the workload across MPI ranks \parencite{kandala2017hardware}. 
 
 
 

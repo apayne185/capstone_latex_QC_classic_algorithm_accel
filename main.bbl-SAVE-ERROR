@@ -18,14 +18,15 @@
 
 
 \refsection{0}
-  \datalist[entry]{nyt/global//global/global}
-    \entry{amdahl1967validity}{inproceedings}{}
+  \datalist[entry]{apa/apasortcite//global/global}
+    \entry{amdahl1967validity}{article}{}
       \name{author}{1}{}{%
-        {{hash=9d4382f1500ff84c4eca531179c994c7}{%
+        {{un=0,uniquepart=base,hash=9d4382f1500ff84c4eca531179c994c7}{%
            family={Amdahl},
            familyi={A\bibinitperiod},
            given={Gene\bibnamedelima M.},
-           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{1}{%
         {ACM}%
@@ -38,9 +39,12 @@
       \strng{authorfullhash}{9d4382f1500ff84c4eca531179c994c7}
       \field{sortinit}{A}
       \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the April 18-20, 1967, Spring Joint Computer Conference}
+      \field{journaltitle}{Proceedings of the April 18-20, 1967, Spring Joint Computer Conference}
       \field{title}{Validity of the single processor approach to achieving large scale computing capabilities}
       \field{year}{1967}
       \field{pages}{483\bibrangedash 485}
@@ -49,15 +53,69 @@
       \verb 10.1145/1465482.1465560
       \endverb
     \endentry
-    \entry{bayraktar2023cuquantum}{inproceedings}{}
+    \entry{auyeung2023nphard}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=ec2da6c9ea08667c26380949e014dfd9}{%
+           family={Au-Yeung},
+           familyi={A\bibinithyphendelim Y\bibinitperiod},
+           given={Rhonda},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6113cd6044ada2e45663dd4c645d516f}{%
+           family={Chancellor},
+           familyi={C\bibinitperiod},
+           given={Nicholas},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6cbe401b4c540615c6915fea34830787}{%
+           family={Halffmann},
+           familyi={H\bibinitperiod},
+           given={Pascal},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Frontiers Media SA}%
+      }
+      \strng{namehash}{9f0ffe75e43d93365c42bd22da63b5f9}
+      \strng{fullhash}{6e4e393d7d830157ed5b27258fe70182}
+      \strng{bibnamehash}{6e4e393d7d830157ed5b27258fe70182}
+      \strng{authorbibnamehash}{6e4e393d7d830157ed5b27258fe70182}
+      \strng{authornamehash}{9f0ffe75e43d93365c42bd22da63b5f9}
+      \strng{authorfullhash}{6e4e393d7d830157ed5b27258fe70182}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2813-2181}
+      \field{journaltitle}{Frontiers in Quantum Science and Technology}
+      \field{month}{2}
+      \field{title}{NP-hard but no longer hard to solve? Using quantum computing to tackle optimization problems}
+      \field{volume}{2}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.3389/frqst.2023.1128576
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.3389/frqst.2023.1128576
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.3389/frqst.2023.1128576
+      \endverb
+    \endentry
+    \entry{bayraktar2023cuquantum}{article}{}
       \true{moreauthor}
       \true{morelabelname}
       \name{author}{1}{}{%
-        {{hash=60c9cd36f458b8cf9a454664b1623c65}{%
+        {{un=0,uniquepart=base,hash=60c9cd36f458b8cf9a454664b1623c65}{%
            family={Bayraktar},
            familyi={B\bibinitperiod},
            given={Harun},
-           giveni={H\bibinitperiod}}}%
+           giveni={H\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{1}{%
         {IEEE}%
@@ -70,9 +128,12 @@
       \strng{authorfullhash}{5d7fdb59b15db2c18b1b602bba1e560c}
       \field{sortinit}{B}
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{2023 IEEE International Conference on Quantum Computing and Engineering (QCE)}
+      \field{journaltitle}{2023 IEEE International Conference on Quantum Computing and Engineering (QCE)}
       \field{title}{cuQuantum SDK: A High-Performance Library for Accelerating Quantum Science}
       \field{volume}{1}
       \field{year}{2023}
@@ -84,58 +145,69 @@
     \endentry
     \entry{cai2023quantumerrormitigation}{article}{}
       \name{author}{8}{}{%
-        {{hash=8ea41cf3838b8cbd7dfef5c651f8c244}{%
+        {{un=0,uniquepart=base,hash=8ea41cf3838b8cbd7dfef5c651f8c244}{%
            family={Cai},
            familyi={C\bibinitperiod},
            given={Zhenyu},
-           giveni={Z\bibinitperiod}}}%
-        {{hash=7bb1dcf8a93d1ecc6f9531ece93ef1fa}{%
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7bb1dcf8a93d1ecc6f9531ece93ef1fa}{%
            family={Babbush},
            familyi={B\bibinitperiod},
            given={Ryan},
-           giveni={R\bibinitperiod}}}%
-        {{hash=b10a34e16a501939634880eade0cec5e}{%
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b10a34e16a501939634880eade0cec5e}{%
            family={Benjamin},
            familyi={B\bibinitperiod},
            given={Simon\bibnamedelima C.},
-           giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
-        {{hash=c3acfc5e323c389790b828fbf6955f09}{%
+           giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c3acfc5e323c389790b828fbf6955f09}{%
            family={Endo},
            familyi={E\bibinitperiod},
            given={Suguru},
-           giveni={S\bibinitperiod}}}%
-        {{hash=7fa5a969d13c5644cd314c51cd157fe0}{%
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7fa5a969d13c5644cd314c51cd157fe0}{%
            family={Huggins},
            familyi={H\bibinitperiod},
            given={William\bibnamedelima J.},
-           giveni={W\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-        {{hash=96641b60b95eb223b3df53d9263f63ff}{%
+           giveni={W\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=96641b60b95eb223b3df53d9263f63ff}{%
            family={Li},
            familyi={L\bibinitperiod},
            given={Ying},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=a253ddc1c4c24cde70238bd45dc9aeff}{%
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a253ddc1c4c24cde70238bd45dc9aeff}{%
            family={McClean},
            familyi={M\bibinitperiod},
            given={Jarrod\bibnamedelima R.},
-           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
-        {{hash=cb3e30e7e7df4228662c8810b3c2f7e2}{%
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cb3e30e7e7df4228662c8810b3c2f7e2}{%
            family={O'Brien},
            familyi={O\bibinitperiod},
            given={Thomas\bibnamedelima E.},
-           giveni={T\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+           giveni={T\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{1}{%
         {American Physical Society}%
       }
       \strng{namehash}{a32660eaf72520125ddcf1e6b804773d}
       \strng{fullhash}{0f6d1e91fe2eee905995c26dc4f89009}
-      \strng{bibnamehash}{a32660eaf72520125ddcf1e6b804773d}
-      \strng{authorbibnamehash}{a32660eaf72520125ddcf1e6b804773d}
+      \strng{bibnamehash}{0f6d1e91fe2eee905995c26dc4f89009}
+      \strng{authorbibnamehash}{0f6d1e91fe2eee905995c26dc4f89009}
       \strng{authornamehash}{a32660eaf72520125ddcf1e6b804773d}
       \strng{authorfullhash}{0f6d1e91fe2eee905995c26dc4f89009}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issue}{4}
@@ -156,41 +228,14 @@
       \verb https://link.aps.org/doi/10.1103/RevModPhys.95.045005
       \endverb
     \endentry
-    \entry{fitzpatrickVariational}{misc}{}
-      \name{author}{1}{}{%
-        {{hash=f7f30a3a440fa574307351e6690550fa}{%
-           family={Fitzpatrick},
-           familyi={F\bibinitperiod},
-           given={Richard},
-           giveni={R\bibinitperiod}}}%
-      }
-      \strng{namehash}{f7f30a3a440fa574307351e6690550fa}
-      \strng{fullhash}{f7f30a3a440fa574307351e6690550fa}
-      \strng{bibnamehash}{f7f30a3a440fa574307351e6690550fa}
-      \strng{authorbibnamehash}{f7f30a3a440fa574307351e6690550fa}
-      \strng{authornamehash}{f7f30a3a440fa574307351e6690550fa}
-      \strng{authorfullhash}{f7f30a3a440fa574307351e6690550fa}
-      \field{sortinit}{F}
-      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{University of Texas at Austin}
-      \field{title}{The {V}ariational {P}rinciple}
-      \field{year}{2006}
-      \verb{urlraw}
-      \verb https://farside.ph.utexas.edu/teaching/qmech/Quantum/node127.html
-      \endverb
-      \verb{url}
-      \verb https://farside.ph.utexas.edu/teaching/qmech/Quantum/node127.html
-      \endverb
-    \endentry
     \entry{gustafson1988reevaluating}{article}{}
       \name{author}{1}{}{%
-        {{hash=351aa3ec1bf2b12adf8f540f6ab58b7d}{%
+        {{un=0,uniquepart=base,hash=351aa3ec1bf2b12adf8f540f6ab58b7d}{%
            family={Gustafson},
            familyi={G\bibinitperiod},
            given={John\bibnamedelima L.},
-           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{1}{%
         {ACM}%
@@ -203,6 +248,9 @@
       \strng{authorfullhash}{351aa3ec1bf2b12adf8f540f6ab58b7d}
       \field{sortinit}{G}
       \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Communications of the ACM}
@@ -218,16 +266,18 @@
     \endentry
     \entry{harrow2017quantumsupremacy}{article}{}
       \name{author}{2}{}{%
-        {{hash=6bc7275eb8de2a3404fd3f07e6c21a2a}{%
+        {{un=0,uniquepart=base,hash=6bc7275eb8de2a3404fd3f07e6c21a2a}{%
            family={Harrow},
            familyi={H\bibinitperiod},
            given={Aram\bibnamedelima W.},
-           giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
-        {{hash=bd78a1f9d6e5f3fbbf33e0967436bb75}{%
+           giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bd78a1f9d6e5f3fbbf33e0967436bb75}{%
            family={Montanaro},
            familyi={M\bibinitperiod},
            given={Ashley},
-           giveni={A\bibinitperiod}}}%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{2}{%
         {Springer Science}%
@@ -241,6 +291,9 @@
       \strng{authorfullhash}{9cbfb5ccf6fc615bc38952468347659b}
       \field{sortinit}{H}
       \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1476-4687}
@@ -264,53 +317,63 @@
     \endentry
     \entry{kandala2017hardware}{article}{}
       \name{author}{7}{}{%
-        {{hash=9705aa9039b085b4ba6158e898c83dea}{%
+        {{un=0,uniquepart=base,hash=9705aa9039b085b4ba6158e898c83dea}{%
            family={Kandala},
            familyi={K\bibinitperiod},
            given={Abhinav},
-           giveni={A\bibinitperiod}}}%
-        {{hash=74d05fb977698256fa6985ec3e6c490b}{%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=74d05fb977698256fa6985ec3e6c490b}{%
            family={Mezzacapo},
            familyi={M\bibinitperiod},
            given={Antonio},
-           giveni={A\bibinitperiod}}}%
-        {{hash=68b8d929f9cb9fea3f1f9991863a6439}{%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=68b8d929f9cb9fea3f1f9991863a6439}{%
            family={Temme},
            familyi={T\bibinitperiod},
            given={Kristan},
-           giveni={K\bibinitperiod}}}%
-        {{hash=12bbdc8bbfdbcde0e066c6c763ccc6f3}{%
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=12bbdc8bbfdbcde0e066c6c763ccc6f3}{%
            family={Takita},
            familyi={T\bibinitperiod},
            given={Maika},
-           giveni={M\bibinitperiod}}}%
-        {{hash=c82fb7acc2d468771049e8f29337546b}{%
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c82fb7acc2d468771049e8f29337546b}{%
            family={Brink},
            familyi={B\bibinitperiod},
            given={Markus},
-           giveni={M\bibinitperiod}}}%
-        {{hash=c18a761c9acda3b5e83d9e596c195028}{%
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c18a761c9acda3b5e83d9e596c195028}{%
            family={Chow},
            familyi={C\bibinitperiod},
            given={Jerry\bibnamedelima M},
-           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=13ffee31f58f6a53a6d6969d093862dc}{%
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=13ffee31f58f6a53a6d6969d093862dc}{%
            family={Gambetta},
            familyi={G\bibinitperiod},
            given={Jay\bibnamedelima M},
-           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{1}{%
         {Nature Publishing Group}%
       }
       \strng{namehash}{22c5656abc9a38240178946ae849ba73}
       \strng{fullhash}{74a72cd030c2cd235aefee834a52bbbc}
-      \strng{bibnamehash}{22c5656abc9a38240178946ae849ba73}
-      \strng{authorbibnamehash}{22c5656abc9a38240178946ae849ba73}
+      \strng{bibnamehash}{74a72cd030c2cd235aefee834a52bbbc}
+      \strng{authorbibnamehash}{74a72cd030c2cd235aefee834a52bbbc}
       \strng{authornamehash}{22c5656abc9a38240178946ae849ba73}
       \strng{authorfullhash}{74a72cd030c2cd235aefee834a52bbbc}
       \field{sortinit}{K}
       \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Nature}
@@ -326,49 +389,58 @@
     \endentry
     \entry{mccaskey2018xacc}{article}{}
       \name{author}{6}{}{%
-        {{hash=f1f1d79862aabdca8c3452da70e5de15}{%
+        {{un=0,uniquepart=base,hash=f1f1d79862aabdca8c3452da70e5de15}{%
            family={McCaskey},
            familyi={M\bibinitperiod},
            given={Alexander\bibnamedelima J.},
-           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-        {{hash=dc349a0159dd70b7c1e00d26f8c068eb}{%
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dc349a0159dd70b7c1e00d26f8c068eb}{%
            family={Dumitrescu},
            familyi={D\bibinitperiod},
            given={Eugene\bibnamedelima F.},
-           giveni={E\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
-        {{hash=883977d7f259214557dd9b4951ad86ea}{%
+           giveni={E\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=883977d7f259214557dd9b4951ad86ea}{%
            family={Liakh},
            familyi={L\bibinitperiod},
            given={Dmitry},
-           giveni={D\bibinitperiod}}}%
-        {{hash=163c195c6d878d1d830a6fe49c695fc9}{%
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=163c195c6d878d1d830a6fe49c695fc9}{%
            family={Chen},
            familyi={C\bibinitperiod},
            given={Mengsu},
-           giveni={M\bibinitperiod}}}%
-        {{hash=487ad18e19be3d7b1a79ca97abd59895}{%
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=487ad18e19be3d7b1a79ca97abd59895}{%
            family={Feng},
            familyi={F\bibinitperiod},
            given={W.},
-           giveni={W\bibinitperiod}}}%
-        {{hash=963b22ba5e47cd073c7fc1a754ab2a55}{%
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=963b22ba5e47cd073c7fc1a754ab2a55}{%
            family={Humble},
            familyi={H\bibinitperiod},
            given={Travis\bibnamedelima S.},
-           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{1}{%
         {Elsevier}%
       }
       \strng{namehash}{407a86a17304c5589fff6b35b51e9c64}
       \strng{fullhash}{1b920dca84afa2e3fdbdd357b620d3c5}
-      \strng{bibnamehash}{407a86a17304c5589fff6b35b51e9c64}
-      \strng{authorbibnamehash}{407a86a17304c5589fff6b35b51e9c64}
+      \strng{bibnamehash}{1b920dca84afa2e3fdbdd357b620d3c5}
+      \strng{authorbibnamehash}{1b920dca84afa2e3fdbdd357b620d3c5}
       \strng{authornamehash}{407a86a17304c5589fff6b35b51e9c64}
       \strng{authorfullhash}{1b920dca84afa2e3fdbdd357b620d3c5}
       \field{extraname}{1}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{SoftwareX}
@@ -383,51 +455,61 @@
     \endentry
     \entry{mccaskey2019quantumchemistrybenchmarknearterm}{misc}{}
       \name{author}{7}{}{%
-        {{hash=f1f1d79862aabdca8c3452da70e5de15}{%
+        {{un=0,uniquepart=base,hash=f1f1d79862aabdca8c3452da70e5de15}{%
            family={McCaskey},
            familyi={M\bibinitperiod},
            given={Alexander\bibnamedelima J.},
-           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-        {{hash=6102cf5445ccce7f4bf7beeceab7e79e}{%
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6102cf5445ccce7f4bf7beeceab7e79e}{%
            family={Parks},
            familyi={P\bibinitperiod},
            given={Zachary\bibnamedelima P.},
-           giveni={Z\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
-        {{hash=4a243ef7a9edc7effdf8549ac3c4ffec}{%
+           giveni={Z\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4a243ef7a9edc7effdf8549ac3c4ffec}{%
            family={Jakowski},
            familyi={J\bibinitperiod},
            given={Jacek},
-           giveni={J\bibinitperiod}}}%
-        {{hash=f7fc8249d2ac9e4fea332c2de91d5a22}{%
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f7fc8249d2ac9e4fea332c2de91d5a22}{%
            family={Moore},
            familyi={M\bibinitperiod},
            given={Shirley\bibnamedelima V.},
-           giveni={S\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
-        {{hash=ee0a12dcc6b81f1f2a5e2d87acff26ba}{%
+           giveni={S\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ee0a12dcc6b81f1f2a5e2d87acff26ba}{%
            family={Morris},
            familyi={M\bibinitperiod},
            given={T.},
-           giveni={T\bibinitperiod}}}%
-        {{hash=963b22ba5e47cd073c7fc1a754ab2a55}{%
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=963b22ba5e47cd073c7fc1a754ab2a55}{%
            family={Humble},
            familyi={H\bibinitperiod},
            given={Travis\bibnamedelima S.},
-           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-        {{hash=6102e71f3f6efa34a325041576f74312}{%
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6102e71f3f6efa34a325041576f74312}{%
            family={Pooser},
            familyi={P\bibinitperiod},
            given={Raphael\bibnamedelima C.},
-           giveni={R\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+           giveni={R\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
       }
       \strng{namehash}{407a86a17304c5589fff6b35b51e9c64}
       \strng{fullhash}{3faf37aecd25df3b79915bef9ff4ef70}
-      \strng{bibnamehash}{407a86a17304c5589fff6b35b51e9c64}
-      \strng{authorbibnamehash}{407a86a17304c5589fff6b35b51e9c64}
+      \strng{bibnamehash}{3faf37aecd25df3b79915bef9ff4ef70}
+      \strng{authorbibnamehash}{3faf37aecd25df3b79915bef9ff4ef70}
       \strng{authornamehash}{407a86a17304c5589fff6b35b51e9c64}
       \strng{authorfullhash}{3faf37aecd25df3b79915bef9ff4ef70}
       \field{extraname}{2}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -444,45 +526,14 @@
       \verb https://arxiv.org/abs/1905.01534
       \endverb
     \endentry
-    \entry{nielsen2010quantum}{book}{}
-      \name{author}{2}{}{%
-        {{hash=afe17482fc813e497188aee3b3783879}{%
-           family={Nielsen},
-           familyi={N\bibinitperiod},
-           given={Michael\bibnamedelima A.},
-           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=415ddff2f58b25977b1a2dedf18f4501}{%
-           family={Chuang},
-           familyi={C\bibinitperiod},
-           given={Isaac\bibnamedelima L.},
-           giveni={I\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Cambridge University Press}%
-      }
-      \strng{namehash}{456599bb4a61c2e997e2a7e1a21b25b4}
-      \strng{fullhash}{456599bb4a61c2e997e2a7e1a21b25b4}
-      \strng{bibnamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
-      \strng{authorbibnamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
-      \strng{authornamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
-      \strng{authorfullhash}{456599bb4a61c2e997e2a7e1a21b25b4}
-      \field{sortinit}{N}
-      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Quantum Computation and Quantum Information: 10th Anniversary Edition}
-      \field{year}{2010}
-      \verb{doi}
-      \verb 10.1017/CBO9780511976667
-      \endverb
-    \endentry
     \entry{oukaira2025quantum}{article}{}
       \name{author}{1}{}{%
-        {{hash=e4ae0027f7cec541cdc0dc16f9d0d019}{%
+        {{un=0,uniquepart=base,hash=e4ae0027f7cec541cdc0dc16f9d0d019}{%
            family={Oukaira},
            familyi={O\bibinitperiod},
            given={Aziz},
-           giveni={A\bibinitperiod}}}%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
       }
       \strng{namehash}{e4ae0027f7cec541cdc0dc16f9d0d019}
       \strng{fullhash}{e4ae0027f7cec541cdc0dc16f9d0d019}
@@ -492,6 +543,9 @@
       \strng{authorfullhash}{e4ae0027f7cec541cdc0dc16f9d0d019}
       \field{sortinit}{O}
       \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Access}
@@ -506,26 +560,30 @@
     \endentry
     \entry{pellow2021classicoptimizers}{article}{}
       \name{author}{4}{}{%
-        {{hash=76e5dc67953c2b5fafa18c40dd0aa8d5}{%
+        {{un=0,uniquepart=base,hash=76e5dc67953c2b5fafa18c40dd0aa8d5}{%
            family={Pellow-Jarman},
            familyi={P\bibinithyphendelim J\bibinitperiod},
            given={Aidan},
-           giveni={A\bibinitperiod}}}%
-        {{hash=4420a280a2de7246243c97bc939db0e2}{%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4420a280a2de7246243c97bc939db0e2}{%
            family={Sinayskiy},
            familyi={S\bibinitperiod},
            given={Ilya},
-           giveni={I\bibinitperiod}}}%
-        {{hash=052ae1a62a496248912bdafbc2834041}{%
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=052ae1a62a496248912bdafbc2834041}{%
            family={Pillay},
            familyi={P\bibinitperiod},
            given={Anban},
-           giveni={A\bibinitperiod}}}%
-        {{hash=4b215190f542b12fd214896e21eff64b}{%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4b215190f542b12fd214896e21eff64b}{%
            family={Petruccione},
            familyi={P\bibinitperiod},
            given={Francesco},
-           giveni={F\bibinitperiod}}}%
+           giveni={F\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{2}{%
         {Springer Science}%
@@ -533,12 +591,15 @@
       }
       \strng{namehash}{ee8bf3391b1a8a0d03e262548903a11a}
       \strng{fullhash}{ecf465d0e024d56800cc6a80463bb252}
-      \strng{bibnamehash}{ee8bf3391b1a8a0d03e262548903a11a}
-      \strng{authorbibnamehash}{ee8bf3391b1a8a0d03e262548903a11a}
+      \strng{bibnamehash}{ecf465d0e024d56800cc6a80463bb252}
+      \strng{authorbibnamehash}{ecf465d0e024d56800cc6a80463bb252}
       \strng{authornamehash}{ee8bf3391b1a8a0d03e262548903a11a}
       \strng{authorfullhash}{ecf465d0e024d56800cc6a80463bb252}
       \field{sortinit}{P}
       \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1573-1332}
@@ -560,58 +621,69 @@
     \endentry
     \entry{peruzzo2014variational}{article}{}
       \name{author}{8}{}{%
-        {{hash=da632f662bb1ab5c3e05ddb80b6cd201}{%
+        {{un=0,uniquepart=base,hash=da632f662bb1ab5c3e05ddb80b6cd201}{%
            family={Peruzzo},
            familyi={P\bibinitperiod},
            given={Alberto},
-           giveni={A\bibinitperiod}}}%
-        {{hash=44d80c9bccbe7462fe524bbf9cd54a08}{%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=44d80c9bccbe7462fe524bbf9cd54a08}{%
            family={McClean},
            familyi={M\bibinitperiod},
            given={Jarrod},
-           giveni={J\bibinitperiod}}}%
-        {{hash=c0ad2cf76d13d7b9fb852ca865569241}{%
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c0ad2cf76d13d7b9fb852ca865569241}{%
            family={Shadbolt},
            familyi={S\bibinitperiod},
            given={Peter},
-           giveni={P\bibinitperiod}}}%
-        {{hash=cbadbf9460f01d20432bc4fb34345309}{%
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cbadbf9460f01d20432bc4fb34345309}{%
            family={Yung},
            familyi={Y\bibinitperiod},
            given={Man-Hong},
-           giveni={M\bibinithyphendelim H\bibinitperiod}}}%
-        {{hash=30e428aa9e63bc24127324a4c1fefabc}{%
+           giveni={M\bibinithyphendelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=30e428aa9e63bc24127324a4c1fefabc}{%
            family={Zhou},
            familyi={Z\bibinitperiod},
            given={Xiao-Qi},
-           giveni={X\bibinithyphendelim Q\bibinitperiod}}}%
-        {{hash=2d8133b5eb867e28af9ca9ea41105b5c}{%
+           giveni={X\bibinithyphendelim Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2d8133b5eb867e28af9ca9ea41105b5c}{%
            family={Love},
            familyi={L\bibinitperiod},
            given={Peter\bibnamedelima J},
-           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-        {{hash=083dcdd0db2687433b22fabfb2e55c17}{%
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=083dcdd0db2687433b22fabfb2e55c17}{%
            family={Aspuru-Guzik},
            familyi={A\bibinithyphendelim G\bibinitperiod},
            given={Alán},
-           giveni={A\bibinitperiod}}}%
-        {{hash=c8e4de768a4ced864e5f9490e6a67454}{%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c8e4de768a4ced864e5f9490e6a67454}{%
            family={O'Brien},
            familyi={O\bibinitperiod},
            given={Jeremy\bibnamedelima L},
-           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{1}{%
         {Nature Publishing Group}%
       }
       \strng{namehash}{bddcbb30e0909355294b8653d4787a0e}
       \strng{fullhash}{16fda0acd29f1276c07270659e70cdff}
-      \strng{bibnamehash}{bddcbb30e0909355294b8653d4787a0e}
-      \strng{authorbibnamehash}{bddcbb30e0909355294b8653d4787a0e}
+      \strng{bibnamehash}{16fda0acd29f1276c07270659e70cdff}
+      \strng{authorbibnamehash}{16fda0acd29f1276c07270659e70cdff}
       \strng{authornamehash}{bddcbb30e0909355294b8653d4787a0e}
       \strng{authorfullhash}{16fda0acd29f1276c07270659e70cdff}
       \field{sortinit}{P}
       \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Nature communications}
@@ -622,80 +694,62 @@
       \field{pages}{4213}
       \range{pages}{1}
     \endentry
-    \entry{preskill2018quantum}{article}{}
-      \name{author}{1}{}{%
-        {{hash=fbe61da8813855105d0c727fa93b4b4d}{%
-           family={Preskill},
-           familyi={P\bibinitperiod},
-           given={John},
-           giveni={J\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Verein zur Förderung des Offenen Zugangs zu Quantenwissenschaften}%
-      }
-      \strng{namehash}{fbe61da8813855105d0c727fa93b4b4d}
-      \strng{fullhash}{fbe61da8813855105d0c727fa93b4b4d}
-      \strng{bibnamehash}{fbe61da8813855105d0c727fa93b4b4d}
-      \strng{authorbibnamehash}{fbe61da8813855105d0c727fa93b4b4d}
-      \strng{authornamehash}{fbe61da8813855105d0c727fa93b4b4d}
-      \strng{authorfullhash}{fbe61da8813855105d0c727fa93b4b4d}
-      \field{sortinit}{P}
-      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Quantum}
-      \field{title}{Quantum computing in the {NISQ} era and beyond}
-      \field{volume}{2}
-      \field{year}{2018}
-      \field{pages}{79}
-      \range{pages}{1}
-    \endentry
     \entry{rallis2025interfacingquantumcomputingsystems}{misc}{}
       \name{author}{7}{}{%
-        {{hash=74ecd16b28ac2f954a8b2404ca5bc69d}{%
+        {{un=0,uniquepart=base,hash=74ecd16b28ac2f954a8b2404ca5bc69d}{%
            family={Rallis},
            familyi={R\bibinitperiod},
            given={Konstantinos},
-           giveni={K\bibinitperiod}}}%
-        {{hash=605e8723371755c36774a9d13455cd40}{%
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=605e8723371755c36774a9d13455cd40}{%
            family={Liliopoulos},
            familyi={L\bibinitperiod},
            given={Ioannis},
-           giveni={I\bibinitperiod}}}%
-        {{hash=cc838eecdc5fae3ba2de974894a57588}{%
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cc838eecdc5fae3ba2de974894a57588}{%
            family={Varsamis},
            familyi={V\bibinitperiod},
            given={Georgios\bibnamedelima D.},
-           giveni={G\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
-        {{hash=8f821365e18f694b50304fab17db6e54}{%
+           giveni={G\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f821365e18f694b50304fab17db6e54}{%
            family={Tsipas},
            familyi={T\bibinitperiod},
            given={Evangelos},
-           giveni={E\bibinitperiod}}}%
-        {{hash=810f384d321ade974185eb3a58678c56}{%
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=810f384d321ade974185eb3a58678c56}{%
            family={Karafyllidis},
            familyi={K\bibinitperiod},
            given={Ioannis\bibnamedelima G.},
-           giveni={I\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
-        {{hash=757079c8a3278ed0f929952b7b9cddae}{%
+           giveni={I\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=757079c8a3278ed0f929952b7b9cddae}{%
            family={Sirakoulis},
            familyi={S\bibinitperiod},
            given={Georgios\bibnamedelima Ch.},
-           giveni={G\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
-        {{hash=5f61695e38f8a2c5f61df0f425c50fb7}{%
+           giveni={G\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5f61695e38f8a2c5f61df0f425c50fb7}{%
            family={Dimitrakis},
            familyi={D\bibinitperiod},
            given={Panagiotis},
-           giveni={P\bibinitperiod}}}%
+           giveni={P\bibinitperiod},
+           givenun=0}}%
       }
       \strng{namehash}{92fccffcde7ee3db1ee74e7f28d1a800}
       \strng{fullhash}{ea29bfbfd0d89bdfa386bb48f4a7ade3}
-      \strng{bibnamehash}{92fccffcde7ee3db1ee74e7f28d1a800}
-      \strng{authorbibnamehash}{92fccffcde7ee3db1ee74e7f28d1a800}
+      \strng{bibnamehash}{ea29bfbfd0d89bdfa386bb48f4a7ade3}
+      \strng{authorbibnamehash}{ea29bfbfd0d89bdfa386bb48f4a7ade3}
       \strng{authornamehash}{92fccffcde7ee3db1ee74e7f28d1a800}
       \strng{authorfullhash}{ea29bfbfd0d89bdfa386bb48f4a7ade3}
       \field{sortinit}{R}
       \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -714,45 +768,54 @@
     \endentry
     \entry{romero2018strategiesquantumcomputingmolecular}{misc}{}
       \name{author}{6}{}{%
-        {{hash=8c1a9ea5a335989d4957424b7cc2f7b9}{%
+        {{un=0,uniquepart=base,hash=8c1a9ea5a335989d4957424b7cc2f7b9}{%
            family={Romero},
            familyi={R\bibinitperiod},
            given={Jonathan},
-           giveni={J\bibinitperiod}}}%
-        {{hash=7bb1dcf8a93d1ecc6f9531ece93ef1fa}{%
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7bb1dcf8a93d1ecc6f9531ece93ef1fa}{%
            family={Babbush},
            familyi={B\bibinitperiod},
            given={Ryan},
-           giveni={R\bibinitperiod}}}%
-        {{hash=a253ddc1c4c24cde70238bd45dc9aeff}{%
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a253ddc1c4c24cde70238bd45dc9aeff}{%
            family={McClean},
            familyi={M\bibinitperiod},
            given={Jarrod\bibnamedelima R.},
-           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
-        {{hash=c019ef8cceffedd4c0b47a04d60ab97a}{%
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c019ef8cceffedd4c0b47a04d60ab97a}{%
            family={Hempel},
            familyi={H\bibinitperiod},
            given={Cornelius},
-           giveni={C\bibinitperiod}}}%
-        {{hash=2817b5e2249fd8b36d65ec7b1c879f0f}{%
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2817b5e2249fd8b36d65ec7b1c879f0f}{%
            family={Love},
            familyi={L\bibinitperiod},
            given={Peter},
-           giveni={P\bibinitperiod}}}%
-        {{hash=083dcdd0db2687433b22fabfb2e55c17}{%
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=083dcdd0db2687433b22fabfb2e55c17}{%
            family={Aspuru-Guzik},
            familyi={A\bibinithyphendelim G\bibinitperiod},
            given={Alán},
-           giveni={A\bibinitperiod}}}%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
       }
       \strng{namehash}{c7b0c00ead3e646c04680e99d2e37c14}
       \strng{fullhash}{e55381786e3bf6097d5105f2d0a4c28e}
-      \strng{bibnamehash}{c7b0c00ead3e646c04680e99d2e37c14}
-      \strng{authorbibnamehash}{c7b0c00ead3e646c04680e99d2e37c14}
+      \strng{bibnamehash}{e55381786e3bf6097d5105f2d0a4c28e}
+      \strng{authorbibnamehash}{e55381786e3bf6097d5105f2d0a4c28e}
       \strng{authornamehash}{c7b0c00ead3e646c04680e99d2e37c14}
       \strng{authorfullhash}{e55381786e3bf6097d5105f2d0a4c28e}
       \field{sortinit}{R}
       \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -771,16 +834,18 @@
     \endentry
     \entry{szabo1996modernquantumchemistry}{book}{}
       \name{author}{2}{}{%
-        {{hash=dc52ed3315ff506a9d4fe6a0ab079ae2}{%
+        {{un=0,uniquepart=base,hash=dc52ed3315ff506a9d4fe6a0ab079ae2}{%
            family={Szabo},
            familyi={S\bibinitperiod},
            given={Attila},
-           giveni={A\bibinitperiod}}}%
-        {{hash=977f18e68b981d3d80b363ccb7cbeab7}{%
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=977f18e68b981d3d80b363ccb7cbeab7}{%
            family={Ostlund},
            familyi={O\bibinitperiod},
            given={Neil\bibnamedelima S.},
-           giveni={N\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+           giveni={N\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{1}{%
         {Dover Publications}%
@@ -793,6 +858,9 @@
       \strng{authorfullhash}{7e4e963df06b39584349eaf439922455}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{Revised}
@@ -807,7 +875,7 @@
     \endentry
     \entry{cuboulderScaling}{manual}{}
       \name{author}{1}{}{%
-        {{hash=c5403eb0b2fa9ffd3afd475337d0686f}{%
+        {{un=0,uniquepart=base,hash=c5403eb0b2fa9ffd3afd475337d0686f}{%
            family={{University of Colorado Boulder}},
            familyi={U\bibinitperiod}}}%
       }
@@ -819,6 +887,9 @@
       \strng{authorfullhash}{c5403eb0b2fa9ffd3afd475337d0686f}
       \field{sortinit}{U}
       \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Research Computing Documentation}
@@ -831,77 +902,126 @@
       \verb https://www.colorado.edu/rc/sites/default/files/attached-files/scaling_analysis.pdf
       \endverb
     \endentry
-    \entry{weder2021quantum}{inproceedings}{}
+    \entry{weder2021quantum}{article}{}
       \name{author}{4}{}{%
-        {{hash=1eadbbb963b10f7c98643ad56bc783d6}{%
+        {{un=0,uniquepart=base,hash=1eadbbb963b10f7c98643ad56bc783d6}{%
            family={Weder},
            familyi={W\bibinitperiod},
            given={Benjamin},
-           giveni={B\bibinitperiod}}}%
-        {{hash=07f4c9aa6fc4d43a8a6ceefd62a1ece6}{%
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=07f4c9aa6fc4d43a8a6ceefd62a1ece6}{%
            family={Barzen},
            familyi={B\bibinitperiod},
            given={Johanna},
-           giveni={J\bibinitperiod}}}%
-        {{hash=415e2bec5763afbeeeadd2e0c4bd0696}{%
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=415e2bec5763afbeeeadd2e0c4bd0696}{%
            family={Leymann},
            familyi={L\bibinitperiod},
            given={Frank},
-           giveni={F\bibinitperiod}}}%
-        {{hash=54ade3f67405f433c6035b8f65f318c7}{%
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=54ade3f67405f433c6035b8f65f318c7}{%
            family={Streit},
            familyi={S\bibinitperiod},
            given={Kevin},
-           giveni={K\bibinitperiod}}}%
+           giveni={K\bibinitperiod},
+           givenun=0}}%
       }
       \list{organization}{1}{%
         {IEEE}%
       }
       \strng{namehash}{aa6c1e659f2b93414d9fa71a84a0e292}
       \strng{fullhash}{6cb4887436c2ce983e9c29cd127a1c62}
-      \strng{bibnamehash}{aa6c1e659f2b93414d9fa71a84a0e292}
-      \strng{authorbibnamehash}{aa6c1e659f2b93414d9fa71a84a0e292}
+      \strng{bibnamehash}{6cb4887436c2ce983e9c29cd127a1c62}
+      \strng{authorbibnamehash}{6cb4887436c2ce983e9c29cd127a1c62}
       \strng{authornamehash}{aa6c1e659f2b93414d9fa71a84a0e292}
       \strng{authorfullhash}{6cb4887436c2ce983e9c29cd127a1c62}
       \field{sortinit}{W}
       \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{2021 IEEE 14th International Conference on Cloud Computing (CLOUD)}
+      \field{journaltitle}{2021 IEEE 14th International Conference on Cloud Computing (CLOUD)}
       \field{title}{The {Quantum-Classical} Communication Wall: {M}aking the Case for {Q}uantum {N}ative {C}loud {A}pplications}
       \field{year}{2021}
       \field{pages}{761\bibrangedash 763}
       \range{pages}{3}
     \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global}
+    \entry{amdahl1967validity}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=9d4382f1500ff84c4eca531179c994c7}{%
+           family={Amdahl},
+           familyi={A\bibinitperiod},
+           given={Gene\bibnamedelima M.},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{fullhash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{bibnamehash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{authorbibnamehash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{authornamehash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{authorfullhash}{9d4382f1500ff84c4eca531179c994c7}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the April 18-20, 1967, Spring Joint Computer Conference}
+      \field{title}{Validity of the single processor approach to achieving large scale computing capabilities}
+      \field{year}{1967}
+      \field{pages}{483\bibrangedash 485}
+      \range{pages}{3}
+      \verb{doi}
+      \verb 10.1145/1465482.1465560
+      \endverb
+    \endentry
     \entry{auyeung2023nphard}{article}{}
       \name{author}{3}{}{%
-        {{hash=ec2da6c9ea08667c26380949e014dfd9}{%
+        {{un=0,uniquepart=base,hash=ec2da6c9ea08667c26380949e014dfd9}{%
            family={Au-Yeung},
            familyi={A\bibinithyphendelim Y\bibinitperiod},
            given={Rhonda},
-           giveni={R\bibinitperiod}}}%
-        {{hash=6113cd6044ada2e45663dd4c645d516f}{%
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6113cd6044ada2e45663dd4c645d516f}{%
            family={Chancellor},
            familyi={C\bibinitperiod},
            given={Nicholas},
-           giveni={N\bibinitperiod}}}%
-        {{hash=6cbe401b4c540615c6915fea34830787}{%
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6cbe401b4c540615c6915fea34830787}{%
            family={Halffmann},
            familyi={H\bibinitperiod},
            given={Pascal},
-           giveni={P\bibinitperiod}}}%
+           giveni={P\bibinitperiod},
+           givenun=0}}%
       }
       \list{publisher}{1}{%
         {Frontiers Media SA}%
       }
-      \strng{namehash}{6e4e393d7d830157ed5b27258fe70182}
+      \strng{namehash}{9f0ffe75e43d93365c42bd22da63b5f9}
       \strng{fullhash}{6e4e393d7d830157ed5b27258fe70182}
       \strng{bibnamehash}{6e4e393d7d830157ed5b27258fe70182}
       \strng{authorbibnamehash}{6e4e393d7d830157ed5b27258fe70182}
-      \strng{authornamehash}{6e4e393d7d830157ed5b27258fe70182}
+      \strng{authornamehash}{9f0ffe75e43d93365c42bd22da63b5f9}
       \strng{authorfullhash}{6e4e393d7d830157ed5b27258fe70182}
-      \field{sortinit}{Y}
-      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{2813-2181}
@@ -919,6 +1039,851 @@
       \verb{url}
       \verb http://dx.doi.org/10.3389/frqst.2023.1128576
       \endverb
+    \endentry
+    \entry{bayraktar2023cuquantum}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=60c9cd36f458b8cf9a454664b1623c65}{%
+           family={Bayraktar},
+           familyi={B\bibinitperiod},
+           given={Harun},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{5d7fdb59b15db2c18b1b602bba1e560c}
+      \strng{fullhash}{5d7fdb59b15db2c18b1b602bba1e560c}
+      \strng{bibnamehash}{5d7fdb59b15db2c18b1b602bba1e560c}
+      \strng{authorbibnamehash}{5d7fdb59b15db2c18b1b602bba1e560c}
+      \strng{authornamehash}{5d7fdb59b15db2c18b1b602bba1e560c}
+      \strng{authorfullhash}{5d7fdb59b15db2c18b1b602bba1e560c}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{2023 IEEE International Conference on Quantum Computing and Engineering (QCE)}
+      \field{title}{cuQuantum SDK: A High-Performance Library for Accelerating Quantum Science}
+      \field{volume}{1}
+      \field{year}{2023}
+      \field{pages}{324\bibrangedash 335}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1109/QCE57702.2023.00021
+      \endverb
+    \endentry
+    \entry{cai2023quantumerrormitigation}{article}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=8ea41cf3838b8cbd7dfef5c651f8c244}{%
+           family={Cai},
+           familyi={C\bibinitperiod},
+           given={Zhenyu},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7bb1dcf8a93d1ecc6f9531ece93ef1fa}{%
+           family={Babbush},
+           familyi={B\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b10a34e16a501939634880eade0cec5e}{%
+           family={Benjamin},
+           familyi={B\bibinitperiod},
+           given={Simon\bibnamedelima C.},
+           giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c3acfc5e323c389790b828fbf6955f09}{%
+           family={Endo},
+           familyi={E\bibinitperiod},
+           given={Suguru},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7fa5a969d13c5644cd314c51cd157fe0}{%
+           family={Huggins},
+           familyi={H\bibinitperiod},
+           given={William\bibnamedelima J.},
+           giveni={W\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=96641b60b95eb223b3df53d9263f63ff}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Ying},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a253ddc1c4c24cde70238bd45dc9aeff}{%
+           family={McClean},
+           familyi={M\bibinitperiod},
+           given={Jarrod\bibnamedelima R.},
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cb3e30e7e7df4228662c8810b3c2f7e2}{%
+           family={O'Brien},
+           familyi={O\bibinitperiod},
+           given={Thomas\bibnamedelima E.},
+           giveni={T\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{a32660eaf72520125ddcf1e6b804773d}
+      \strng{fullhash}{0f6d1e91fe2eee905995c26dc4f89009}
+      \strng{bibnamehash}{0f6d1e91fe2eee905995c26dc4f89009}
+      \strng{authorbibnamehash}{0f6d1e91fe2eee905995c26dc4f89009}
+      \strng{authornamehash}{a32660eaf72520125ddcf1e6b804773d}
+      \strng{authorfullhash}{0f6d1e91fe2eee905995c26dc4f89009}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{4}
+      \field{journaltitle}{Rev. Mod. Phys.}
+      \field{month}{12}
+      \field{title}{Quantum error mitigation}
+      \field{volume}{95}
+      \field{year}{2023}
+      \field{pages}{045005}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/RevModPhys.95.045005
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/RevModPhys.95.045005
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/RevModPhys.95.045005
+      \endverb
+    \endentry
+    \entry{gustafson1988reevaluating}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=351aa3ec1bf2b12adf8f540f6ab58b7d}{%
+           family={Gustafson},
+           familyi={G\bibinitperiod},
+           given={John\bibnamedelima L.},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{351aa3ec1bf2b12adf8f540f6ab58b7d}
+      \strng{fullhash}{351aa3ec1bf2b12adf8f540f6ab58b7d}
+      \strng{bibnamehash}{351aa3ec1bf2b12adf8f540f6ab58b7d}
+      \strng{authorbibnamehash}{351aa3ec1bf2b12adf8f540f6ab58b7d}
+      \strng{authornamehash}{351aa3ec1bf2b12adf8f540f6ab58b7d}
+      \strng{authorfullhash}{351aa3ec1bf2b12adf8f540f6ab58b7d}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Communications of the ACM}
+      \field{number}{5}
+      \field{title}{Reevaluating Amdahl's law}
+      \field{volume}{31}
+      \field{year}{1988}
+      \field{pages}{532\bibrangedash 533}
+      \range{pages}{2}
+      \verb{doi}
+      \verb 10.1145/42411.42415
+      \endverb
+    \endentry
+    \entry{harrow2017quantumsupremacy}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=6bc7275eb8de2a3404fd3f07e6c21a2a}{%
+           family={Harrow},
+           familyi={H\bibinitperiod},
+           given={Aram\bibnamedelima W.},
+           giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bd78a1f9d6e5f3fbbf33e0967436bb75}{%
+           family={Montanaro},
+           familyi={M\bibinitperiod},
+           given={Ashley},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{2}{%
+        {Springer Science}%
+        {Business Media LLC}%
+      }
+      \strng{namehash}{9cbfb5ccf6fc615bc38952468347659b}
+      \strng{fullhash}{9cbfb5ccf6fc615bc38952468347659b}
+      \strng{bibnamehash}{9cbfb5ccf6fc615bc38952468347659b}
+      \strng{authorbibnamehash}{9cbfb5ccf6fc615bc38952468347659b}
+      \strng{authornamehash}{9cbfb5ccf6fc615bc38952468347659b}
+      \strng{authorfullhash}{9cbfb5ccf6fc615bc38952468347659b}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1476-4687}
+      \field{journaltitle}{Nature}
+      \field{month}{9}
+      \field{number}{7671}
+      \field{title}{Quantum computational supremacy}
+      \field{volume}{549}
+      \field{year}{2017}
+      \field{pages}{203\bibrangedash 209}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1038/nature23458
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1038/nature23458
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1038/nature23458
+      \endverb
+    \endentry
+    \entry{kandala2017hardware}{article}{}
+      \name{author}{7}{}{%
+        {{un=0,uniquepart=base,hash=9705aa9039b085b4ba6158e898c83dea}{%
+           family={Kandala},
+           familyi={K\bibinitperiod},
+           given={Abhinav},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=74d05fb977698256fa6985ec3e6c490b}{%
+           family={Mezzacapo},
+           familyi={M\bibinitperiod},
+           given={Antonio},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=68b8d929f9cb9fea3f1f9991863a6439}{%
+           family={Temme},
+           familyi={T\bibinitperiod},
+           given={Kristan},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=12bbdc8bbfdbcde0e066c6c763ccc6f3}{%
+           family={Takita},
+           familyi={T\bibinitperiod},
+           given={Maika},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c82fb7acc2d468771049e8f29337546b}{%
+           family={Brink},
+           familyi={B\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c18a761c9acda3b5e83d9e596c195028}{%
+           family={Chow},
+           familyi={C\bibinitperiod},
+           given={Jerry\bibnamedelima M},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=13ffee31f58f6a53a6d6969d093862dc}{%
+           family={Gambetta},
+           familyi={G\bibinitperiod},
+           given={Jay\bibnamedelima M},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{22c5656abc9a38240178946ae849ba73}
+      \strng{fullhash}{74a72cd030c2cd235aefee834a52bbbc}
+      \strng{bibnamehash}{74a72cd030c2cd235aefee834a52bbbc}
+      \strng{authorbibnamehash}{74a72cd030c2cd235aefee834a52bbbc}
+      \strng{authornamehash}{22c5656abc9a38240178946ae849ba73}
+      \strng{authorfullhash}{74a72cd030c2cd235aefee834a52bbbc}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{number}{7671}
+      \field{title}{Hardware-efficient variational quantum eigensolver for small molecules and quantum magnets}
+      \field{volume}{549}
+      \field{year}{2017}
+      \field{pages}{242\bibrangedash 246}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1038/nature23879
+      \endverb
+    \endentry
+    \entry{mccaskey2018xacc}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=f1f1d79862aabdca8c3452da70e5de15}{%
+           family={McCaskey},
+           familyi={M\bibinitperiod},
+           given={Alexander\bibnamedelima J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dc349a0159dd70b7c1e00d26f8c068eb}{%
+           family={Dumitrescu},
+           familyi={D\bibinitperiod},
+           given={Eugene\bibnamedelima F.},
+           giveni={E\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=883977d7f259214557dd9b4951ad86ea}{%
+           family={Liakh},
+           familyi={L\bibinitperiod},
+           given={Dmitry},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=163c195c6d878d1d830a6fe49c695fc9}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Mengsu},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=487ad18e19be3d7b1a79ca97abd59895}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=963b22ba5e47cd073c7fc1a754ab2a55}{%
+           family={Humble},
+           familyi={H\bibinitperiod},
+           given={Travis\bibnamedelima S.},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{407a86a17304c5589fff6b35b51e9c64}
+      \strng{fullhash}{1b920dca84afa2e3fdbdd357b620d3c5}
+      \strng{bibnamehash}{1b920dca84afa2e3fdbdd357b620d3c5}
+      \strng{authorbibnamehash}{1b920dca84afa2e3fdbdd357b620d3c5}
+      \strng{authornamehash}{407a86a17304c5589fff6b35b51e9c64}
+      \strng{authorfullhash}{1b920dca84afa2e3fdbdd357b620d3c5}
+      \field{extraname}{1}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SoftwareX}
+      \field{title}{A language and hardware independent approach to quantum-classical computing}
+      \field{volume}{7}
+      \field{year}{2018}
+      \field{pages}{245\bibrangedash 254}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1016/j.softx.2018.07.007
+      \endverb
+    \endentry
+    \entry{mccaskey2019quantumchemistrybenchmarknearterm}{misc}{}
+      \name{author}{7}{}{%
+        {{un=0,uniquepart=base,hash=f1f1d79862aabdca8c3452da70e5de15}{%
+           family={McCaskey},
+           familyi={M\bibinitperiod},
+           given={Alexander\bibnamedelima J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6102cf5445ccce7f4bf7beeceab7e79e}{%
+           family={Parks},
+           familyi={P\bibinitperiod},
+           given={Zachary\bibnamedelima P.},
+           giveni={Z\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4a243ef7a9edc7effdf8549ac3c4ffec}{%
+           family={Jakowski},
+           familyi={J\bibinitperiod},
+           given={Jacek},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f7fc8249d2ac9e4fea332c2de91d5a22}{%
+           family={Moore},
+           familyi={M\bibinitperiod},
+           given={Shirley\bibnamedelima V.},
+           giveni={S\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ee0a12dcc6b81f1f2a5e2d87acff26ba}{%
+           family={Morris},
+           familyi={M\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=963b22ba5e47cd073c7fc1a754ab2a55}{%
+           family={Humble},
+           familyi={H\bibinitperiod},
+           given={Travis\bibnamedelima S.},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6102e71f3f6efa34a325041576f74312}{%
+           family={Pooser},
+           familyi={P\bibinitperiod},
+           given={Raphael\bibnamedelima C.},
+           giveni={R\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{407a86a17304c5589fff6b35b51e9c64}
+      \strng{fullhash}{3faf37aecd25df3b79915bef9ff4ef70}
+      \strng{bibnamehash}{3faf37aecd25df3b79915bef9ff4ef70}
+      \strng{authorbibnamehash}{3faf37aecd25df3b79915bef9ff4ef70}
+      \strng{authornamehash}{407a86a17304c5589fff6b35b51e9c64}
+      \strng{authorfullhash}{3faf37aecd25df3b79915bef9ff4ef70}
+      \field{extraname}{2}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{title}{Quantum Chemistry as a Benchmark for Near-Term Quantum Computers}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1905.01534
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1905.01534
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1905.01534
+      \endverb
+    \endentry
+    \entry{oukaira2025quantum}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e4ae0027f7cec541cdc0dc16f9d0d019}{%
+           family={Oukaira},
+           familyi={O\bibinitperiod},
+           given={Aziz},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e4ae0027f7cec541cdc0dc16f9d0d019}
+      \strng{fullhash}{e4ae0027f7cec541cdc0dc16f9d0d019}
+      \strng{bibnamehash}{e4ae0027f7cec541cdc0dc16f9d0d019}
+      \strng{authorbibnamehash}{e4ae0027f7cec541cdc0dc16f9d0d019}
+      \strng{authornamehash}{e4ae0027f7cec541cdc0dc16f9d0d019}
+      \strng{authorfullhash}{e4ae0027f7cec541cdc0dc16f9d0d019}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Access}
+      \field{title}{Quantum Hardware Devices ({QHDs}): Opportunities and Challenges}
+      \field{volume}{13}
+      \field{year}{2025}
+      \field{pages}{1\bibrangedash 1}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1109/ACCESS.2025.3576216
+      \endverb
+    \endentry
+    \entry{pellow2021classicoptimizers}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=76e5dc67953c2b5fafa18c40dd0aa8d5}{%
+           family={Pellow-Jarman},
+           familyi={P\bibinithyphendelim J\bibinitperiod},
+           given={Aidan},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4420a280a2de7246243c97bc939db0e2}{%
+           family={Sinayskiy},
+           familyi={S\bibinitperiod},
+           given={Ilya},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=052ae1a62a496248912bdafbc2834041}{%
+           family={Pillay},
+           familyi={P\bibinitperiod},
+           given={Anban},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4b215190f542b12fd214896e21eff64b}{%
+           family={Petruccione},
+           familyi={P\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{2}{%
+        {Springer Science}%
+        {Business Media LLC}%
+      }
+      \strng{namehash}{ee8bf3391b1a8a0d03e262548903a11a}
+      \strng{fullhash}{ecf465d0e024d56800cc6a80463bb252}
+      \strng{bibnamehash}{ecf465d0e024d56800cc6a80463bb252}
+      \strng{authorbibnamehash}{ecf465d0e024d56800cc6a80463bb252}
+      \strng{authornamehash}{ee8bf3391b1a8a0d03e262548903a11a}
+      \strng{authorfullhash}{ecf465d0e024d56800cc6a80463bb252}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1573-1332}
+      \field{journaltitle}{Quantum Information Processing}
+      \field{month}{6}
+      \field{number}{6}
+      \field{title}{A comparison of various classical optimizers for a variational quantum linear solver}
+      \field{volume}{20}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1007/s11128-021-03140-x
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1007/s11128-021-03140-x
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1007/s11128-021-03140-x
+      \endverb
+    \endentry
+    \entry{peruzzo2014variational}{article}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=da632f662bb1ab5c3e05ddb80b6cd201}{%
+           family={Peruzzo},
+           familyi={P\bibinitperiod},
+           given={Alberto},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=44d80c9bccbe7462fe524bbf9cd54a08}{%
+           family={McClean},
+           familyi={M\bibinitperiod},
+           given={Jarrod},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c0ad2cf76d13d7b9fb852ca865569241}{%
+           family={Shadbolt},
+           familyi={S\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cbadbf9460f01d20432bc4fb34345309}{%
+           family={Yung},
+           familyi={Y\bibinitperiod},
+           given={Man-Hong},
+           giveni={M\bibinithyphendelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=30e428aa9e63bc24127324a4c1fefabc}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Xiao-Qi},
+           giveni={X\bibinithyphendelim Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2d8133b5eb867e28af9ca9ea41105b5c}{%
+           family={Love},
+           familyi={L\bibinitperiod},
+           given={Peter\bibnamedelima J},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=083dcdd0db2687433b22fabfb2e55c17}{%
+           family={Aspuru-Guzik},
+           familyi={A\bibinithyphendelim G\bibinitperiod},
+           given={Alán},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c8e4de768a4ced864e5f9490e6a67454}{%
+           family={O'Brien},
+           familyi={O\bibinitperiod},
+           given={Jeremy\bibnamedelima L},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{bddcbb30e0909355294b8653d4787a0e}
+      \strng{fullhash}{16fda0acd29f1276c07270659e70cdff}
+      \strng{bibnamehash}{16fda0acd29f1276c07270659e70cdff}
+      \strng{authorbibnamehash}{16fda0acd29f1276c07270659e70cdff}
+      \strng{authornamehash}{bddcbb30e0909355294b8653d4787a0e}
+      \strng{authorfullhash}{16fda0acd29f1276c07270659e70cdff}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature communications}
+      \field{number}{1}
+      \field{title}{A variational eigenvalue solver on a photonic quantum processor}
+      \field{volume}{5}
+      \field{year}{2014}
+      \field{pages}{4213}
+      \range{pages}{1}
+    \endentry
+    \entry{rallis2025interfacingquantumcomputingsystems}{misc}{}
+      \name{author}{7}{}{%
+        {{un=0,uniquepart=base,hash=74ecd16b28ac2f954a8b2404ca5bc69d}{%
+           family={Rallis},
+           familyi={R\bibinitperiod},
+           given={Konstantinos},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=605e8723371755c36774a9d13455cd40}{%
+           family={Liliopoulos},
+           familyi={L\bibinitperiod},
+           given={Ioannis},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cc838eecdc5fae3ba2de974894a57588}{%
+           family={Varsamis},
+           familyi={V\bibinitperiod},
+           given={Georgios\bibnamedelima D.},
+           giveni={G\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f821365e18f694b50304fab17db6e54}{%
+           family={Tsipas},
+           familyi={T\bibinitperiod},
+           given={Evangelos},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=810f384d321ade974185eb3a58678c56}{%
+           family={Karafyllidis},
+           familyi={K\bibinitperiod},
+           given={Ioannis\bibnamedelima G.},
+           giveni={I\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=757079c8a3278ed0f929952b7b9cddae}{%
+           family={Sirakoulis},
+           familyi={S\bibinitperiod},
+           given={Georgios\bibnamedelima Ch.},
+           giveni={G\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5f61695e38f8a2c5f61df0f425c50fb7}{%
+           family={Dimitrakis},
+           familyi={D\bibinitperiod},
+           given={Panagiotis},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{92fccffcde7ee3db1ee74e7f28d1a800}
+      \strng{fullhash}{ea29bfbfd0d89bdfa386bb48f4a7ade3}
+      \strng{bibnamehash}{ea29bfbfd0d89bdfa386bb48f4a7ade3}
+      \strng{authorbibnamehash}{ea29bfbfd0d89bdfa386bb48f4a7ade3}
+      \strng{authornamehash}{92fccffcde7ee3db1ee74e7f28d1a800}
+      \strng{authorfullhash}{ea29bfbfd0d89bdfa386bb48f4a7ade3}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{title}{Interfacing Quantum Computing Systems with High-Performance Computing Systems: An Overview}
+      \field{year}{2025}
+      \verb{eprint}
+      \verb 2509.06205
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2509.06205
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2509.06205
+      \endverb
+    \endentry
+    \entry{romero2018strategiesquantumcomputingmolecular}{misc}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=8c1a9ea5a335989d4957424b7cc2f7b9}{%
+           family={Romero},
+           familyi={R\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7bb1dcf8a93d1ecc6f9531ece93ef1fa}{%
+           family={Babbush},
+           familyi={B\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a253ddc1c4c24cde70238bd45dc9aeff}{%
+           family={McClean},
+           familyi={M\bibinitperiod},
+           given={Jarrod\bibnamedelima R.},
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c019ef8cceffedd4c0b47a04d60ab97a}{%
+           family={Hempel},
+           familyi={H\bibinitperiod},
+           given={Cornelius},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2817b5e2249fd8b36d65ec7b1c879f0f}{%
+           family={Love},
+           familyi={L\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=083dcdd0db2687433b22fabfb2e55c17}{%
+           family={Aspuru-Guzik},
+           familyi={A\bibinithyphendelim G\bibinitperiod},
+           given={Alán},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c7b0c00ead3e646c04680e99d2e37c14}
+      \strng{fullhash}{e55381786e3bf6097d5105f2d0a4c28e}
+      \strng{bibnamehash}{e55381786e3bf6097d5105f2d0a4c28e}
+      \strng{authorbibnamehash}{e55381786e3bf6097d5105f2d0a4c28e}
+      \strng{authornamehash}{c7b0c00ead3e646c04680e99d2e37c14}
+      \strng{authorfullhash}{e55381786e3bf6097d5105f2d0a4c28e}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{title}{Strategies for quantum computing molecular energies using the unitary coupled cluster ansatz}
+      \field{year}{2018}
+      \verb{eprint}
+      \verb 1701.02691
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1701.02691
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1701.02691
+      \endverb
+    \endentry
+    \entry{szabo1996modernquantumchemistry}{book}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=dc52ed3315ff506a9d4fe6a0ab079ae2}{%
+           family={Szabo},
+           familyi={S\bibinitperiod},
+           given={Attila},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=977f18e68b981d3d80b363ccb7cbeab7}{%
+           family={Ostlund},
+           familyi={O\bibinitperiod},
+           given={Neil\bibnamedelima S.},
+           giveni={N\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Dover Publications}%
+      }
+      \strng{namehash}{7e4e963df06b39584349eaf439922455}
+      \strng{fullhash}{7e4e963df06b39584349eaf439922455}
+      \strng{bibnamehash}{7e4e963df06b39584349eaf439922455}
+      \strng{authorbibnamehash}{7e4e963df06b39584349eaf439922455}
+      \strng{authornamehash}{7e4e963df06b39584349eaf439922455}
+      \strng{authorfullhash}{7e4e963df06b39584349eaf439922455}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{Revised}
+      \field{title}{Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory}
+      \field{year}{1996}
+      \verb{urlraw}
+      \verb https://chemistlibrary.wordpress.com/wp-content/uploads/2015/02/modern-quantum-chemistry.pdf
+      \endverb
+      \verb{url}
+      \verb https://chemistlibrary.wordpress.com/wp-content/uploads/2015/02/modern-quantum-chemistry.pdf
+      \endverb
+    \endentry
+    \entry{cuboulderScaling}{manual}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=c5403eb0b2fa9ffd3afd475337d0686f}{%
+           family={{University of Colorado Boulder}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{c5403eb0b2fa9ffd3afd475337d0686f}
+      \strng{fullhash}{c5403eb0b2fa9ffd3afd475337d0686f}
+      \strng{bibnamehash}{c5403eb0b2fa9ffd3afd475337d0686f}
+      \strng{authorbibnamehash}{c5403eb0b2fa9ffd3afd475337d0686f}
+      \strng{authornamehash}{c5403eb0b2fa9ffd3afd475337d0686f}
+      \strng{authorfullhash}{c5403eb0b2fa9ffd3afd475337d0686f}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Research Computing Documentation}
+      \field{title}{Scaling Analysis}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://www.colorado.edu/rc/sites/default/files/attached-files/scaling_analysis.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.colorado.edu/rc/sites/default/files/attached-files/scaling_analysis.pdf
+      \endverb
+    \endentry
+    \entry{weder2021quantum}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=1eadbbb963b10f7c98643ad56bc783d6}{%
+           family={Weder},
+           familyi={W\bibinitperiod},
+           given={Benjamin},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=07f4c9aa6fc4d43a8a6ceefd62a1ece6}{%
+           family={Barzen},
+           familyi={B\bibinitperiod},
+           given={Johanna},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=415e2bec5763afbeeeadd2e0c4bd0696}{%
+           family={Leymann},
+           familyi={L\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=54ade3f67405f433c6035b8f65f318c7}{%
+           family={Streit},
+           familyi={S\bibinitperiod},
+           given={Kevin},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{aa6c1e659f2b93414d9fa71a84a0e292}
+      \strng{fullhash}{6cb4887436c2ce983e9c29cd127a1c62}
+      \strng{bibnamehash}{6cb4887436c2ce983e9c29cd127a1c62}
+      \strng{authorbibnamehash}{6cb4887436c2ce983e9c29cd127a1c62}
+      \strng{authornamehash}{aa6c1e659f2b93414d9fa71a84a0e292}
+      \strng{authorfullhash}{6cb4887436c2ce983e9c29cd127a1c62}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{2021 IEEE 14th International Conference on Cloud Computing (CLOUD)}
+      \field{title}{The {Quantum-Classical} Communication Wall: {M}aking the Case for {Q}uantum {N}ative {C}loud {A}pplications}
+      \field{year}{2021}
+      \field{pages}{761\bibrangedash 763}
+      \range{pages}{3}
     \endentry
   \enddatalist
 \endrefsection

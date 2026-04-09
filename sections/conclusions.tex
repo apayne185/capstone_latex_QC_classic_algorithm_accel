@@ -1,7 +1,7 @@
 \section{Conclusion}
 This research paper presented the design, implementation, and benchmarking of a hybrid quantum classical software 
 stack that is addressing the present day middleware gap with distributed HPC resources and cloud based QPUs. 
-The stack integrates MPI distributed classical computation, CUDA prepared GPU acceleration, and access to a IBM 
+The stack integrates MPI distributed classical computation, CUDA prepared GPU acceleration, and access to an IBM 
 Quantum QPU through a unified Python/C++ architecture. This middleware is validated through molecular ground state 
 energy estimation by using the Variational Quantum Eigensolver (VQE).
 
@@ -22,8 +22,8 @@ The results of this projects experiments have demonstrated several key contribut
     \item \textbf{Checkpoint resilience, stress testing confirm operational robustness.} When tested, the stack  withstood simulated QPU latency spikes, introduced to 0.5--2.0s random, asymmetrical delays across the 10 iterations, recovers from mid-run checkpoint deletion testing without data loss, and lastly maintains seamless MPI synchronization throughout all failure scenarios.
 \end{enumerate}
 
-However, the primary limitation of this stack remains to be the $O(2^n)$ per rank statevector cost
-to be the main limitation. While the integration of GPU acceleration reduced this bottleneck sufficiently, for processor scaling to continue at 
+However, the primary limitation of this stack remains to be the $O(2^n)$ per rank statevector cost.
+While the integration of GPU acceleration reduced this bottleneck sufficiently, for processor scaling to continue at 
 $P \geq 4$, the choice of the consumer-grade NVIDIA GTX 1650 Mobile and its limited memory bandwidth ($\sim$128 GB/s) prevent cuStateVec from 
 outperforming the CUDA thrust backend, which can be attributed to current hardware constraints (largely the accessibility of quality HPC resources) rather than a developed architectural 
 limitation. Additionally considering the HWE ansatz's particle-number violation, while reduced through specific near-zero initialization 
@@ -31,6 +31,6 @@ and conducting best-physical-energy tracking, reestablished a fundamental ansatz
 particle-number-conserving ansatzes such as UCCSD.
 
 Ultimately, this work demonstrates that a middleware solution for hybrid quantum-classical computing, focusing on 
-orchestration, distribution, and latency masking (instead the industry's current standards which solely focused on circuit level optimization), produces measurable 
-performance improvements alongside a stable, resilient foundation for scaling to larger, more complex molecular systems during the evolution of modern quantum hardware.
+orchestration, distribution, and latency masking (instead of the industry's current standards which solely focused on circuit level optimization), produces measurable 
+performance improvements alongside a stable, resilient foundation for scaling to larger, more complex molecular systems in fields such as pharmaceutical research and materials science during the evolution of modern quantum hardware.
 
