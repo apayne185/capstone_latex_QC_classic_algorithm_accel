@@ -131,7 +131,7 @@ would provide substantially improved speedups due to their higher memory bandwid
 will extend to computationally superior resources. 
 
 \subsubsection{Application Scenarios}
-To demonstrate the effectiveness of this middleware when tasked a scientifically meaningful workload, this project focuses on testing various real-world applications
+To demonstrate the effectiveness of this middleware when tasked a scientifically meaningful workload, this project focuses on testing various real-world applications in
 quantum chemistry and computing the molecular electronic ground-state energies of four increasingly complex molecules over the iterations of the VQE. Chemistry was selected to be the  
 application for this middleware due to three main reasons: 
     \begin{enumerate}
@@ -183,7 +183,7 @@ and the time spent waiting on the calculations to complete. The formula for Effi
 \end{equation}
 Within the implemented Strong Scaling in this stack, total wall-clock time ($T_{\text{total}}$), Efficiency, Ideal Time, and Parallel Efficiency ($E= T_1 / (P \times T_P)$) are measured. 
 
-In addition to Strong Scaling, Weak Scaling is evaluated in this stack, where the scale of the chosen molecule (by it's Hamiltonian's Pauli term count) is 
+In addition to Strong Scaling, Weak Scaling is evaluated in this stack, where the scale of the chosen molecule (by its Hamiltonian's Pauli term count) is 
 increased proportionally alongside the number of MPI ranks ($P \in \{1,2,4,8\}$) on a single host \parencite{gustafson1988reevaluating}. At each rank, a molecule from our set is selected that scales in size alongside the number of ranks, however, due to the molecules chosen in the benchmarking, 
 the term to rank scaling is not precisely constant.  $H_{2}$ is used at $P=1$ (15 terms/rank), then the terms scaling up considerably with $LiH$ at $P=2$ (316 terms/rank), $BeH_{2}$ at $P=4$ (167 terms/rank), 
 and $H_{2}O$ at $P=8$ (136 terms/rank). The $P \geq 2$ ranks maintain a more consistent per-rank workload, while $P=1$ serves as the baseline example with its minimal complexity reference of $H_2$.  
@@ -194,7 +194,7 @@ Both scaling experiments were repeated with GPU acceleration so to compare again
 
 \subsubsection{Stress Test Design}
 To ensure an asynchronous dispatcher that can withstand obstacles without crashing and a functioning manager-worker topology, 
-the system will undergo evaluations using a simulated "Failure Mode" that replicates real-world issues : 
+the system will undergo evaluations using a simulated "Failure Mode" that replicates real-world issues: 
     \begin{itemize}
         \item QPU Latency Spiking: A random variable delay will be inserted (between 0.5--2s) into a subset of the worker-rank network calls, done to simulate increased and unpredictable cloud backend latency from QPU queues. This will test the manager rank's ability to rebalance workloads or to be able to maintain a global synchronization using \texttt{MPI\_Allreduce} without rank timeouts or deadlocks. 
         \item Network Drop-Out Recovery: During active job submission (simulating a crash mid-run), system is tested by deleting the most recent saved checkpoint to test if the Orchestration Layer can perform a "checkpoint restart", in where the last known global $\theta$ state (the previously saved checkpoint before the deleted one) that is stored in the manager rank is used to resume optimization without a full system crash or requiring a system reboot. Each 5 iterations, the system automatically saves a checkpoint within checkpoints/ to provide the restart points. 

@@ -3,14 +3,14 @@ Within the fields of High Performance Computing (HPC) and quantum computing, the
 systems has been increasingly explored. Hybrid classical-quantum algorithms, such as the Variational Quantum Eigensolver 
 (VQE) utilize the strengths of both paradigms to achieve new grounds within quantum research and overcome modern day hardware limitations. 
 This thesis presents the design, development, and benchmarking of an accessible, 
-open-source classical-quantum framework that provides a measurable speedup in an MPI distributed and GPU accelerated hybrid simulation for future usage in fields 
-such as materials science or complex optimization.
+open-source classical-quantum framework that provides a measurable speedup in an MPI distributed and GPU accelerated hybrid simulation, validated by molecular ground state energy estimation,   
+applicable in fields such as materials science or complex optimization.
 Presently, there is a lack of existing unified middleware that can bridge the low latency QPU control with 
 HPC infrastructures, so for that reason this stack extends existing hybrid middlewares to focus on four objectives: designing an 
 accessible API to abstract the cloud based QPU backend, MPI distributed parallelization of the Pauli term evaluation classical subroutines, GPU accelerated statevector construction, and a comprehensive performance analysis of the CPU, GPU, and QPU execution paths. The stack's 
 evaluation occurs on a single Docker host with a consumer (NVIDIA GTX 1650) GPU and IBM \texttt{ibm\_marrakesh} QPU with the stack achieving a $1.51\times$ speedup in end-to-end wall-clock time 
-as when compared to serial and nonoptimized baselines. Results demonstrate GPU acceleration mitigates the CPU scaling bottleneck predicted in 
-Amdahl's law from a $0.24\times$ regression at $P=8$ into a $1.51\times$ computational speedup.
+as when compared to serial and nonoptimized baselines. Results demonstrate the CPU-only MPI distribution regresses to $0.24\times$ at $P=8$ due to shared memory contention in a single host, whereas the 
+inclusion of GPU acceleration provides a $1.51\times$ speedup with the same rank count.
 Readers will find a complete evaluation of CPU, GPU, and QPU paths, with scaling analysis and stress testing conducted to validate the middleware architecture. 
 
 \textbf{Keywords:} Quantum Systems, Hybrid Systems, Variational Quantum Eigensolver, High-Performance Computing, 

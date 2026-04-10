@@ -1,21 +1,21 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'main.blg'
-[94] biber:340> INFO - === Thu Apr  9, 2026, 14:49:21
-[113] Biber.pm:419> INFO - Reading 'main.bcf'
-[196] Biber.pm:979> INFO - Found 17 citekeys in bib section 0
-[219] Biber.pm:4419> INFO - Processing section 0
-[229] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
-[230] bibtex.pm:1713> INFO - LaTeX decoding ...
-[253] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[447] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[447] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[447] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'en-US'
-[447] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[501] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[501] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[501] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'en-US'
-[502] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[531] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[557] bbl.pm:763> INFO - Output to main.bbl
-[557] Biber.pm:131> WARN - legacy month field 'Dec' in entry 'cai2023quantumerrormitigation' is not an integer - this will probably not sort properly.
-[558] Biber.pm:133> INFO - WARNINGS: 1
+[63] biber:340> INFO - === Fri Apr 10, 2026, 00:51:47
+[80] Biber.pm:419> INFO - Reading 'main.bcf'
+[156] Biber.pm:979> INFO - Found 17 citekeys in bib section 0
+[174] Biber.pm:4419> INFO - Processing section 0
+[182] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
+[183] bibtex.pm:1713> INFO - LaTeX decoding ...
+[201] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[415] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[415] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[416] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[416] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[462] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[463] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[463] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[463] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[486] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[505] bbl.pm:763> INFO - Output to main.bbl
+[505] Biber.pm:131> WARN - legacy month field 'Dec' in entry 'cai2023quantumerrormitigation' is not an integer - this will probably not sort properly.
+[505] Biber.pm:133> INFO - WARNINGS: 1

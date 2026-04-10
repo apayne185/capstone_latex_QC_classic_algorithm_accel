@@ -121,7 +121,7 @@ practical choice for repeated restart testing in this stack. The 7-layer diagnos
     \item Verify the optimizer resumes from the correct SPSA schedule position ($k=6$) and that the restarted energy continues from the checkpointed trajectory.
 \end{enumerate}
 
-The experiment passes if several criteria are satisfied: if the checkpoint file exist with the correct parameter vector shape, the optimizer has
+The experiment passes if several criteria are satisfied: if the checkpoint file exists with the correct parameter vector shape, the optimizer has
 resumed from the SPSA schedule position $k=6$, as otherwise a reset to the initial values occur resulting in the optimizer to take large steps (destroying convergence), 
 and lastly, the restart energy at iteration 6 is within 0.5\,$E_h$ of the energy saved at iteration 5. 
 The tolerance of 0.5\,$E_h$ is to account for the random nature of SPSA perturbations while rejecting absolute failures such as a corrupted parameter vector of loaded zeros.
@@ -132,7 +132,7 @@ Both tests also are executed automatically as part of the 7-layer diagnostic sui
 
 \subsubsection{QPU Latency Spiking}
 This test simulates the realistic cloud QPU congestion by injecting random delays of 0.5--2.0\,s into the statevector 
-evaluation on odd-numbered, asymmetrical MPI ranks for unpredictable delays in the system, tested thorugh 10 VQE iterations using $H_{2}$.  
+evaluation on odd-numbered, asymmetrical MPI ranks for unpredictable delays in the system, tested through 10 VQE iterations using $H_{2}$.  
 Criteria for passing is if all iterations complete without MPI timeout or a deadlock, all returned energies are finite 
 with no NaN or infinity from the delays, and lastly if the \texttt{MPI\_Allreduce} synchronization is maintained despite the variable per-rank timing. 
 The energy spread across iterations is then recorded for diagnostic purposes. 

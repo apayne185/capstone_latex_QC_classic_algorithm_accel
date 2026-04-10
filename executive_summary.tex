@@ -1,0 +1,96 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage[style=apa, backend=biber]{biblatex}
+\addbibresource{references.bib}
+\geometry{letterpaper, margin=1in}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+\setlist{itemsep=2pt, parsep=0pt, topsep=4pt}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{15pt}
+\fancyhead[L]{Executive Summary}
+\fancyhead[R]{\thepage}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{Executive Summary}} \\[0.5em]
+    {\large Hybrid Quantum-Classical Software Stack for HPC Algorithm Acceleration} \\[0.3em]
+    {Anna Payne} \\[0.3em]
+    {IE University -- Capstone Thesis, 2026}
+\end{center}
+
+\vspace{0.5em}
+
+\subsection*{Context and Motivation}
+The recent integration of Quantum Processing Units (QPUs) within High Performance Computing (HPC) environments
+shows great potential for quantum hardware to accelerate previously computationally 
+intractable tasks. In the era of Noisy Intermediate-Scale Quantum (NISQ) hardware, hybrid quantum-classical 
+algorithms such as the VQE offer a promising path, where QPUs handle circuit executions while 
+classical resources manage the heavy optimization loop and preprocessing. However, there is an existing architectural 
+gap, as classical HPC frameworks (MPI, CUDA) are not developed for communication with quantum control 
+stacks and likewise, quantum frameworks (Qiskit, Cirq) lack distributed HPC integration. Without an available bridging 
+middleware, the potential speedup of hybrid systems is negated by several communication bottlenecks.
+This thesis presents a hybrid quantum-classical middleware stack targeting four objectives, including  
+an accessible API that abstracts the cloud QPU backend, 
+MPI distributed parallelization of the Pauli term evaluations, 
+GPU-accelerated statevector construction with CUDA and cuStateVec, and lastly 
+a performance analysis across the execution paths of CPU, GPU, and QPUs.
+
+\subsection*{Methodology}
+This middleware implements a triple-heterogeneous architecture with layers for Orchestration (the MPI manager worker 
+topology for parameter distribution and energy aggregation), Acceleration (CUDA kernels with 
+mixed precision FP32/FP64 for GPU-accelerated statevector construction), and the Quantum Interface 
+(dual path dispatcher, C++ MPI and Python EstimatorV2 paths access the IBM Quantum cloud QPU). 
+Stack validation uses the VQE algorithm with a Hardware Efficient (HWE) ansatz and SPSA classical
+optimizer on the four benchmark molecules $H_2$, $LiH$, $BeH_2$, $H_2O$ under the STO-3G basis set alongside 
+FCI ground truth references. All simulator experiments ran on a single Docker host (Intel i7-1065G7, 
+32~GB RAM, NVIDIA GTX 1650 Mobile). QPU experiments used IBM's \texttt{ibm\_marrakesh} 156-qubit Heron processor.
+
+\subsection*{Key Findings}
+
+\textbf{1. MPI distribution provides measurable speedup for complex molecules.} The distributed CPU only 
+stack achieved a $1.18\times$ speedup on molecule $H_2O$ (1086 Pauli terms) at $P=2$ ranks compared to the 
+serial baseline, however, at $P=8$ regressed to $0.24\times$ due to shared memory contention on a single host. The 
+key finding is that on a single host, MPI distribution alone is insufficient without added GPU acceleration.
+
+\textbf{2. GPU acceleration resolves CPU scaling bottleneck.} With GPU Aer, $H_2O$ at $P=8$ 
+provided a $1.51\times$ speedup over its serial baseline, compared to $0.24\times$ on CPU only. GPU strong
+scaling efficiency reached $71.1\%$ at $P=2$ ranks without degrading at $P \geq 4$, while the weak scaling 
+showed a $6\times$ improvement at $P=8$. These results using a consumer GPU represent a lower bound.
+
+\textbf{3. Communication masking is validated.} The range of the metric $M = T_{\text{accel}} / T_{\text{comm}}$ 
+was between 12--9,000, which confirms the classical computation has masked MPI overhead by 1--3 orders of magnitude.
+
+\textbf{4. QPU integration as an architectural proof-of-concept is validated.} 
+10 VQE iterations were successfully completed on IBM \texttt{ibm\_marrakesh}, validating transpilation, cloud submission, 
+PUB batching, and MPI coordination. The error $0.97\;E_h$ is expected given the limit of 10 iterations (the availability within IBM's free access plan)
+and the introduction of shot-noise, not to an architectural limitation within the stack, however, the observed energy trend was consistently descending. 
+A final GPU accelerated QPU run confirmed this triple-heterogeneous path's validity.
+
+\textbf{5. Robustness confirmed through stress testing.} Checkpoint resilience, QPU latency spikes 
+(random 0.5--2.0\,s delays), and midrun checkpoint deletion recovery tests all passed without issues 
+of data loss or synchronization failure occurring.
+
+\subsection*{Limitations and Conclusion}
+The primary limitations found were the $O(2^n)$ per rank statevector cost, limited bandwidth when using consumer GTX 1650 Mobile GPU
+(128 GB/s), the HWE ansatz lacking particle number conservation
+(issue was mitigated through near-zero initialization but only fully resolvable with UCCSD), and conducting single 
+deterministic runs (seed=42) on one Docker host.
+
+Despite the limitations, this work demonstrates that a middleware focused on orchestration, 
+distribution, and latency masking produces measurable speedups even on commodity hardware,  
+complements other existing circuit-level frameworks such as XACC. Validation on the lower bound of accessible hardware confirms the 
+distributed hybrid VQE is feasible without data-center HPC resources for applications in the fields of pharmaceutical 
+drug discovery and materials science.
+
+\end{document}
