@@ -70,16 +70,16 @@ evaluation to the QPU using a classical Nelder-Mead (NM) simplex optimizer.
 In a comparison study done by \textcite{pellow2021classicoptimizers} 
 between sets of gradient-based and gradient-free classical optimizers for a Variational Quantum Linear Solver, a different gradient-free optimizer 
 Simultaneous Perturbation Stochastic Approximation (SPSA) outperformed all other contestants, including NM, in state vector simulation. 
-Specifically within realistic noise models, SPSA outperformed NM and other alternatives, making them a desirable, robust optimizer when interacting with physical, noisy qubits. 
+Specifically within realistic noise models with depolarizing and hardware noise, SPSA outperformed NM and other gradient-free alternatives, making them a desirable, robust optimizer when interacting with physical, noisy qubits. 
 
 While the results of \textcite{peruzzo2014variational} did prove the viability of the hybrid approach, it was conducted on a small-scale, 
 integrated system where the communication overhead is negligible, with a local photonic chip directly interfaced with a classical controller 
 for predictable low-latency in sending variational parameters to the QPU and receiving measured expectation values. 
 This physically tight setup is an unrealistic model for modern research experiment environments where hardware resources would be physically distant, avoiding the reality of 
 modern day QC serialization overhead, network latencies, and Round-Trip-Time (RTT) penalties. 
-If a hybrid stack is not optimized, the potential wait for data transmission could exceed the time spent on actual computation, leading to a "Communication Wall".
-\textcite{weder2021quantum} demonstrated within cloud native environments that an observable 
-latency will be introduced through the remote hardware access and optimized task placement. This argues for a middleware layer that is
+If a hybrid stack is not optimized, the potential wait for data transmission could exceed the time spent on actual computation within adaptive algorithms like VQE, as identified by \textcite{cruise2020practicalquantumcomputingvalue}
+demonstrated within cloud native CPU-QPU environments, the RTT latency exceeds the circuit execution time by a factor of 40, which degrades the algorithmic performance. They showed 
+that sustaining a consitent circuit stream to their 150-qubit system would require minimum 1.2,GB/s bandwidth. This argues for a middleware layer that is
 capable of efficient resource dispatching,  as without it the "communication-to-computation" ratio will scale poorly and deny the potential 
 speedup offered within these hybrid systems. This proposed stack addresses the identified architectural inefficiencies 
 through prioritizing low-latency dispatching and parallelized classical preprocessing. 
@@ -153,7 +153,7 @@ ranks in parallel. Each rank will utilize CUDA kernels for statevector construct
 cloud-based QPU. This "Triple-Heterogeneous" approach uses CPUs for orchestration, GPUs for numerical acceleration, and QPUs 
 for quantum kernels, directly handling scalability limitations that existed in the single-process middleware models established earlier. 
 
-The gaps identified above of the Communication Wall \parencite{weder2021quantum}, the statevector bandwidth bottleneck, and 
+The gaps identified above of the CPU-QPU communication bottleneck \parencite{cruise2020practicalquantumcomputingvalue}, the statevector bandwidth bottleneck, and 
 the current lack of distributed parallelization in existing middleware all directly influence the developed architecture in the following section.
 
 % \subsection{Implications for this Thesis}

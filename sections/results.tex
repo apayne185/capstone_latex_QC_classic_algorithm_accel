@@ -81,7 +81,7 @@ IBM QPU & $<1$ & QPU RTT (32-60\,s) dominates, no concurrent classical overlap i
 All the tested molecules achieved $M \gg 1$ on the simulator path, confirming that both the statevector construction and Pauli term evaluation 
 (the acceleration workload) completely mask the MPI communication overhead. This result validates this project's core 
 architectural claim, that distributing a classical subroutine across several MPI ranks will not introduce a communication 
-bottleneck, so the Quantum 'Communication Wall'~\parencite{weder2021quantum} is not the main limiting factor of the stack's performance when compute dominates.
+bottleneck, so the CPU-QPU bottleneck \parencite{cruise2020practicalquantumcomputingvalue} is not the main limiting factor of the stack's performance when compute dominates.
 
 \subsection{Strong Scaling}
 \label{sec:results_scaling}

@@ -98,17 +98,6 @@ API, however, it extends their model to address three main limitations in hybrid
 These two stacks are complementary instead of being competitive, as XACC could easily serve as the circuit compilation 
 frontend then to be fed into this project's MPI-distributed optimization backend for a computational speedup with improved chemical accuracy.
 
-% \subsection{Validation of Literature Review Predictions}
-% The experiments results validates several of the predictions made in this paper's literature review. \textcite{pellow2021classicoptimizers}
-% identified the gradient-free SPSA optimizer to be the most resilient optimizer under realistic noise conditions (when introduced to 
-% physical QPUs), and this was reconfirmed within both of the stack's simulator and IBM QPU paths. SPSA converged reliably across 
-% all four benchmark molecules when used in the noiseless simulator and within the 10 QPU iterations, demonstrated a consistent downward energy trend 
-% on NISQ hardware despite the introduction of shot noise interference. Alongside this, the limitations of the HWE 
-% ansatz, which was identified by \textcite{mccaskey2019quantumchemistrybenchmarknearterm} regarding the 
-% preparation of states with a varying range of electron numbers, was also observed in the particle number violations 
-% (discussed in Section~\ref{sec:hwe_limitation}). \textcite{bayraktar2023cuquantum} confirm the GPU acceleration improvement in the molecule $H_{2}O$ when scaling from $0.24\times$ to $1.51\times$ at $P=8$,
-% directly supporting their case for GPU-accelerated statevector construction for larger workloads. Finally, $M \gg 1$ 
-% across all execution paths demonstrate that classical computation still dominates communication overhead, not the Communication Wall \parencite{weder2021quantum}.
 
 \subsubsection{Real World Applications}
 The results of this stack have direct implications for real world applications, such as pharmaceutical drug discovery
